@@ -12,19 +12,20 @@
   
   {{-- main logo --}}
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="{{Vite::asset('resources/images/favicon_io (1)/favicon-32x32.png')}}">
-  <link rel="icon" type="image/png" sizes="16x16" href="{{Vite::asset('resources/images/favicon_io (1)/favicon-16x16.png')}}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{Vite::asset('resources/images/favicon_io/favicon-32x32.png')}}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{Vite::asset('resources/images/favicon_io/favicon-16x16.png')}}">
   <link rel="manifest" href="/site.webmanifest">
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   
   {{-- vite --}}
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="pb-20 bg-gray-100 font-family-inter">
-  <div class="px-7">
+  <div class="px-10">
     <nav class="flex py-4 justify-between items-center">
       <div class="flex items-center justify-between gap-8">
         <a href="/">
-          <img class="w-11 h-11" src="{{Vite::asset('resources/images/favicon_io (1)/android-chrome-192x192.png')}}" alt="">
+          <img class="w-11 h-11" src="{{Vite::asset('resources/images/favicon_io/android-chrome-192x192.png')}}" alt="">
         </a>
         <div class="space-x-1">
           <x-nav-link href="/" :active="request()->is('/')">
@@ -106,7 +107,7 @@
       </div>
 
     </nav>
-    <main class="p-6">{{$slot}}</main>
+    <main class="pt-6">{{$slot}}</main>
   </div>
 </body>
 </html>

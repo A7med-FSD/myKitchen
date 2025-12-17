@@ -12,102 +12,263 @@
 
     <div class="space-y-6" x-data="{ selectedDay: 'Mon' }">
         <!-- Header -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-                <h1 class="text-3xl font-bold text-gray-900">Hello, Jessica</h1>
-                <p class="text-gray-500 mt-1">You have <span class="font-bold text-gray-900">8 new orders</span> today</p>
+        <div class="flex flex-col md:flex-row md:items-center gap-14">
+            <!-- Header Greeting -->
+            <div class="flex items-center gap-4 animate-fade-in-up">
+                <div class="relative">
+                    <div class="w-16 h-16 bg-yellow-400 rounded-2xl flex items-center justify-center transform -rotate-6 shadow-lg">
+                        <span class="text-3xl">👨‍🍳</span>
+                    </div>
+                    <div class="absolute -top-2 -right-2 w-4 h-4 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">
+                        Hello, Chef <span class="text-yellow-500 underline decoration-wavy decoration-2 underline-offset-4">Ahmed</span>
+                        <span class="inline-block animate-bounce origin-bottom-right">👋</span>
+                    </h1>
+                    <div class="flex items-center gap-2 mt-1 text-gray-500 font-medium">
+                        <span>You have</span>
+                        <span class="bg-white border border-yellow-200 hover:border-yellow-400 text-yellow-400 font-bold cursor-pointer hover:bg-yellow-400 hover:text-white transition-colors duration-200 text-xs px-2 py-0.5 rounded-full shadow-sm">8 new orders</span>
+                        <span>waiting for you today!</span>
+                    </div>
+                </div>
             </div>
-            <div class="w-full md:w-96 relative group">
-                <input type="text" placeholder="Search orders, menu, etc..." class="w-full bg-white border-none rounded-full py-3 px-5 pl-12 shadow-sm focus:ring-2 focus:ring-gray-200 transition-all duration-300">
+            <div class="w-full max-w-2xl md:w-96 relative group grow">
+                <input type="text" placeholder="Search orders, menu, etc..." class="w-full bg-white border-none outline-none rounded-full py-3 px-5 pl-12 shadow-sm focus:ring-2 focus:ring-gray-200 transition-all duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="absolute left-4 top-3.5 text-gray-400 size-5 group-focus-within:text-gray-600 transition-colors">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="absolute right-4 top-3.5 text-gray-400 size-5 cursor-pointer hover:text-gray-600 transition-colors">
+                    <path d="M18.75 12.75h1.5a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM12 6a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 6ZM12 18a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 18ZM3.75 6.75h1.5a.75.75 0 1 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM5.25 18.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 0 1.5ZM3 12a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 3 12ZM9 3.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM12.75 12a2.25 2.25 0 1 1 4.5 0 2.25 2.25 0 0 1-4.5 0ZM9 15.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" />
                 </svg>
             </div>
         </div>
 
         <!-- Main Grid -->
-        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+        <div class="grid grid-cols-12 gap-6 items-start">
             
-            <!-- 1. Schedule Column (Span 3) - ADAPTED: Order Schedule -->
-            <div class="xl:col-span-3 bg-white rounded-3xl p-6 shadow-sm min-h-[600px]">
+            <!-- 1. Schedule Column (Span 3) - UPDATED -->
+            <div class="md:col-span-5 lg:col-span-4 xl:col-span-3 bg-white rounded-3xl p-6 shadow-sm min-h-[600px] flex flex-col" x-data="scheduleHandler()">
+                
+                <!-- Header -->
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="font-bold text-lg flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5 text-gray-400">
-                          <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd" />
-                        </svg>
-                        Order Schedule
+                        <!-- Clock Icon with check -->
+                        <div class="relative">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-gray-400">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                            <div class="absolute -bottom-1 -right-1 bg-white rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3 text-green-500">
+                                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                        </div>
+                        View today's schedule
                     </h2>
                     <button class="text-gray-400 hover:text-gray-600 transition">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                         </svg>
                     </button>
                 </div>
 
-                <!-- Date Strip -->
-                <div class="flex justify-between items-center mb-8 text-center text-xs">
-                     <button class="text-gray-400 hover:text-gray-600">&lt;</button>
-                     <div class="flex-1 flex justify-around">
-                        @foreach([['d'=>'21', 'n'=>'Sun'], ['d'=>'22', 'n'=>'Mon'], ['d'=>'23', 'n'=>'Tue'], ['d'=>'24', 'n'=>'Wed']] as $day)
-                            <div class="cursor-pointer transition-all duration-200"
-                                 :class="selectedDay === '{{$day['n']}}' ? 'bg-yellow-400 rounded-2xl py-2 px-3 shadow-md shadow-yellow-200 text-gray-900 font-bold scale-110' : 'text-gray-400 hover:text-gray-600'"
-                                 @click="selectedDay = '{{$day['n']}}'">
-                                <div class="mb-1">{{$day['d']}}</div><div>{{$day['n']}}</div>
+                <!-- Date Strip (Circular) -->
+                <div class="flex justify-between items-center mb-8 px-2">
+                    <button class="text-gray-400 hover:text-gray-600 transition" @click="prevDay()">&lt;</button>
+                    <div class="flex-1 flex justify-around gap-2 px-2 overflow-x-auto noscroll">
+                        <template x-for="(day, index) in days" :key="index">
+                            <div class="flex flex-col items-center justify-center w-10 h-14 rounded-4xl cursor-pointer transition-all duration-300"
+                                :class="selectedDay === day.dayName ? 'bg-yellow-400 shadow-lg shadow-yellow-100 scale-110' : 'hover:bg-gray-50'"
+                                @click="selectedDay = day.dayName">
+                                <div class="text-sm font-bold" :class="selectedDay === day.dayName ? 'text-gray-900' : 'text-gray-500'" x-text="day.date"></div>
+                                <div class="text-[10px]" :class="selectedDay === day.dayName ? 'text-gray-800' : 'text-gray-400'" x-text="day.dayName"></div>
                             </div>
-                        @endforeach
-                     </div>
-                     <button class="text-gray-400 hover:text-gray-600">&gt;</button>
+                        </template>
+                    </div>
+                    <button class="text-gray-400 hover:text-gray-600 transition" @click="nextDay()">&gt;</button>
                 </div>
 
                 <!-- Timeline -->
-                <div class="space-y-8 relative pl-2">
-                    <!-- Dotted Line -->
-                    <div class="absolute left-[19px] top-2 bottom-2 w-[2px] border-l-2 border-dashed border-gray-200"></div>
+                <div class="space-y-0 relative pl-4 flex-1 overflow-y-auto noscroll pr-2">
+                    <!-- Dynamic Event List -->
+                    <template x-for="(event, index) in currentEvents" :key="index">
+                        <div class="relative pl-8 pb-8 group">
+                            <!-- Connecting Line -->
+                            <div class="absolute left-[11px] top-6 bottom-[-10px] w-[2px] border-l-2"
+                                :class="event.completed ? 'border-green-500 border-dashed' : 'border-gray-200 border-dashed'"
+                                x-show="index !== currentEvents.length - 1"></div>
 
-                    <!-- Item 1: Pending -->
-                    <div class="relative pl-10 group cursor-pointer">
-                        <div class="absolute left-0 top-0 bg-white border-2 border-gray-300 rounded-full w-4 h-4 z-10 group-hover:border-yellow-400 transition-colors"></div>
-                        <span class="text-xs text-gray-400 block mb-1">08:00 AM</span>
-                        <h3 class="font-bold text-gray-800">New Order #1024</h3>
-                        <p class="text-xs text-gray-500 line-clamp-1">2x Pancakes, 1x Coffee</p>
-                    </div>
+                            <!-- Status Icon -->
+                            <div class="absolute left-0 top-1 z-10 bg-white">
+                                <template x-if="event.completed">
+                                    <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white shadow-sm ring-4 ring-white">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3.5">
+                                        <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </template>
+                                <template x-if="!event.completed">
+                                    <div class="w-6 h-6 rounded-full border-2 border-gray-200 bg-white ring-4 ring-white"></div>
+                                </template>
+                            </div>
 
-                    <!-- Item 2: Preparing -->
-                    <div class="relative pl-10 group cursor-pointer transition-transform hover:translate-x-1">
-                         <div class="absolute left-0 top-0 bg-yellow-400 rounded-full p-1 border-4 border-white z-10 shadow-sm">
-                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3 text-white">
-                              <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
-                            </svg>
+                            <!-- Content -->
+                            <div class="">
+                                <span class="text-xs text-gray-400 block mb-1 font-medium" x-text="event.time"></span>
+                                <h3 class="font-bold text-gray-800 text-sm mb-2" x-text="event.title"></h3>
+                                
+                                <div class="flex flex-wrap gap-2 text-[10px] font-semibold" x-show="event.tags && event.tags.length">
+                                    <template x-for="tag in event.tags">
+                                        <span class="px-2 py-1 rounded flex items-center gap-1"
+                                            :class="tag.colorClass || 'bg-gray-100 text-gray-500'">
+                                            <span x-text="tag.label"></span>
+                                        </span>
+                                    </template>
+                                </div>
+                            </div>
                         </div>
-                        <span class="text-xs text-gray-400 block mb-1">08:15 AM</span>
-                        <h3 class="font-bold text-gray-800 mb-2">Order #1025 - Delivery</h3>
-                        <div class="flex flex-wrap gap-2 text-[10px] font-semibold">
-                            <span class="bg-red-100 text-red-500 px-2 py-1 rounded">Urgent</span>
-                            <span class="bg-gray-100 text-gray-500 px-2 py-1 rounded flex items-center gap-1">💵 Paid</span>
-                        </div>
-                    </div>
-
-                    <!-- Item 3: Ready -->
-                    <div class="relative pl-10 group cursor-pointer">
-                         <div class="absolute left-0 top-0 bg-green-500 rounded-full p-1 border-4 border-white z-10 shadow-sm">
-                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3 text-white">
-                              <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                        <span class="text-xs text-gray-400 block mb-1">08:45 AM</span>
-                        <h3 class="font-bold text-gray-800 mb-2">Order #1022 - Pickup</h3>
-                         <div class="flex flex-wrap gap-2 text-[10px] font-semibold">
-                            <span class="bg-green-100 text-green-600 px-2 py-1 rounded">Ready</span>
-                            <span class="bg-gray-100 text-gray-500 px-2 py-1 rounded flex items-center gap-1">⏱️ 15m left</span>
-                        </div>
+                    </template>
+                    
+                    <!-- Empty State -->
+                    <div x-show="currentEvents.length === 0" class="text-center py-10 text-gray-400 text-sm">
+                        No orders for this day.
                     </div>
                 </div>
             </div>
 
+            <script>
+                function scheduleHandler() {
+                    return {
+                        selectedDay: 'Mon',
+                        days: [
+                            { date: '21', dayName: 'Sun' },
+                            { date: '22', dayName: 'Mon' },
+                            { date: '23', dayName: 'Tue' },
+                            { date: '27', dayName: 'Wed' },
+                            { date: '28', dayName: 'Thu' }
+                        ],
+                        // Database of events
+                        eventsDb: {
+                            'Sun': [
+                                { time: '09:00 AM', title: 'Order #1001 - Breakfast', completed: true, tags: [{label:'Delivery', colorClass:'bg-blue-100 text-blue-500'}, {label:'Pd: $25', colorClass:'bg-green-100 text-green-600'}] },
+                                { time: '10:30 AM', title: 'Order #1002 - Catering', completed: true, tags: [{label:'Pickup', colorClass:'bg-orange-100 text-orange-600'}] }
+                            ],
+                            'Mon': [
+                                { time: '08:15 AM', title: 'Order #1024 - Morning Coffee', completed: true, tags: [
+                                    { label: 'Pickup', colorClass: 'bg-orange-100 text-orange-600' }, 
+                                    { label: '☕ 2 Items', colorClass: 'bg-gray-100 text-gray-500' }
+                                ]},
+                                { time: '12:30 PM', title: 'Order #1025 - Family Feast', completed: false, tags: [
+                                    { label: 'Delivery', colorClass: 'bg-blue-100 text-blue-600' },
+                                    { label: '🍔 5 Items', colorClass: 'bg-gray-100 text-gray-500' },
+                                    { label: 'Cash', colorClass: 'bg-green-100 text-green-600' }
+                                ]},
+                                { time: '01:45 PM', title: 'Order #1026 - Quick Lunch', completed: false, tags: [
+                                    { label: 'Dine-in', colorClass: 'bg-purple-100 text-purple-600' },
+                                    { label: '🥗 Salad', colorClass: 'bg-gray-100 text-gray-500' }
+                                ]},
+                                { time: '07:00 PM', title: 'Order #1027 - Dinner Party', completed: false, tags: [
+                                    { label: 'Pre-order', colorClass: 'bg-yellow-100 text-yellow-600' },
+                                    { label: 'Large', colorClass: 'bg-red-100 text-red-500' }
+                                ]}
+                            ],
+                            'Tue': [
+                                { time: '11:00 AM', title: 'Order #1030', completed: false, tags: [{label:'Pending', colorClass:'bg-gray-200 text-gray-600'}] }
+                            ]
+                        },
+                        get currentEvents() {
+                            return this.eventsDb[this.selectedDay] || [];
+                        },
+                        nextDay() {
+                            const idx = this.days.findIndex(d => d.dayName === this.selectedDay);
+                            if (idx < this.days.length - 1) this.selectedDay = this.days[idx + 1].dayName;
+                        },
+                        prevDay() {
+                            const idx = this.days.findIndex(d => d.dayName === this.selectedDay);
+                            if (idx > 0) this.selectedDay = this.days[idx - 1].dayName;
+                        }
+                    }
+                }
+            </script>
+            
+            <script>
+                function performanceStats() {
+                    return {
+                        revenue: 0,
+                        activeOrders: 0,
+                        rating: 0,
+                        init() {
+                            setTimeout(() => {
+                                this.animateValue('revenue', 0, 2500, 2000); // 2 seconds to reach 2.5k
+                                this.animateValue('activeOrders', 0, 85, 1500);
+                                this.animateValue('rating', 0, 4.8, 1500);
+                            }, 500);
+                        },
+                        animateValue(key, start, end, duration) {
+                            let startTimestamp = null;
+                            const step = (timestamp) => {
+                                if (!startTimestamp) startTimestamp = timestamp;
+                                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                                
+                                // Calculate value
+                                let val = progress * (end - start) + start;
+                                
+                                // Specific formatting for different keys if needed, 
+                                // or just general rounding to avoid long decimals
+                                if (key === 'activeOrders') val = Math.round(val);
+                                
+                                this[key] = val;
+                                
+                                if (progress < 1) {
+                                    window.requestAnimationFrame(step);
+                                }
+                            };
+                            window.requestAnimationFrame(step);
+                        },
+                         formatNumber(num) {
+                            if (num >= 1000) {
+                                return (num / 1000).toFixed(1) + 'K';
+                            }
+                            return Math.round(num);
+                        }
+                    }
+                }
+
+                function topItemsStats() {
+                    return {
+                        items: [
+                            { name: 'Burger', icon: '🍔', color: 'green', count: 850, goal: 1000 },
+                            { name: 'Pizza', icon: '🍕', color: 'orange', count: 620, goal: 1000 },
+                            { name: 'Pasta', icon: '🍝', color: 'blue', count: 450, goal: 1000 }
+                        ],
+                        activeItem: 0, // Index of selected item to show bar for
+                         get currentItem() {
+                            return this.items[this.activeItem];
+                        }
+                    }
+                }
+
+                function restockList() {
+                    return {
+                        items: [
+                            { name: 'Tomatoes', q: '5 kg', icon: '🍅', stock: true },
+                            { name: 'Flour', q: '10 kg', icon: '🌾', stock: true },
+                            { name: 'Milk', q: '20 L', icon: '🥛', stock: false, tag: 'Low' },
+                            { name: 'Eggs', q: '50 pcs', icon: '🥚', stock: false },
+                            { name: 'Onion', q: '3 kg', icon: '🧅', stock: false },
+                        ],
+                        toggleStock(index) {
+                            this.items[index].stock = !this.items[index].stock;
+                        }
+                    }
+                }
+            </script>
+
             <!-- 2. Center Column (Span 6) -->
-            <div class="xl:col-span-6 space-y-6">
-                <!-- Report Card - ADAPTED: Business Metrics -->
-                <div class="bg-white rounded-3xl p-6 shadow-sm">
+            <div class="md:col-span-7 lg:col-span-5 xl:col-span-6 space-y-6 grid grid-cols-12">
+                <!-- Report Card - ADAPTED: Business Metrics (Interactive) -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm col-span-12 xl:col-span-12" x-data="performanceStats()">
                     <div class="flex items-end gap-2 mb-6">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 text-gray-400">
                           <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm4.5 7.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5a.75.75 0 0 1 .75-.75Zm3.75-3a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-1.5 0v-7.5a.75.75 0 0 1 .75-.75Zm3.75 2.25a.75.75 0 0 1 .75.75v5.25a.75.75 0 0 1-1.5 0v-5.25a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
@@ -116,65 +277,118 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
-                        <!-- Revenue (Blue) -->
-                        <div class="bg-blue-400 rounded-2xl p-4 text-white relative h-32 flex flex-col justify-between overflow-hidden group hover:shadow-lg transition-shadow">
-                             <div class="absolute top-8 left-0 w-full h-full opacity-20">
-                                 <svg viewBox="0 0 100 100" preserveAspectRatio="none" class="w-full h-full"><path d="M0 50 Q 50 20 100 50 V 100 H 0 Z" fill="white" /></svg>
+                        <!-- Revenue (Blue) - Animated Area Chart -->
+                        <div class="bg-linear-to-br from-blue-500 to-blue-600 rounded-2xl p-4 text-white relative h-36 flex flex-col justify-between overflow-hidden group shadow-lg shadow-blue-200 hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
+                             <!-- Decorative Background Circles -->
+                             <div class="absolute -top-4 -right-4 w-20 h-20 bg-white opacity-10 rounded-full blur-xl"></div>
+                             <div class="absolute bottom-4 -left-4 w-16 h-16 bg-blue-300 opacity-20 rounded-full blur-lg"></div>
+                             
+                             <!-- SVG Area Chart -->
+                             <div class="absolute bottom-0 left-0 right-0 h-16 opacity-30">
+                                 <svg viewBox="0 0 100 40" preserveAspectRatio="none" class="w-full h-full">
+                                     <!-- Defined Path for animation -->
+                                     <path d="M0 40 L0 30 Q 20 10 40 25 T 80 20 L100 5 V 40 Z" fill="white" 
+                                           class="translate-y-full animate-[slideUp_1s_ease-out_forwards]"/>
+                                 </svg>
                              </div>
-                            <h3 class="font-bold z-10 text-white">Revenue</h3>
+
+                            <h3 class="font-bold z-10 text-white/90 text-sm uppercase tracking-wide">Revenue</h3>
                             <div class="z-10">
-                                <div class="text-2xl font-bold">SAR 2.5K</div>
-                                <div class="text-[10px] opacity-90">Goal 3.1K</div>
+                                <div class="text-3xl font-extrabold flex items-baseline gap-1">
+                                    <span class="text-lg opacity-80">$</span>
+                                    <span x-text="formatNumber(revenue)">0</span>
+                                </div>
+                                <div class="text-[11px] font-medium bg-white/20 inline-block px-2 py-0.5 rounded-full mt-1 backdrop-blur-sm">
+                                    Goal: 3.1K (80%)
+                                </div>
                             </div>
                         </div>
 
-                         <!-- Active Orders (Orange) -->
-                        <div class="bg-orange-50 rounded-2xl p-4 text-gray-800 h-32 flex flex-col justify-between group hover:bg-orange-100 transition-colors">
-                            <h3 class="font-bold">Active Orders</h3>
-                             <div class="relative h-12 w-24 mx-auto mt-2">
-                                <div class="w-full h-full border-[6px] border-orange-200 rounded-t-full border-b-0"></div>
-                                <div class="absolute top-0 left-0 w-full h-full border-[6px] border-orange-400 rounded-t-full border-b-0 border-r-transparent border-l-transparent transform -rotate-45"></div>
-                                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 font-bold text-xl">12</div>
-                             </div>
-                            <div class="flex justify-between text-xs mt-1">
-                                <span class="text-gray-400">Capacity</span>
-                                <span class="text-gray-400 self-end">85%</span>
+                         <!-- Active Orders (Orange) - Circular Progress -->
+                        <div class="bg-white border border-gray-100 rounded-2xl p-4 text-gray-800 h-36 flex flex-col justify-between group hover:border-orange-200 hover:shadow-md transition-all duration-300 relative overflow-hidden">
+                             <div class="absolute top-0 right-0 w-16 h-16 bg-orange-50 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-150 duration-500"></div>
+                            
+                            <h3 class="font-bold text-gray-700 z-10">Active Orders</h3>
+                            
+                            <div class="flex items-center justify-between mt-2 z-10">
+                                <!-- Circular Progress -->
+                                <div class="relative w-16 h-16">
+                                    <svg class="w-full h-full transform -rotate-90">
+                                        <circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="6" fill="transparent" class="text-gray-100" />
+                                        <circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="6" fill="transparent" 
+                                                class="text-orange-500 transition-all duration-1000 ease-out"
+                                                :stroke-dasharray="2 * Math.PI * 28"
+                                                :stroke-dashoffset="2 * Math.PI * 28 * (1 - activeOrders / 100)"
+                                                stroke-linecap="round" />
+                                    </svg>
+                                    <div class="absolute inset-0 flex items-center justify-center font-bold text-sm text-gray-800">
+                                        <span x-text="activeOrders">0</span>%
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-gray-900">12</div>
+                                    <div class="text-xs text-gray-400">Current</div>
+                                </div>
                             </div>
                         </div>
 
-                         <!-- Avg Prep Time (Green) -->
-                        <div class="bg-green-50 rounded-2xl p-4 text-gray-800 h-32 flex flex-col justify-between group hover:bg-green-100 transition-colors">
-                            <h3 class="font-bold">Avg Prep Time</h3>
-                            <div class="flex items-center justify-center h-full">
-                                <svg viewBox="0 0 100 40" class="w-full h-8 stroke-green-500 fill-none stroke-2">
-                                    <polyline points="0,20 20,20 30,10 40,30 50,20 60,20 70,5 80,35 90,20 100,20" />
+                         <!-- Avg Prep Time (Green) - Pulse Graph -->
+                        <div class="bg-white border border-gray-100 rounded-2xl p-4 text-gray-800 h-36 flex flex-col justify-between group hover:border-green-200 hover:shadow-md transition-all duration-300">
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-bold text-gray-700">Prep Time</h3>
+                                <span class="bg-green-100 text-green-600 text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3"><path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" /></svg>
+                                    12%
+                                </span>
+                            </div>
+
+                            <div class="h-12 w-full mt-1 relative overflow-hidden">
+                                 <!-- Live Pulse Line -->
+                                 <svg viewBox="0 0 100 40" class="w-full h-full stroke-green-500 fill-none stroke-2 drop-shadow-sm">
+                                    <path d="M0,20 L10,20 L20,10 L30,30 L40,20 L60,20 L70,5 L80,35 L90,20 L100,20" 
+                                          class="animate-[dash_2s_linear_infinite]" 
+                                          stroke-dasharray="100" stroke-dashoffset="100"/>
                                 </svg>
                             </div>
-                            <div class="flex justify-between text-xs">
-                                <span class="font-bold text-lg">15m</span>
-                                <span class="text-gray-400">-2m than avg</span>
+                            
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-2xl font-bold text-gray-900">15</span>
+                                <span class="text-sm text-gray-500 font-medium">min</span>
+                                <span class="text-[10px] text-gray-400 ml-auto font-medium">Avg: 17m</span>
                             </div>
                         </div>
 
-                         <!-- Rating (Pink) -->
-                        <div class="bg-pink-50 rounded-2xl p-4 text-gray-800 h-32 flex flex-col justify-between group hover:bg-pink-100 transition-colors">
-                            <h3 class="font-bold">Rating</h3>
-                             <div class="relative h-12 w-24 mx-auto mt-2">
-                                <div class="w-full h-full border-[6px] border-pink-200 rounded-t-full border-b-0"></div>
-                                <div class="absolute top-0 left-0 w-full h-full border-[6px] border-pink-400 rounded-t-full border-b-0 rotate-45"></div>
-                                <div class="absolute bottom-2 left-1/2 -translate-x-1/2 font-bold text-sm">4.8</div>
-                             </div>
-                            <div class="flex justify-between text-xs mt-1">
-                                <span class="font-bold text-pink-500">Excellent</span>
-                                <span class="text-gray-400 self-end">152 Reviews</span>
+                         <!-- Rating (Pink) - Star Fill -->
+                        <div class="bg-white border border-gray-100 rounded-2xl p-4 text-gray-800 h-36 flex flex-col justify-between group hover:border-pink-200 hover:shadow-md transition-all duration-300">
+                            <h3 class="font-bold text-gray-700">Average Rating</h3>
+                            
+                            <div class="flex items-center justify-between">
+                                <div class="text-4xl font-black text-gray-900 tracking-tighter" x-text="rating.toFixed(1)">0.0</div>
+                                <div class="flex flex-col items-end">
+                                    <div class="flex text-yellow-400 gap-0.5">
+                                        <!-- Animated Stars -->
+                                        <template x-for="i in 5">
+                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4 transition-transform hover:scale-125"
+                                                  :class="i <= Math.round(rating) ? 'text-yellow-400' : 'text-gray-200'">
+                                              <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z" clip-rule="evenodd" />
+                                            </svg>
+                                        </template>
+                                    </div>
+                                    <div class="text-[10px] text-gray-400 mt-1 font-medium">152 Reviews</div>
+                                </div>
+                            </div>
+                            
+                             <div class="w-full bg-gray-100 h-1.5 rounded-full mt-2 overflow-hidden">
+                                <div class="bg-pink-500 h-full rounded-full transition-all duration-1000 ease-out" 
+                                     :style="`width: ${(rating / 5) * 100}%`"></div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 col-span-12 xl:col-span-12">
                     <!-- Daily Intake -> ADAPTED: Top Selling Items -->
-                     <div class="bg-white rounded-3xl p-6 shadow-sm">
+                     <div class="bg-white rounded-3xl p-6 shadow-sm" x-data="topItemsStats()">
                           <h2 class="font-bold text-lg mb-4 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5 text-gray-400">
                               <path fill-rule="evenodd" d="M12.963 2.286a.75.75 0 0 0-1.071-.136 9.742 9.742 0 0 0-3.539 6.177 7.547 7.547 0 0 1-1.705-1.715.75.75 0 0 0-1.152-.082A9 9 0 1 0 15.68 4.534a7.46 7.46 0 0 1-2.717-2.248ZM15.75 14.25a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" />
@@ -182,27 +396,30 @@
                             Top Items
                           </h2>
                           <div class="flex justify-around text-center">
-                              <div class="group cursor-pointer">
-                                  <div class="w-12 h-12 rounded-full border-4 border-green-400 flex items-center justify-center font-bold text-2xl group-hover:bg-green-50 transition-colors">🍔</div>
-                                  <span class="text-xs text-gray-400 mt-1 block group-hover:text-gray-800">Burger</span>
-                              </div>
-                               <div class="group cursor-pointer">
-                                  <div class="w-12 h-12 rounded-full border-4 border-orange-400 flex items-center justify-center font-bold text-2xl group-hover:bg-orange-50 transition-colors">🍕</div>
-                                  <span class="text-xs text-gray-400 mt-1 block group-hover:text-gray-800">Pizza</span>
-                              </div>
-                               <div class="group cursor-pointer">
-                                  <div class="w-12 h-12 rounded-full border-4 border-blue-400 flex items-center justify-center font-bold text-2xl group-hover:bg-blue-50 transition-colors">🍝</div>
-                                  <span class="text-xs text-gray-400 mt-1 block group-hover:text-gray-800">Pasta</span>
-                              </div>
+                              <template x-for="(item, index) in items" :key="index">
+                                  <div class="group cursor-pointer" @click="activeItem = index">
+                                      <div class="w-12 h-12 rounded-full border-4 flex items-center justify-center font-bold text-2xl transition-all duration-300 transform group-hover:scale-110"
+                                           :class="{'border-green-400': item.color === 'green', 'border-orange-400': item.color === 'orange', 'border-blue-400': item.color === 'blue', 'ring-4 ring-gray-100': activeItem === index}">
+                                          <span x-text="item.icon"></span>
+                                      </div>
+                                      <span class="text-xs mt-1 block font-medium transition-colors" 
+                                            :class="activeItem === index ? 'text-gray-900 font-bold' : 'text-gray-400 group-hover:text-gray-600'" 
+                                            x-text="item.name"></span>
+                                  </div>
+                              </template>
                           </div>
                           
-                          <div class="mt-4">
-                             <div class="flex justify-between text-xs text-gray-500 mb-1">
-                                 <span>Monthly Goal</span>
-                                 <span>850 / 1000 Orders</span>
+                          <div class="mt-6">
+                             <div class="flex justify-between text-xs text-gray-500 mb-2 font-medium">
+                                 <span>Monthly Goal (<span x-text="currentItem.name"></span>)</span>
+                                 <span><span x-text="currentItem.count"></span> / <span x-text="currentItem.goal"></span> Orders</span>
                              </div>
-                             <div class="w-full bg-gray-100 rounded-full h-2.5">
-                                <div class="bg-blue-500 h-2.5 rounded-full" style="width: 85%"></div>
+                             <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
+                                <div class="h-full rounded-full transition-all duration-1000 ease-out relative"
+                                     :class="{'bg-green-500': currentItem.color === 'green', 'bg-orange-500': currentItem.color === 'orange', 'bg-blue-500': currentItem.color === 'blue'}"
+                                     :style="`width: ${(currentItem.count / currentItem.goal) * 100}%`">
+                                     <div class="absolute inset-0 bg-white/20 animate-[shimmer_2s_infinite]"></div>
+                                </div>
                              </div>
                           </div>
                      </div>
@@ -235,8 +452,8 @@
             </div>
 
             <!-- 3. Shopping List (Span 3) - ADAPTED: Inventory/Restock -->
-            <div class="xl:col-span-3">
-                 <div class="bg-white rounded-3xl p-6 shadow-sm mb-6">
+            <div class="md:col-span-10 lg:col-span-3 grid grid-cols-12 gap-6">
+                 <div class="md:col-span-6 lg:col-span-12 bg-white rounded-3xl p-6 shadow-sm mb-6" x-data="restockList()">
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="font-bold text-lg flex items-center gap-2">
                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5 text-gray-400">
@@ -250,39 +467,38 @@
                     </div>
 
                     <div class="space-y-6">
-                        @foreach([
-                            ['name'=>'Tomatoes', 'q'=>'5 kg', 'icon'=>'🍅', 'stock'=>true],
-                            ['name'=>'Flour', 'q'=>'10 kg', 'icon'=>'🌾', 'stock'=>true],
-                            ['name'=>'Milk', 'q'=>'20 L', 'icon'=>'🥛', 'stock'=>false, 'tag'=>'Low'],
-                            ['name'=>'Eggs', 'q'=>'50 pcs', 'icon'=>'🥚', 'stock'=>false],
-                            ['name'=>'Onion', 'q'=>'3 kg', 'icon'=>'🧅', 'stock'=>false],
-                        ] as $item)
-                        <div class="flex items-center gap-3">
-                             <div class="{{$item['stock'] ? 'bg-green-500' : 'border-2 border-gray-300'}} rounded-md w-5 h-5 flex items-center justify-center transition-colors cursor-pointer">
-                                @if($item['stock'])
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3 text-white"><path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" /></svg>
-                                @endif
-                             </div>
-                             <div class="w-8 h-8 rounded bg-gray-100 flex items-center justify-center text-lg">{{$item['icon']}}</div>
-                            <div class="flex-1 text-sm font-semibold flex items-center gap-2">
-                                {{$item['name']}} 
-                                @if(isset($item['tag'])) <span class="bg-blue-100 text-blue-500 text-[10px] px-1 rounded">{{$item['tag']}}</span> @endif
+                        <template x-for="(item, index) in items" :key="index">
+                            <div class="flex items-center gap-3 group">
+                                 <div class="rounded-md w-5 h-5 flex items-center justify-center transition-all cursor-pointer border-2"
+                                      :class="item.stock ? 'bg-green-500 border-green-500' : 'border-gray-300 hover:border-gray-400'"
+                                      @click="toggleStock(index)">
+                                    <template x-if="item.stock">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3 text-white"><path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" /></svg>
+                                    </template>
+                                 </div>
+                                 <div class="w-8 h-8 rounded bg-gray-100 flex items-center justify-center text-lg shadow-sm" x-text="item.icon"></div>
+                                <div class="flex-1 text-sm font-semibold flex items-center gap-2">
+                                    <span x-text="item.name"></span>
+                                    <template x-if="item.tag">
+                                        <span class="bg-blue-100 text-blue-500 text-[10px] px-1 rounded" x-text="item.tag"></span>
+                                    </template>
+                                </div>
+                                <div class="text-sm font-bold text-gray-500" x-text="item.q"></div>
                             </div>
-                            <div class="text-sm font-bold text-gray-500">{{$item['q']}}</div>
-                        </div>
-                        @endforeach
+                        </template>
                     </div>
 
-                    <button class="w-full mt-8 bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 rounded-2xl flex items-center justify-center gap-2 transition transform hover:scale-105">
+                    <button class="w-full mt-8 bg-violet-500 hover:bg-violet-600 cursor-pointer text-white font-bold py-3 rounded-2xl flex items-center justify-center gap-2 transition duration-300 transform hover:scale-105">
+                        Create New List
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
-                           <path fill-rule="evenodd" clip-rule="evenodd" d="M7.5 6v.75H5.513c-.96 0-1.764.724-1.865 1.679l-1.263 12A1.875 1.875 0 0 0 4.25 22.5h15.5a1.875 1.875 0 0 0 1.865-2.071l-1.263-12a1.875 1.875 0 0 0-1.865-1.679H16.5V6a4.5 4.5 0 1 0-9 0ZM12 3a3 3 0 0 0-3 3v.75h6V6a3 3 0 0 0-3-3Zm-3 8.25a3 3 0 1 0 6 0v-.75a.75.75 0 0 1 1.5 0v.75a4.5 4.5 0 1 1-9 0v-.75a.75.75 0 0 1 1.5 0v.75Z" clip-rule="evenodd" />
+                          <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
                         </svg>
-                        Order Supplies
                     </button>
                 </div>
 
-                <!-- 4. Recipe Card (Overlay - Same as design) -->
-                 <div class="relative group cursor-pointer">
+                
+                {{-- mian dish design --}}
+                 {{-- <div class="relative group cursor-pointer">
                     <div class="bg-white rounded-[32px] p-4 shadow-lg overflow-hidden border border-gray-100 transition-transform hover:-translate-y-1">
                         <div class="relative h-48 rounded-[24px] overflow-hidden mb-4">
                             <img src="https://images.unsplash.com/photo-1555126634-323283e090fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Shrimp Stir-Fry" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
@@ -331,8 +547,31 @@
                             Explore Recipe <span>↗</span>
                         </button>
                     </div>
+                </div> --}}
+                
+                <!-- Promo / Banner -> ADAPTED: Create Promotion -->
+                <div class="md:col-span-5 lg:col-span-12 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-3xl p-6 text-white text-center relative overflow-hidden group cursor-pointer hover:shadow-lg hover:shadow-indigo-200 transition-all duration-300">
+                    <!-- Dynamic Background Shapes -->
+                    <div class="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-white opacity-10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                    <div class="absolute bottom-0 left-0 -ml-8 -mb-8 w-24 h-24 bg-pink-500 opacity-20 rounded-full blur-xl group-hover:scale-125 transition-transform duration-700"></div>
+                    
+                    <!-- Floating Icons Decoration -->
+                    <div class="absolute top-4 left-6 text-indigo-200 opacity-60 text-xl animate-bounce" style="animation-duration: 3s;">✦</div>
+                    <div class="absolute bottom-6 right-6 text-pink-200 opacity-40 text-xl animate-pulse">★</div>
+    
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 mx-auto bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mb-4 shadow-sm group-hover:rotate-12 transition-transform duration-300">
+                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8 text-white"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z" clip-rule="evenodd" /></svg>
+                        </div>
+                        
+                        <h3 class="font-bold text-xl mb-1 tracking-tight">Boost Your Sales!</h3>
+                        <p class="text-indigo-100 text-xs mb-5 font-medium px-4 leading-relaxed">launch a special offer for this weekend to attract more customers.</p>
+                        
+                        <button class="bg-white text-indigo-600 px-6 py-2.5 rounded-full text-sm font-bold shadow-md hover:bg-indigo-50 hover:scale-105 transition-all duration-300 w-full flex items-center justify-center gap-2">
+                            <span>+</span> Create Promotion
+                        </button>
+                    </div>
                 </div>
-
             </div>
 
         </div>

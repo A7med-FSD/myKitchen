@@ -1,108 +1,9 @@
 <x-layout>
-    <!-- Custom CSS for specific dashboard elements and entrance animations -->
-    <style>
-        .noscroll::-webkit-scrollbar {
-            display: none;
-        }
-        .noscroll {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        /* Professional Entrance Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes fadeInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes slideInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Animation Classes */
-        .animate-entrance-header {
-            animation: fadeInUp 0.6s ease-out forwards;
-        }
-
-        .animate-entrance-search {
-            animation: fadeInUp 0.6s ease-out 0.1s forwards;
-            opacity: 0;
-        }
-
-        .animate-entrance-col1 {
-            animation: fadeInLeft 0.7s ease-out 0.2s forwards;
-            opacity: 0;
-        }
-
-        .animate-entrance-col2 {
-            animation: scaleIn 0.7s ease-out 0.3s forwards;
-            opacity: 0;
-        }
-
-        .animate-entrance-col3 {
-            animation: fadeInRight 0.7s ease-out 0.4s forwards;
-            opacity: 0;
-        }
-
-        .animate-entrance-card {
-            animation: slideInDown 0.5s ease-out forwards;
-            opacity: 0;
-        }
-
-        /* Staggered delays for cards */
-        .animate-delay-100 { animation-delay: 0.1s; }
-        .animate-delay-200 { animation-delay: 0.2s; }
-        .animate-delay-300 { animation-delay: 0.3s; }
-        .animate-delay-400 { animation-delay: 0.4s; }
-        .animate-delay-500 { animation-delay: 0.5s; }
-        .animate-delay-600 { animation-delay: 0.6s; }
-    </style>
+    <!-- Dashboard Custom Styles -->
+    <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
+    
+    <!-- Dashboard Scripts - Must load BEFORE Alpine.js -->
+    <script src="{{ asset('assets/js/dashboard.js') }}"></script>
 
     <div class="space-y-6" x-data="{ selectedDay: 'Mon' }">
         <!-- Header -->
@@ -160,15 +61,20 @@
                         </div>
                         View Today's Orders
                     </h2>
-                    <button class="text-gray-400 hover:text-gray-600 transition cursor-pointer">
+                    <button 
+                        class="text-gray-400 hover:text-gray-600 transition cursor-pointer relative"
+                        @click="toggleEditMode()"
+                        :class="editMode ? 'text-yellow-500 hover:text-yellow-600' : ''">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                         </svg>
+                        <!-- Edit Mode Indicator -->
+                        <div x-show="editMode" class="absolute -top-1 -right-1 w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
                     </button>
                 </div>
 
                 <!-- Date Strip (Circular) -->
-                <div class="flex justify-between items-center mb-8 px-2">
+                <div class="flex justify-between items-center mb-4 px-2">
                     <button class="text-gray-400 hover:text-gray-600 transition" @click="prevDay()">&lt;</button>
                     <div class="flex-1 flex justify-around gap-2 px-2 overflow-x-auto noscroll">
                         <template x-for="(day, index) in days" :key="index">
@@ -183,32 +89,115 @@
                     <button class="text-gray-400 hover:text-gray-600 transition" @click="nextDay()">&gt;</button>
                 </div>
 
+                <!-- Status Selection Toolbar (shown when edit mode is active) -->
+                <div 
+                    x-show="editMode"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 -translate-y-4"
+                    x-transition:enter-end="opacity-100 translate-y-0"
+                    x-transition:leave="transition ease-in duration-200"
+                    x-transition:leave-start="opacity-100 translate-y-0"
+                    x-transition:leave-end="opacity-0 -translate-y-4"
+                    class="mb-6 p-3 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl border-2 border-yellow-200">
+                    <div class="text-xs font-bold text-gray-600 mb-2 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-yellow-500">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" />
+                        </svg>
+                        Select status, then click on an order
+                    </div>
+                    <div class="grid grid-cols-[repeat(auto-fit,minmax(50px,1fr))] gap-2">
+                        <template x-for="statusOption in statusOptions" :key="statusOption.key">
+                            <button
+                                @click="selectStatus(statusOption.key)"
+                                class="flex cursor-pointer flex-col items-center gap-1 p-2 rounded-xl transition-all duration-300 transform hover:scale-105 relative"
+                                :class="selectedStatus === statusOption.key 
+                                    ? statusOption.bgClass + ' text-white shadow-xl ring-4 ring-white' 
+                                    : 'bg-white border-2 ' + statusOption.borderClass + ' ' + statusOption.colorClass + ' hover:shadow-lg'">
+                                <div class="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300"
+                                    :class="selectedStatus === statusOption.key ? 'bg-white/30' : 'bg-gray-50'"
+                                    x-html="statusOption.icon">
+                                </div>
+                                <span class="text-[8px] font-bold leading-tight text-center" x-text="statusOption.label"></span>
+                                <!-- Selected indicator -->
+                                <div x-show="selectedStatus === statusOption.key" 
+                                    class="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full flex items-center justify-center">
+                                    <div class="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                                </div>
+                            </button>
+                        </template>
+                    </div>
+                </div>
+
                 <!-- Timeline -->
                 <div class="space-y-0 relative pl-4 flex-1 overflow-y-auto noscroll pr-2">
                     <!-- Dynamic Event List -->
                     <template x-for="(event, index) in currentEvents" :key="index">
-                        <div class="relative pl-8 pb-8 group">
+                        <div class="relative pl-8 pb-8 group"
+                            :class="editMode ? 'cursor-pointer' : ''"
+                            @click="applyStatusToOrder(index)">
                             <!-- Connecting Line -->
-                            <div class="absolute left-[11px] top-6 bottom-[-10px] w-[2px] border-l-2"
-                                :class="event.completed ? 'border-green-500 border-dashed' : 'border-gray-200 border-dashed'"
+                            <div class="absolute left-[11px] top-6 bottom-[-10px] w-[2px] border-l-2 transition-all duration-500"
+                                :class="{
+                                    'border-green-500 border-dashed': event.status === 'completed',
+                                    'border-blue-500 border-dashed': event.status === 'out-for-delivery',
+                                    'border-yellow-500 border-dashed': event.status === 'pending',
+                                    'border-orange-500 border-dashed': event.status === 'delayed',
+                                    'border-red-500 border-dashed': event.status === 'cancelled',
+                                    'border-gray-200 border-dashed': !event.status
+                                }"
                                 x-show="index !== currentEvents.length - 1"></div>
 
                             <!-- Status Icon -->
                             <div class="absolute left-0 top-1 z-10 bg-white">
-                                <template x-if="event.completed">
-                                    <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white shadow-sm ring-4 ring-white">
+                                <!-- Completed -->
+                                <template x-if="event.status === 'completed'">
+                                    <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white shadow-sm ring-4 ring-white transition-all duration-300"
+                                        :class="editMode ? 'ring-green-200 shadow-lg shadow-green-200 group-hover:scale-110' : ''">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3.5">
                                         <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
                                         </svg>
                                     </div>
                                 </template>
-                                <template x-if="!event.completed">
-                                    <div class="w-6 h-6 rounded-full border-2 border-gray-200 bg-white ring-4 ring-white"></div>
+                                <!-- Out for Delivery -->
+                                <template x-if="event.status === 'out-for-delivery'">
+                                    <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-white shadow-sm ring-4 ring-white transition-all duration-300"
+                                        :class="editMode ? 'ring-blue-200 shadow-lg shadow-blue-200 group-hover:scale-110' : ''">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3.5">
+                                        <path d="M3.375 4.5C2.339 4.5 1.5 5.34 1.5 6.375V13.5h12V6.375c0-1.036-.84-1.875-1.875-1.875h-8.25zM13.5 15h-12v2.625c0 1.035.84 1.875 1.875 1.875h.375a3 3 0 116 0h3a.75.75 0 00.75-.75V15z" />
+                                        </svg>
+                                    </div>
+                                </template>
+                                <!-- Pending -->
+                                <template x-if="event.status === 'pending'">
+                                    <div class="w-6 h-6 rounded-full bg-yellow-500 flex items-center justify-center text-white shadow-sm ring-4 ring-white transition-all duration-300"
+                                        :class="editMode ? 'ring-yellow-200 shadow-lg shadow-yellow-200 group-hover:scale-110' : ''">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3.5">
+                                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </template>
+                                <!-- Delayed -->
+                                <template x-if="event.status === 'delayed'">
+                                    <div class="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center text-white shadow-sm ring-4 ring-white transition-all duration-300"
+                                        :class="editMode ? 'ring-orange-200 shadow-lg shadow-orange-200 group-hover:scale-110' : ''">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3.5">
+                                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </template>
+                                <!-- Cancelled -->
+                                <template x-if="event.status === 'cancelled'">
+                                    <div class="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center text-white shadow-sm ring-4 ring-white transition-all duration-300"
+                                        :class="editMode ? 'ring-red-200 shadow-lg shadow-red-200 group-hover:scale-110' : ''">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3.5">
+                                        <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
                                 </template>
                             </div>
 
                             <!-- Content -->
-                            <div class="">
+                            <div class="transition-all duration-200" :class="editMode ? 'group-hover:translate-x-1' : ''">
                                 <span class="text-xs text-gray-400 block mb-1 font-medium" x-text="event.time"></span>
                                 <h3 class="font-bold text-gray-800 text-sm mb-2" x-text="event.title"></h3>
                                 
@@ -231,133 +220,7 @@
                 </div>
             </div>
 
-            <script>
-                function scheduleHandler() {
-                    return {
-                        selectedDay: 'Mon',
-                        days: [
-                            { date: '21', dayName: 'Sun' },
-                            { date: '22', dayName: 'Mon' },
-                            { date: '23', dayName: 'Tue' },
-                            { date: '27', dayName: 'Wed' },
-                            { date: '28', dayName: 'Thu' }
-                        ],
-                        // Database of events
-                        eventsDb: {
-                            'Sun': [
-                                { time: '09:00 AM', title: 'Order #1001 - Breakfast', completed: true, tags: [{label:'Delivery', colorClass:'bg-blue-100 text-blue-500'}, {label:'Pd: $25', colorClass:'bg-green-100 text-green-600'}] },
-                                { time: '10:30 AM', title: 'Order #1002 - Catering', completed: true, tags: [{label:'Pickup', colorClass:'bg-orange-100 text-orange-600'}] }
-                            ],
-                            'Mon': [
-                                { time: '08:15 AM', title: 'Order #1024 - Morning Coffee', completed: true, tags: [
-                                    { label: 'Pickup', colorClass: 'bg-orange-100 text-orange-600' }, 
-                                    { label: '☕ 2 Items', colorClass: 'bg-gray-100 text-gray-500' }
-                                ]},
-                                { time: '12:30 PM', title: 'Order #1025 - Family Feast', completed: false, tags: [
-                                    { label: 'Delivery', colorClass: 'bg-blue-100 text-blue-600' },
-                                    { label: '🍔 5 Items', colorClass: 'bg-gray-100 text-gray-500' },
-                                    { label: 'Cash', colorClass: 'bg-green-100 text-green-600' }
-                                ]},
-                                { time: '01:45 PM', title: 'Order #1026 - Quick Lunch', completed: false, tags: [
-                                    { label: 'Dine-in', colorClass: 'bg-purple-100 text-purple-600' },
-                                    { label: '🥗 Salad', colorClass: 'bg-gray-100 text-gray-500' }
-                                ]},
-                                { time: '07:00 PM', title: 'Order #1027 - Dinner Party', completed: false, tags: [
-                                    { label: 'Pre-order', colorClass: 'bg-yellow-100 text-yellow-600' },
-                                    { label: 'Large', colorClass: 'bg-red-100 text-red-500' }
-                                ]}
-                            ],
-                            'Tue': [
-                                { time: '11:00 AM', title: 'Order #1030', completed: false, tags: [{label:'Pending', colorClass:'bg-gray-200 text-gray-600'}] }
-                            ]
-                        },
-                        get currentEvents() {
-                            return this.eventsDb[this.selectedDay] || [];
-                        },
-                        nextDay() {
-                            const idx = this.days.findIndex(d => d.dayName === this.selectedDay);
-                            if (idx < this.days.length - 1) this.selectedDay = this.days[idx + 1].dayName;
-                        },
-                        prevDay() {
-                            const idx = this.days.findIndex(d => d.dayName === this.selectedDay);
-                            if (idx > 0) this.selectedDay = this.days[idx - 1].dayName;
-                        }
-                    }
-                }
-            </script>
-            
-            <script>
-                function performanceStats() {
-                    return {
-                        revenue: 0,
-                        activeOrders: 0,
-                        rating: 0,
-                        init() {
-                            setTimeout(() => {
-                                this.animateValue('revenue', 0, 2500, 2000); // 2 seconds to reach 2.5k
-                                this.animateValue('activeOrders', 0, 85, 1500);
-                                this.animateValue('rating', 0, 4.8, 1500);
-                            }, 500);
-                        },
-                        animateValue(key, start, end, duration) {
-                            let startTimestamp = null;
-                            const step = (timestamp) => {
-                                if (!startTimestamp) startTimestamp = timestamp;
-                                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                                
-                                // Calculate value
-                                let val = progress * (end - start) + start;
-                                
-                                // Specific formatting for different keys if needed, 
-                                // or just general rounding to avoid long decimals
-                                if (key === 'activeOrders') val = Math.round(val);
-                                
-                                this[key] = val;
-                                
-                                if (progress < 1) {
-                                    window.requestAnimationFrame(step);
-                                }
-                            };
-                            window.requestAnimationFrame(step);
-                        },
-                         formatNumber(num) {
-                            if (num >= 1000) {
-                                return (num / 1000).toFixed(1) + 'K';
-                            }
-                            return Math.round(num);
-                        }
-                    }
-                }
 
-                function topItemsStats() {
-                    return {
-                        items: [
-                            { name: 'Burger', icon: '🍔', color: 'green', count: 850, goal: 1000 },
-                            { name: 'Pizza', icon: '🍕', color: 'orange', count: 620, goal: 1000 },
-                            { name: 'Pasta', icon: '🍝', color: 'blue', count: 450, goal: 1000 }
-                        ],
-                        activeItem: 0, // Index of selected item to show bar for
-                        get currentItem() {
-                            return this.items[this.activeItem];
-                        }
-                    }
-                }
-
-                function restockList() {
-                    return {
-                        items: [
-                            { name: 'Tomatoes', q: '5 kg', icon: '🍅', stock: true },
-                            { name: 'Flour', q: '10 kg', icon: '🌾', stock: true },
-                            { name: 'Milk', q: '20 L', icon: '🥛', stock: false, tag: 'Low' },
-                            { name: 'Eggs', q: '50 pcs', icon: '🥚', stock: false },
-                            { name: 'Onion', q: '3 kg', icon: '🧅', stock: false },
-                        ],
-                        toggleStock(index) {
-                            this.items[index].stock = !this.items[index].stock;
-                        }
-                    }
-                }
-            </script>
 
             <!-- 2. Center Column (Column 2) -->
             <div class="md:col-span-7 lg:col-span-5 xl:col-span-6 space-y-6 grid grid-cols-12 animate-entrance-col2">
@@ -552,15 +415,21 @@
                             <span class="text-xs text-green-500 bg-green-50 px-2 py-1 rounded">+15%</span>
                         </div>
                     
-                        <div class="flex items-end justify-between h-32 gap-2">
+                        <div class="grid grid-cols-7 gap-2 items-end h-32">
                             @foreach([40, 60, 30, 80, 50, 90, 70] as $h)
                             <div class="w-full bg-purple-100 rounded-t-md hover:bg-purple-300 transition-colors relative group" style="height: {{$h}}%">
                                 <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">{{$h}}</div>
                             </div>
                             @endforeach
                         </div>
-                        <div class="flex justify-between text-xs text-gray-400 mt-2">
-                            <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+                        <div class="grid grid-cols-7 gap-2 text-xs text-gray-400 mt-2">
+                            <span class="text-center">Sun</span>
+                            <span class="text-center">Mon</span>
+                            <span class="text-center">Tue</span>
+                            <span class="text-center">Wed</span>
+                            <span class="text-center">Thu</span>
+                            <span class="text-center">Fri</span>
+                            <span class="text-center">Sat</span>
                         </div>
                     </div>
                 </div>
@@ -612,7 +481,7 @@
                 </div>
 
                 
-                {{-- mian dish design --}}
+                {{-- main dish design --}}
                 {{-- <div class="relative group cursor-pointer">
                     <div class="bg-white rounded-[32px] p-4 shadow-lg overflow-hidden border border-gray-100 transition-transform hover:-translate-y-1">
                         <div class="relative h-48 rounded-[24px] overflow-hidden mb-4">
@@ -693,16 +562,5 @@
 
         </div>
     </div>
-    
-    <!-- Inline Scripts for simple interactions -->
-    <script>
-        // Simple JS to handle date selection visuals if not using Alpine
-        // (Alpine logic is already in the x-data attribute above, which requires Alpine.js installed.
-        // If the user doesn't have Alpine, this script serves as fallback or additional logic)
-        
-        document.addEventListener('DOMContentLoaded', () => {
-             // Hover effects on cards are handled by Tailwind classes (group-hover)
-             console.log('Dashboard Loaded');
-        });
-    </script>
+
 </x-layout>

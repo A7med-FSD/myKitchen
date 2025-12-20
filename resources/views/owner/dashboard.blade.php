@@ -1,9 +1,9 @@
 <x-layout>
     <!-- Dashboard Custom Styles -->
-    <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/entrance.css') }}">
     
     <!-- Dashboard Scripts - Must load BEFORE Alpine.js -->
-    <script src="{{ asset('assets/js/dashboard.js') }}"></script>
+    <script src="{{ asset('assets/js/owner/dashboard.js') }}"></script>
 
     <div class="space-y-6" x-data="{ selectedDay: 'Mon' }">
         <!-- Header -->
@@ -109,10 +109,10 @@
                         <template x-for="statusOption in statusOptions" :key="statusOption.key">
                             <button
                                 @click="selectStatus(statusOption.key)"
-                                class="flex cursor-pointer flex-col items-center gap-1 p-2 rounded-xl transition-all duration-300 transform hover:scale-105 relative"
+                                class="flex cursor-pointer flex-col items-center gap-1 p-2 rounded-xl transition-all duration-300 transform border-2"
                                 :class="selectedStatus === statusOption.key 
-                                    ? statusOption.bgClass + ' text-white shadow-xl ring-4 ring-white' 
-                                    : 'bg-white border-2 ' + statusOption.borderClass + ' ' + statusOption.colorClass + ' hover:shadow-lg'">
+                                    ? statusOption.bgClass + ' text-white shadow-xl' 
+                                    : 'bg-white ' + statusOption.borderClass + ' ' + statusOption.colorClass + ' hover:shadow-lg'">
                                 <div class="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300"
                                     :class="selectedStatus === statusOption.key ? 'bg-white/30' : 'bg-gray-50'"
                                     x-html="statusOption.icon">
@@ -138,10 +138,10 @@
                             <!-- Connecting Line -->
                             <div class="absolute left-[11px] top-6 bottom-[-10px] w-[2px] border-l-2 transition-all duration-500"
                                 :class="{
-                                    'border-green-500 border-dashed': event.status === 'completed',
-                                    'border-blue-500 border-dashed': event.status === 'out-for-delivery',
+                                    'border-green-500 border-dashed': event.status === 'ready',
+                                    'border-purple-500 border-dashed': event.status === 'delivered',
                                     'border-yellow-500 border-dashed': event.status === 'pending',
-                                    'border-orange-500 border-dashed': event.status === 'delayed',
+                                    'border-blue-500 border-dashed': event.status === 'in-progress',
                                     'border-red-500 border-dashed': event.status === 'cancelled',
                                     'border-gray-200 border-dashed': !event.status
                                 }"
@@ -149,8 +149,8 @@
 
                             <!-- Status Icon -->
                             <div class="absolute left-0 top-1 z-10 bg-white">
-                                <!-- Completed -->
-                                <template x-if="event.status === 'completed'">
+                                <!-- Ready -->
+                                <template x-if="event.status === 'ready'">
                                     <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white shadow-sm ring-4 ring-white transition-all duration-300"
                                         :class="editMode ? 'ring-green-200 shadow-lg shadow-green-200 group-hover:scale-110' : ''">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3.5">
@@ -158,10 +158,10 @@
                                         </svg>
                                     </div>
                                 </template>
-                                <!-- Out for Delivery -->
-                                <template x-if="event.status === 'out-for-delivery'">
-                                    <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-white shadow-sm ring-4 ring-white transition-all duration-300"
-                                        :class="editMode ? 'ring-blue-200 shadow-lg shadow-blue-200 group-hover:scale-110' : ''">
+                                <!-- Delivered -->
+                                <template x-if="event.status === 'delivered'">
+                                    <div class="w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center text-white shadow-sm ring-4 ring-white transition-all duration-300"
+                                        :class="editMode ? 'ring-purple-200 shadow-lg shadow-purple-200 group-hover:scale-110' : ''">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3.5">
                                         <path d="M3.375 4.5C2.339 4.5 1.5 5.34 1.5 6.375V13.5h12V6.375c0-1.036-.84-1.875-1.875-1.875h-8.25zM13.5 15h-12v2.625c0 1.035.84 1.875 1.875 1.875h.375a3 3 0 116 0h3a.75.75 0 00.75-.75V15z" />
                                         </svg>
@@ -176,12 +176,12 @@
                                         </svg>
                                     </div>
                                 </template>
-                                <!-- Delayed -->
-                                <template x-if="event.status === 'delayed'">
-                                    <div class="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center text-white shadow-sm ring-4 ring-white transition-all duration-300"
-                                        :class="editMode ? 'ring-orange-200 shadow-lg shadow-orange-200 group-hover:scale-110' : ''">
+                                <!-- In Progress -->
+                                <template x-if="event.status === 'in-progress'">
+                                    <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-white shadow-sm ring-4 ring-white transition-all duration-300"
+                                        :class="editMode ? 'ring-blue-200 shadow-lg shadow-blue-200 group-hover:scale-110' : ''">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3.5">
-                                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z" clip-rule="evenodd" />
+                                        <path fill-rule="evenodd" d="M4.755 10.059a7.5 7.5 0 0112.548-3.364l1.903 1.903h-3.183a.75.75 0 100 1.5h4.992a.75.75 0 00.75-.75V4.356a.75.75 0 00-1.5 0v3.18l-1.9-1.9A9 9 0 003.306 9.67a.75.75 0 101.45.388zm15.408 3.352a.75.75 0 00-.919.53 7.5 7.5 0 01-12.548 3.364l-1.902-1.903h3.183a.75.75 0 000-1.5H2.984a.75.75 0 00-.75.75v4.992a.75.75 0 001.5 0v-3.18l1.9 1.9a9 9 0 0015.059-4.035.75.75 0 00-.53-.918z" clip-rule="evenodd" />
                                         </svg>
                                     </div>
                                 </template>
@@ -377,7 +377,7 @@
                             <template x-for="(item, index) in items" :key="index">
                                 <div class="group cursor-pointer" @click="activeItem = index">
                                     <div class="w-11 h-11 rounded-full border-4 flex items-center justify-center font-bold text-2xl transition-all duration-300 transform group-hover:scale-110"
-                                        :class="{'border-green-400': item.color === 'green', 'border-orange-400': item.color === 'orange', 'border-blue-400': item.color === 'blue', 'ring-4 ring-gray-100': activeItem === index}">
+                                        :class="{'border-green-400': item.color === 'green', 'border-orange-400': item.color === 'orange', 'border-blue-400': item.color === 'blue', 'ring-4 ring-gray-200': activeItem === index}">
                                         <span x-text="item.icon"></span>
                                     </div>
                                     <span class="text-xs mt-1 block font-medium transition-colors" 
@@ -436,8 +436,12 @@
             </div>
 
             <!-- 3. Shopping List (Column 3) - ADAPTED: Inventory/Restock -->
-            <div class="md:col-span-10 lg:col-span-3 flex flex-wrap gap-6 animate-entrance-col3">
-                <div class="bg-white rounded-3xl p-5 grow shadow-sm" x-data="restockList()">
+            <div class="md:col-span-10 lg:col-span-3 flex flex-wrap gap-6 animate-entrance-col3 relative">
+                <div class="bg-white rounded-3xl p-5 grow shadow-sm" x-data="{ 
+                    ...restockList(), 
+                    showModal: false,
+                    newItem: { name: '', icon: '', q: '', tag: '' }
+                }">
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="font-bold text-lg flex items-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5 text-gray-400">
@@ -445,9 +449,12 @@
                             </svg>
                             Restock List
                         </h2>
-                            <button class="bg-black text-white rounded-full p-1 hover:bg-gray-800 transition">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" /></svg>
-                        </button>
+                        <a href="{{ route('owner.inventory') }}" class="text-gray-400 hover:text-yellow-500 transition-colors flex items-center gap-1 text-xs font-semibold group">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 group-hover:rotate-12 transition-transform">
+                                <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.122 2.122 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
+                            </svg>
+                            Edit List
+                        </a>
                     </div>
 
                     <div class="space-y-6">
@@ -472,12 +479,121 @@
                         </template>
                     </div>
 
-                    <button class="w-full mt-8 bg-violet-500 hover:bg-violet-600 cursor-pointer text-white font-bold py-3 rounded-2xl flex items-center justify-center gap-2 transition duration-300 transform hover:scale-105">
-                        Create New List
+                    <button @click="showModal = true" class="w-full mt-8 bg-violet-500 hover:bg-violet-600 cursor-pointer text-white font-bold py-3 rounded-2xl flex items-center justify-center gap-2 transition duration-300 transform hover:scale-105">
+                        Add New Item
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
                             <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
                         </svg>
                     </button>
+
+                    <!-- Add Item Modal -->
+                    <div x-show="showModal" 
+                        x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="opacity-0"
+                        x-transition:enter-end="opacity-100"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0"
+                        class="absolute inset-0 z-50 flex items-center justify-center p-4 min-w-70"
+                        @click.self="showModal = false">
+                        
+                        <div x-show="showModal"
+                            x-transition:enter="transition ease-out duration-300"
+                            x-transition:enter-start="opacity-0 scale-90 -translate-y-4"
+                            x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                            x-transition:leave="transition ease-in duration-200"
+                            x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                            x-transition:leave-end="opacity-0 scale-90 -translate-y-4"
+                            class="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden" 
+                            @click.stop>
+                            
+                            <!-- Modal Header -->
+                            <div class="bg-gradient-to-r from-violet-500 to-purple-600 p-6 relative overflow-hidden">
+                                <div class="relative flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
+                                                <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-xl font-bold text-white">Add New Item</h3>
+                                            <p class="text-violet-100 text-sm">Add to your restock list</p>
+                                        </div>
+                                    </div>
+                                    <button @click="showModal = false" class="text-white/80 hover:text-white hover:bg-white/20 rounded-full p-2 transition-colors">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                                            <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Modal Body -->
+                            <div class="p-6 space-y-4">
+                                <!-- Item Name -->
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Item Name</label>
+                                    <input type="text" 
+                                        x-model="newItem.name"
+                                        placeholder="e.g., Tomatoes"
+                                        class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-violet-500 focus:ring-0 transition-colors">
+                                </div>
+
+                                <!-- Icon Emoji -->
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Icon (Emoji)</label>
+                                    <input type="text" 
+                                        x-model="newItem.icon"
+                                        placeholder="🍅"
+                                        maxlength="2"
+                                        class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-violet-500 focus:ring-0 transition-colors text-2xl">
+                                </div>
+
+                                <!-- Quantity -->
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Quantity</label>
+                                    <input type="text" 
+                                        x-model="newItem.q"
+                                        placeholder="e.g., 5 kg"
+                                        class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-violet-500 focus:ring-0 transition-colors">
+                                </div>
+
+                                <!-- Tag (Optional) -->
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Tag (Optional)</label>
+                                    <input type="text" 
+                                        x-model="newItem.tag"
+                                        placeholder="e.g., Low"
+                                        class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-violet-500 focus:ring-0 transition-colors">
+                                </div>
+                            </div>
+
+                            <!-- Modal Footer -->
+                            <div class="p-6 bg-gray-50 flex gap-3">
+                                <button @click="showModal = false" 
+                                        class="flex-1 px-6 py-3 cursor-pointer bg-white border-2 border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-colors">
+                                    Cancel
+                                </button>
+                                <button @click="
+                                    if (newItem.name && newItem.icon && newItem.q) {
+                                        items.push({ 
+                                            name: newItem.name, 
+                                            icon: newItem.icon, 
+                                            q: newItem.q, 
+                                            tag: newItem.tag || null,
+                                            stock: false 
+                                        });
+                                        newItem = { name: '', icon: '', q: '', tag: '' };
+                                        showModal = false;
+                                    }
+                                " 
+                                        class="flex-1 px-6 py-3 cursor-pointer bg-gradient-to-r from-violet-500 to-purple-600 text-white font-bold rounded-xl hover:from-violet-600 hover:to-purple-700 transition-all transform hover:scale-105 shadow-lg">
+                                    Add Item
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 
@@ -486,7 +602,7 @@
                     <div class="bg-white rounded-[32px] p-4 shadow-lg overflow-hidden border border-gray-100 transition-transform hover:-translate-y-1">
                         <div class="relative h-48 rounded-[24px] overflow-hidden mb-4">
                             <img src="https://images.unsplash.com/photo-1555126634-323283e090fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Shrimp Stir-Fry" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                             <div class="absolute top-2 right-2 bg-white/80 backdrop-blur-sm px-2 py-1 rounded-full text-[10px] font-bold">🔥 Signature</div>
+                            <div class="absolute top-2 right-2 bg-white/80 backdrop-blur-sm px-2 py-1 rounded-full text-[10px] font-bold">🔥 Signature</div>
                         </div>
                         
                         <h2 class="text-2xl font-black text-gray-900 leading-tight mb-2 font-serif group-hover:text-yellow-600 transition-colors">Shrimp Stir-Fry with Brown Rice</h2>

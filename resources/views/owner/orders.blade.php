@@ -1,10 +1,11 @@
 <x-layout>
+    <link rel="stylesheet" href="{{ asset('assets/css/entrance.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
     <script src="{{ asset('assets/js/dashboard.js') }}"></script>
 
     <div class="space-y-6" x-data="ordersHandler()">
-        <!-- Header -->
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 animate-entrance-header">
+        {{-- Header --}}
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 animate-entrance-header relative z-50">
             <div>
                 <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight flex items-center gap-3">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8 text-yellow-500">
@@ -16,7 +17,59 @@
                 <p class="text-gray-500 mt-2 font-medium">Track and manage customer orders</p>
             </div>
 
-            <!-- Quick Stats -->
+            {{-- Search Bar --}}
+            <div class="w-full max-w-2xl md:w-96 relative group grow animate-entrance-search z-50">
+                <input type="text" 
+                    x-model="searchQuery"
+                    placeholder="Search orders, customers..." 
+                    class="w-full bg-white border-none outline-none rounded-full py-3 pl-12 pr-20 shadow-sm focus:ring-2 focus:ring-gray-200 transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="absolute left-4 top-3.5 text-gray-400 size-5 group-focus-within:text-gray-600 transition-colors">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" />
+                </svg>
+                <svg x-show="searchQuery" 
+                    @click="searchQuery = ''"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" 
+                    class="absolute right-12 top-3.5 z-50 text-gray-400 size-5 cursor-pointer hover:text-gray-600 transition-colors">
+                    <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clip-rule="evenodd" />
+                </svg>
+
+                {{-- Search Filter Dropdown --}}
+                <div x-data="{ showFilter: false }" class="absolute z-50 right-4 top-3.5">
+                    <svg @click="showFilter = !showFilter" @click.outside="showFilter = false" 
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" 
+                        class="text-gray-400 size-5 cursor-pointer hover:text-gray-600 transition-colors z-50"
+                        :class="searchFilter !== 'All' ? 'text-yellow-500 hover:text-yellow-600' : ''">
+                        <path d="M18.75 12.75h1.5a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM12 6a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 6ZM12 18a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 18ZM3.75 6.75h1.5a.75.75 0 1 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM5.25 18.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 0 1.5ZM3 12a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 3 12ZM9 3.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM12.75 12a2.25 2.25 0 1 1 4.5 0 2.25 2.25 0 0 1-4.5 0ZM9 15.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" />
+                    </svg>
+                    
+                    {{-- Dropdown Menu --}}
+                    <div x-show="showFilter" 
+                        x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 scale-95 translate-y-2"
+                        x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                        x-transition:leave-end="opacity-0 scale-95 translate-y-2"
+                        class="absolute right-0 top-8 w-48 bg-white rounded-2xl overflow-hidden shadow-xl py-2 border z-50 border-gray-100 dark:border-gray-800"
+                        style="display: none;">
+                        
+                        <div class="px-4 py-2 text-xs font-bold text-gray-400 uppercase tracking-wider">Search By</div>
+                        
+                        <template x-for="filter in ['All', 'Order ID', 'Customer Name', 'Customer Number']">
+                            <button @click="searchFilter = filter; showFilter = false"
+                                    class="w-full text-left px-4 py-2.5 text-sm font-medium hover:bg-yellow-50 hover:text-yellow-700 transition-colors flex items-center justify-between"
+                                    :class="searchFilter === filter ? 'text-yellow-600 bg-yellow-50' : 'text-gray-600'">
+                                <span x-text="filter"></span>
+                                <svg x-show="searchFilter === filter" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-yellow-500">
+                                    <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Quick Stats --}}
             <div class="flex gap-3">
                 <div class="bg-white px-4 py-3 rounded-2xl shadow-sm">
                     <div class="text-2xl font-bold text-gray-900" x-text="todayOrders"></div>
@@ -29,141 +82,141 @@
             </div>
         </div>
 
-        <!-- Status Filters -->
-        <div class="flex flex-wrap gap-3 animate-entrance-search">
-            <template x-for="status in statuses" :key="status.name">
-                <button @click="selectedStatus = status.name"
-                        class="px-4 py-2 rounded-full font-semibold transition-all duration-300 flex items-center gap-2"
-                        :class="selectedStatus === status.name ? 'bg-yellow-400 text-gray-900 shadow-lg' : 'bg-white text-gray-600 hover:bg-gray-100'">
-                    <span x-text="status.icon"></span>
-                    <span x-text="status.name"></span>
-                    <span class="text-xs px-2 py-0.5 rounded-full bg-black/10" x-text="status.count"></span>
-                </button>
-            </template>
-        </div>
+        {{-- Status Filter Component --}}
+        <x-status-filter />
 
-        <!-- Orders List -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+        {{-- Orders Grid --}}
+        <div class="grid grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-6" x-ref="ordersGrid">
             <template x-for="(order, index) in filteredOrders" :key="order.id">
-                <div class="bg-white rounded-3xl p-6 shadow-sm hover:shadow-md transition-all duration-300 animate-entrance-card"
-                     :class="'animate-delay-' + ((index % 6) * 100)">
-                    <!-- Order Header -->
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="text-lg font-bold text-gray-900" x-text="'#' + order.id"></h3>
-                            <p class="text-xs text-gray-500" x-text="order.time"></p>
-                        </div>
-                        <span class="px-3 py-1 rounded-full text-xs font-bold"
-                              :class="{
-                                  'bg-yellow-100 text-yellow-700': order.status === 'Pending',
-                                  'bg-blue-100 text-blue-700': order.status === 'In Progress',
-                                  'bg-green-100 text-green-700': order.status === 'Ready',
-                                  'bg-purple-100 text-purple-700': order.status === 'Delivered',
-                                  'bg-red-100 text-red-700': order.status === 'Cancelled'
-                              }"
-                              x-text="order.status"></span>
-                    </div>
-
-                    <!-- Customer Info -->
-                    <div class="flex items-center gap-3 mb-4 p-3 bg-gray-50 rounded-2xl">
-                        <div class="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center font-bold text-gray-900" x-text="order.customer.charAt(0)"></div>
-                        <div class="flex-1">
-                            <p class="font-semibold text-sm text-gray-900" x-text="order.customer"></p>
-                            <p class="text-xs text-gray-500" x-text="order.phone"></p>
-                        </div>
-                        <div class="text-xs text-gray-400" x-text="order.type"></div>
-                    </div>
-
-                    <!-- Items List -->
-                    <div class="space-y-2 mb-4">
-                        <template x-for="item in order.items" :key="item.name">
-                            <div class="flex justify-between text-sm">
-                                <span class="text-gray-700"><span class="font-semibold" x-text="item.qty"></span>x <span x-text="item.name"></span></span>
-                                <span class="font-semibold text-gray-900">$<span x-text="item.price"></span></span>
-                            </div>
-                        </template>
-                    </div>
-
-                    <!-- Total -->
-                    <div class="flex justify-between items-center pt-4 border-t border-gray-200 mb-4">
-                        <span class="font-bold text-gray-900">Total</span>
-                        <span class="text-xl font-black text-gray-900">$<span x-text="order.total"></span></span>
-                    </div>
-
-                    <!-- Actions -->
-                    <div class="flex gap-2" x-show="order.status === 'Pending' || order.status === 'In Progress'">
-                        <button x-show="order.status === 'Pending'" 
-                                @click="acceptOrder(order.id)"
-                                class="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-2.5 rounded-full transition-colors">
-                            Accept
-                        </button>
-                        <button x-show="order.status === 'In Progress'" 
-                                @click="markReady(order.id)"
-                                class="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2.5 rounded-full transition-colors">
-                            Mark Ready
-                        </button>
-                        <button @click="cancelOrder(order.id)"
-                                class="px-4 bg-red-100 hover:bg-red-200 text-red-600 font-bold py-2.5 rounded-full transition-colors">
-                            Cancel
-                        </button>
-                    </div>
-                </div>
+                <x-order-card />
             </template>
         </div>
 
-        <!-- Empty State -->
+        {{-- Empty State --}}
         <div x-show="filteredOrders.length === 0" class="text-center py-20">
             <div class="text-6xl mb-4">📋</div>
             <h3 class="text-xl font-bold text-gray-900 mb-2">No orders found</h3>
-            <p class="text-gray-500">Try selecting a different status filter</p>
+            <p class="text-gray-500">Try selecting a different status filter or adjust your search</p>
+        </div>
+
+        {{-- Order Detail Modal --}}
+        <div x-show="showModal" 
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+            @click="closeOrderModal()"
+            style="display: none;">
+            
+            <div x-show="showModal"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 scale-90 -translate-y-4"
+                x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                x-transition:leave-end="opacity-0 scale-90 -translate-y-4"
+                class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+                @click.stop>
+                
+                <template x-if="selectedOrder">
+                    <div>
+                        {{-- Modal Header --}}
+                        <div class="bg-gradient-to-r from-yellow-400 to-orange-400 p-6 relative overflow-hidden">
+                            <div class="relative flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-2xl font-bold text-gray-900" x-text="'Order #' + selectedOrder.id"></h3>
+                                    <p class="text-gray-700 text-sm" x-text="selectedOrder.time"></p>
+                                </div>
+                                <button @click="closeOrderModal()" class="text-gray-700 cursor-pointer hover:text-gray-900 hover:bg-white/20 rounded-full p-2 transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                                        <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        {{-- Modal Body --}}
+                        <div class="p-6 space-y-6">
+                            {{-- Status Badge --}}
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600 font-semibold">Status:</span>
+                                <span class="px-4 py-2 rounded-full text-sm font-bold"
+                                    :class="{
+                                        'bg-yellow-100 text-yellow-700': selectedOrder.status === 'Pending',
+                                        'bg-blue-100 text-blue-700': selectedOrder.status === 'In Progress',
+                                        'bg-green-100 text-green-700': selectedOrder.status === 'Ready',
+                                        'bg-purple-100 text-purple-700': selectedOrder.status === 'Delivered',
+                                        'bg-red-100 text-red-700': selectedOrder.status === 'Cancelled'
+                                    }"
+                                    x-text="selectedOrder.status"></span>
+                            </div>
+
+                            {{-- Customer Info --}}
+                            <div class="bg-gray-50 rounded-2xl p-4">
+                                <h4 class="font-bold text-gray-900 mb-3">Customer Information</h4>
+                                <div class="flex items-center gap-3 mb-2">
+                                    <div class="w-12 h-12 rounded-full bg-yellow-400 flex items-center justify-center font-bold text-gray-900 text-lg" x-text="selectedOrder.customer.charAt(0)"></div>
+                                    <div>
+                                        <p class="font-semibold text-gray-900" x-text="selectedOrder.customer"></p>
+                                        <p class="text-sm text-gray-500" x-text="selectedOrder.phone"></p>
+                                    </div>
+                                </div>
+                                <div class="mt-3 pt-3 border-t border-gray-200">
+                                    <span class="text-sm text-gray-600">Order Type: </span>
+                                    <span class="text-sm font-semibold text-gray-900" x-text="selectedOrder.type"></span>
+                                </div>
+                            </div>
+
+                            {{-- All Items --}}
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-3">Order Items</h4>
+                                <div class="space-y-2">
+                                    <template x-for="(item, index) in selectedOrder.items" :key="index">
+                                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
+                                            <div class="flex items-center gap-2">
+                                                <span class="w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center text-xs font-bold text-gray-900" x-text="item.qty"></span>
+                                                <span class="font-semibold text-gray-900" x-text="item.name"></span>
+                                            </div>
+                                            <span class="font-bold text-gray-900">$<span x-text="item.price"></span></span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+
+                            {{-- Total --}}
+                            <div class="flex justify-between items-center pt-4 border-t-2 border-gray-200">
+                                <span class="text-xl font-bold text-gray-900">Total</span>
+                                <span class="text-3xl font-black text-gray-900">$<span x-text="selectedOrder.total"></span></span>
+                            </div>
+                        </div>
+
+                        {{-- Modal Footer --}}
+                        <div class="p-6 bg-gray-50 border-t border-gray-200">
+                            <div class="flex gap-2" x-show="selectedOrder.status === 'Pending' || selectedOrder.status === 'In Progress'">
+                                <button x-show="selectedOrder.status === 'Pending'" 
+                                        @click="acceptOrder(selectedOrder.id); closeOrderModal()"
+                                        class="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-2.5 rounded-full transition-colors">
+                                    Accept
+                                </button>
+                                <button x-show="selectedOrder.status === 'In Progress'" 
+                                        @click="markReady(selectedOrder.id); closeOrderModal()"
+                                        class="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2.5 rounded-full transition-colors">
+                                    Mark Ready
+                                </button>
+                                <button @click="cancelOrder(selectedOrder.id); closeOrderModal()"
+                                        class="px-4 bg-red-100 hover:bg-red-200 text-red-600 font-bold py-2.5 rounded-full transition-colors">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
         </div>
     </div>
 
-    <script>
-        function ordersHandler() {
-            return {
-                selectedStatus: 'All',
-                todayOrders: 24,
-                todayRevenue: 456.80,
-                statuses: [
-                    { name: 'All', icon: '📋', count: 24 },
-                    { name: 'Pending', icon: '⏰', count: 8 },
-                    { name: 'In Progress', icon: '🔄', count: 6 },
-                    { name: 'Ready', icon: '✅', count: 5 },
-                    { name: 'Delivered', icon: '🚗', count: 4 },
-                    { name: 'Cancelled', icon: '❌', count: 1 }
-                ],
-                orders: [
-                    { id: '1024', time: '10:30 AM', customer: 'Ahmed Hassan', phone: '0123456789', type: 'Delivery', status: 'Pending', items: [{name: 'Burger', qty: 2, price: 12.99}, {name: 'Fries', qty: 1, price: 4.99}], total: 30.97 },
-                    { id: '1025', time: '10:45 AM', customer: 'Sara Mohamed', phone: '0987654321', type: 'Pickup', status: 'In Progress', items: [{name: 'Pizza', qty: 1, price: 18.99}], total: 18.99 },
-                    { id: '1026', time: '11:00 AM', customer: 'Khaled Ali', phone: '0111222333', type: 'Delivery', status: 'Pending', items: [{name: 'Pasta', qty: 3, price: 16.99}], total: 50.97 },
-                    { id: '1027', time: '11:15 AM', customer: 'Nour Ibrahim', phone: '0444555666', type: 'Dine-in', status: 'Ready', items: [{name: 'Steak', qty: 2, price: 28.99}], total: 57.98 },
-                    { id: '1028', time: '11:30 AM', customer: 'Omar Youssef', phone: '0777888999', type: 'Delivery', status: 'In Progress', items: [{name: 'Salad', qty: 1, price: 8.99}, {name: 'Juice', qty: 2, price: 4.99}], total: 18.97 },
-                    { id: '1029', time: '11:45 AM', customer: 'Layla Mahmoud', phone: '0555444333', type: 'Pickup', status: 'Delivered', items: [{name: 'Smoothie Bowl', qty: 1, price: 7.99}], total: 7.99 },
-                    { id: '1030', time: '12:00 PM', customer: 'Youssef Kamal', phone: '0666777888', type: 'Delivery', status: 'Pending', items: [{name: 'Shrimp Stir-Fry', qty: 2, price: 18.99}], total: 37.98 },
-                    { id: '1031', time: '12:15 PM', customer: 'Mariam Adel', phone: '0888999000', type: 'Dine-in', status: 'Ready', items: [{name: 'Alfredo Pasta', qty: 1, price: 16.99}], total: 16.99 },
-                    { id: '1032', time: '12:30 PM', customer: 'Hassan Tarek', phone: '0123987654', type: 'Delivery', status: 'In Progress', items: [{name: 'Veggie Burger', qty: 3, price: 12.99}], total: 38.97 },
-                    { id: '1033', time: '12:45 PM', customer: 'Dina Sameh', phone: '0456789123', type: 'Pickup', status: 'Cancelled', items: [{name: 'Caesar Salad', qty: 2, price: 8.99}], total: 17.98 }
-                ],
-                get filteredOrders() {
-                    if (this.selectedStatus === 'All') {
-                        return this.orders;
-                    }
-                    return this.orders.filter(order => order.status === this.selectedStatus);
-                },
-                acceptOrder(id) {
-                    const order = this.orders.find(o => o.id === id);
-                    if (order) order.status = 'In Progress';
-                },
-                markReady(id) {
-                    const order = this.orders.find(o => o.id === id);
-                    if (order) order.status = 'Ready';
-                },
-                cancelOrder(id) {
-                    const order = this.orders.find(o => o.id === id);
-                    if (order) order.status = 'Cancelled';
-                }
-            }
-        }
-    </script>
+    <script src="{{asset('assets/js/owner/orders.js')}}"></script>
 </x-layout>

@@ -1,4 +1,3 @@
-/* Dashboard Custom Scrollbar */
 .noscroll::-webkit-scrollbar {
     display: none;
 }
@@ -63,6 +62,17 @@
     }
 }
 
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
 /* Animation Classes */
 .animate-entrance-header {
     animation: fadeInUp 0.6s ease-out forwards;
@@ -93,10 +103,24 @@
     opacity: 0;
 }
 
+.animate-entrance-modal {
+    animation: modalFadeIn 0.4s ease-out forwards;
+}
+
 /* Staggered delays for cards */
+.animate-delay-0 { animation-delay: 0s; }
 .animate-delay-100 { animation-delay: 0.1s; }
 .animate-delay-200 { animation-delay: 0.2s; }
 .animate-delay-300 { animation-delay: 0.3s; }
 .animate-delay-400 { animation-delay: 0.4s; }
 .animate-delay-500 { animation-delay: 0.5s; }
 .animate-delay-600 { animation-delay: 0.6s; }
+
+/* Force animation restart */
+.force-animate {
+    animation: none !important;
+}
+
+.force-animate.restart {
+    animation: slideInDown 0.5s ease-out forwards !important;
+}

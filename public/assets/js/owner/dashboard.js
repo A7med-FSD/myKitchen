@@ -1,16 +1,12 @@
-/**
- * Dashboard Alpine.js Components
- */
 
-/**
- * Schedule Handler Component
- * Manages the daily schedule view and event filtering
- */
+/* Schedule Handler Component
+* Manages the daily schedule view and event filtering
+*/
 function scheduleHandler() {
     return {
         selectedDay: 'Mon',
         editMode: false, // Global edit mode toggle
-        selectedStatus: 'completed', // Currently selected status in toolbar
+        selectedStatus: 'ready', // Currently selected status in toolbar
         days: [
             { date: '21', dayName: 'Sun' },
             { date: '22', dayName: 'Mon' },
@@ -21,20 +17,20 @@ function scheduleHandler() {
         // Status options for editing
         statusOptions: [
             { 
-                key: 'completed', 
-                label: 'Completed',
+                key: 'ready', 
+                label: 'Ready',
                 icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" /></svg>`,
                 colorClass: 'text-green-500',
                 bgClass: 'bg-green-500',
                 borderClass: 'border-green-500'
             },
             { 
-                key: 'out-for-delivery', 
-                label: 'Out for Delivery',
+                key: 'delivered', 
+                label: 'Delivered',
                 icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M3.375 4.5C2.339 4.5 1.5 5.34 1.5 6.375V13.5h12V6.375c0-1.036-.84-1.875-1.875-1.875h-8.25zM13.5 15h-12v2.625c0 1.035.84 1.875 1.875 1.875h.375a3 3 0 116 0h3a.75.75 0 00.75-.75V15z" /><path d="M8.25 19.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0zM15.75 6.75a.75.75 0 00-.75.75v11.25c0 .087.015.17.042.248a3 3 0 015.958.464c.853-.175 1.522-.935 1.464-1.883a18.659 18.659 0 00-3.732-10.104 1.837 1.837 0 00-1.47-.725H15.75z" /><path d="M19.5 19.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0z" /></svg>`,
-                colorClass: 'text-blue-500',
-                bgClass: 'bg-blue-500',
-                borderClass: 'border-blue-500'
+                colorClass: 'text-purple-500',
+                bgClass: 'bg-purple-500',
+                borderClass: 'border-purple-500'
             },
             { 
                 key: 'pending', 
@@ -45,12 +41,12 @@ function scheduleHandler() {
                 borderClass: 'border-yellow-500'
             },
             { 
-                key: 'delayed', 
-                label: 'Delayed',
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z" clip-rule="evenodd" /></svg>`,
-                colorClass: 'text-orange-500',
-                bgClass: 'bg-orange-500',
-                borderClass: 'border-orange-500'
+                key: 'in-progress', 
+                label: 'In Progress',
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M4.755 10.059a7.5 7.5 0 0112.548-3.364l1.903 1.903h-3.183a.75.75 0 100 1.5h4.992a.75.75 0 00.75-.75V4.356a.75.75 0 00-1.5 0v3.18l-1.9-1.9A9 9 0 003.306 9.67a.75.75 0 101.45.388zm15.408 3.352a.75.75 0 00-.919.53 7.5 7.5 0 01-12.548 3.364l-1.902-1.903h3.183a.75.75 0 000-1.5H2.984a.75.75 0 00-.75.75v4.992a.75.75 0 001.5 0v-3.18l1.9 1.9a9 9 0 0015.059-4.035.75.75 0 00-.53-.918z" clip-rule="evenodd" /></svg>`,
+                colorClass: 'text-blue-500',
+                bgClass: 'bg-blue-500',
+                borderClass: 'border-blue-500'
             },
             { 
                 key: 'cancelled', 
@@ -64,15 +60,15 @@ function scheduleHandler() {
         // Database of events
         eventsDb: {
             'Sun': [
-                { time: '09:00 AM', title: 'Order #1001 - Breakfast', status: 'completed', tags: [{label:'Delivery', colorClass:'bg-blue-100 text-blue-500'}, {label:'Pd: $25', colorClass:'bg-green-100 text-green-600'}] },
-                { time: '10:30 AM', title: 'Order #1002 - Catering', status: 'completed', tags: [{label:'Pickup', colorClass:'bg-orange-100 text-orange-600'}] }
+                { time: '09:00 AM', title: 'Order #1001 - Breakfast', status: 'ready', tags: [{label:'Delivery', colorClass:'bg-blue-100 text-blue-500'}, {label:'Pd: $25', colorClass:'bg-green-100 text-green-600'}] },
+                { time: '10:30 AM', title: 'Order #1002 - Catering', status: 'ready', tags: [{label:'Pickup', colorClass:'bg-orange-100 text-orange-600'}] }
             ],
             'Mon': [
-                { time: '08:15 AM', title: 'Order #1024 - Morning Coffee', status: 'completed', tags: [
+                { time: '08:15 AM', title: 'Order #1024 - Morning Coffee', status: 'ready', tags: [
                     { label: 'Pickup', colorClass: 'bg-orange-100 text-orange-600' }, 
                     { label: '☕ 2 Items', colorClass: 'bg-gray-100 text-gray-500' }
                 ]},
-                { time: '12:30 PM', title: 'Order #1025 - Family Feast', status: 'out-for-delivery', tags: [
+                { time: '12:30 PM', title: 'Order #1025 - Family Feast', status: 'delivered', tags: [
                     { label: 'Delivery', colorClass: 'bg-blue-100 text-blue-600' },
                     { label: '🍔 5 Items', colorClass: 'bg-gray-100 text-gray-500' },
                     { label: 'Cash', colorClass: 'bg-green-100 text-green-600' }
@@ -81,7 +77,7 @@ function scheduleHandler() {
                     { label: 'Dine-in', colorClass: 'bg-purple-100 text-purple-600' },
                     { label: '🥗 Salad', colorClass: 'bg-gray-100 text-gray-500' }
                 ]},
-                { time: '07:00 PM', title: 'Order #1027 - Dinner Party', status: 'delayed', tags: [
+                { time: '07:00 PM', title: 'Order #1027 - Dinner Party', status: 'in-progress', tags: [
                     { label: 'Pre-order', colorClass: 'bg-yellow-100 text-yellow-600' },
                     { label: 'Large', colorClass: 'bg-red-100 text-red-500' }
                 ]}
@@ -96,7 +92,7 @@ function scheduleHandler() {
         toggleEditMode() {
             this.editMode = !this.editMode;
             if (!this.editMode) {
-                this.selectedStatus = 'completed'; // Reset to default when exiting
+                this.selectedStatus = 'ready'; // Reset to default when exiting
             }
         },
         selectStatus(statusKey) {
@@ -107,8 +103,44 @@ function scheduleHandler() {
             
             const events = this.eventsDb[this.selectedDay];
             if (events && events[eventIndex]) {
+                // Update the status
                 events[eventIndex].status = this.selectedStatus;
+                
+                // Update or add status tag
+                const statusInfo = this.getStatusInfo(this.selectedStatus);
+                const statusTag = {
+                    label: statusInfo.label,
+                    colorClass: this.getStatusTagColor(this.selectedStatus)
+                };
+                
+                // Find and update existing status tag, or add new one
+                const tags = events[eventIndex].tags;
+                const statusTagIndex = tags.findIndex(tag => 
+                    tag.label === 'Ready' || 
+                    tag.label === 'Delivered' || 
+                    tag.label === 'Pending' || 
+                    tag.label === 'In Progress' || 
+                    tag.label === 'Cancelled'
+                );
+                
+                if (statusTagIndex !== -1) {
+                    // Update existing status tag
+                    tags[statusTagIndex] = statusTag;
+                } else {
+                    // Add new status tag at the beginning
+                    tags.unshift(statusTag);
+                }
             }
+        },
+        getStatusTagColor(statusKey) {
+            const colorMap = {
+                'ready': 'bg-green-100 text-green-700',
+                'delivered': 'bg-purple-100 text-purple-700',
+                'pending': 'bg-yellow-100 text-yellow-700',
+                'in-progress': 'bg-blue-100 text-blue-700',
+                'cancelled': 'bg-red-100 text-red-700'
+            };
+            return colorMap[statusKey] || 'bg-gray-100 text-gray-700';
         },
         getStatusInfo(statusKey) {
             return this.statusOptions.find(s => s.key === statusKey) || this.statusOptions[2]; // Default to pending

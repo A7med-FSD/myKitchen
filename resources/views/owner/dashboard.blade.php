@@ -1,4 +1,4 @@
-<x-layout>
+<x-owner.layout>
     <!-- Dashboard Custom Styles -->
     <link rel="stylesheet" href="{{ asset('assets/css/entrance.css') }}">
     
@@ -679,4 +679,4 @@
         </div>
     </div>
 
-</x-layout>
+</x-owner.layout>

@@ -1,4 +1,4 @@
-<x-layout>
+<x-owner.layout>
     <link rel="stylesheet" href="{{ asset('assets/css/entrance.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
     <script src="{{ asset('assets/js/dashboard.js') }}"></script>
@@ -83,12 +83,12 @@
         </div>
 
         {{-- Status Filter Component --}}
-        <x-status-filter />
+        <x-owner.status-filter />
 
         {{-- Orders Grid --}}
         <div class="grid grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-6" x-ref="ordersGrid">
             <template x-for="(order, index) in filteredOrders" :key="order.id">
-                <x-order-card />
+                <x-owner.order-card />
             </template>
         </div>
 
@@ -219,4 +219,4 @@
     </div>
 
     <script src="{{asset('assets/js/owner/orders.js')}}"></script>
-</x-layout>
+</x-owner.layout>

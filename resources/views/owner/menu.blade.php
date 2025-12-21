@@ -1,4 +1,4 @@
-<x-layout>
+<x-owner.layout>
     <!-- Menu Page Styles -->
     <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
     
@@ -150,4 +150,4 @@
             }
         }
     </script>
-</x-layout>
+</x-owner.layout>

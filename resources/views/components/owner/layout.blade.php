@@ -60,14 +60,14 @@
     </div>
 
     <div x-show="mobileMenuOpen"
-         x-transition:enter="transition ease-out duration-300 transform"
-         x-transition:enter-start="-translate-x-full"
-         x-transition:enter-end="translate-x-0"
-         x-transition:leave="transition ease-in duration-200 transform"
-         x-transition:leave-start="translate-x-0"
-         x-transition:leave-end="-translate-x-full"
-         class="lg:hidden fixed top-0 left-0 w-80 h-full bg-white shadow-2xl z-50 overflow-y-auto"
-         style="display: none;">
+        x-transition:enter="transition ease-out duration-300 transform"
+        x-transition:enter-start="-translate-x-full"
+        x-transition:enter-end="translate-x-0"
+        x-transition:leave="transition ease-in duration-200 transform"
+        x-transition:leave-start="translate-x-0"
+        x-transition:leave-end="-translate-x-full"
+        class="lg:hidden fixed top-0 left-0 w-80 h-full bg-white shadow-2xl z-50 overflow-y-auto"
+        style="display: none;">
       
       <!-- Mobile Menu Header -->
       <div class="flex items-center justify-between p-5 border-b border-gray-200">
@@ -237,8 +237,8 @@
     
     <!-- Back to Top Button -->
     <div x-data="{ showBackToTop: false }"
-         @scroll.window="showBackToTop = (window.pageYOffset > 300)"
-         class="fixed bottom-6 right-6 z-50">
+        @scroll.window="showBackToTop = (window.pageYOffset > 300)"
+        class="fixed bottom-6 right-6 z-50">
         <button x-show="showBackToTop"
                 @click="window.scrollTo({top: 0, behavior: 'smooth'})"
                 x-transition:enter="transition ease-out duration-300"

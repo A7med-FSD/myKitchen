@@ -61,16 +61,16 @@
     <div class="flex gap-2" x-show="order.status === 'Pending' || order.status === 'In Progress'">
         <button x-show="order.status === 'Pending'" 
                 @click="acceptOrder(order.id)"
-                class="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-2.5 rounded-full transition-colors">
+                class="flex-1 cursor-pointer bg-green-500 hover:bg-green-600 text-white font-bold py-2.5 rounded-full transition-colors">
             Accept
         </button>
         <button x-show="order.status === 'In Progress'" 
                 @click="markReady(order.id)"
-                class="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2.5 rounded-full transition-colors">
+                class="flex-1 cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-bold py-2.5 rounded-full transition-colors">
             Mark Ready
         </button>
         <button @click="cancelOrder(order.id)"
-                class="px-4 bg-red-100 hover:bg-red-200 text-red-600 font-bold py-2.5 rounded-full transition-colors">
+                class="px-4 cursor-pointer bg-red-100 hover:bg-red-200 text-red-600 font-bold py-2.5 rounded-full transition-colors">
             Cancel
         </button>
     </div>

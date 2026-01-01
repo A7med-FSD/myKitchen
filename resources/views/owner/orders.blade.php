@@ -28,7 +28,7 @@
         </x-owner.heading>
 
         {{-- Status Filter Component --}}
-        <x-owner.status-filter />
+        <x-owner.search-filter.order-status-filter />
 
         {{-- Orders Grid --}}
         <div class="grid grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-6" x-ref="ordersGrid">
@@ -45,7 +45,7 @@
         </div>
 
         {{-- Order Detail Modal --}}
-        <x-owner.order-modal/>
+        <x-owner.modals.view-order-modal/>
     </div>
 
     <script src="{{asset('assets/js/owner/orders.js')}}"></script>

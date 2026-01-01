@@ -22,12 +22,12 @@
             <div class="hidden xl:block xl:w-100 "></div>
         </x-owner.heading>
         <!-- Category Filters -->
-        <x-owner.filter-category />
+        <x-owner.search-filter.filter-category />
 
         <!-- Menu Items Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <!-- Item Card Component (Now handles the loop internally) -->
-            <x-owner.item-card />
+            <x-owner.menu-item-card />
         </div>
 
         <!-- Empty State -->
@@ -69,12 +69,12 @@
         </button>
         
         <!-- Add Category Modal -->
-        <x-owner.add-category-modal />
+        <x-owner.modals.add-category-modal />
         
         <!-- Add Dish Modal -->
-        <x-owner.add-dish-modal />
+        <x-owner.modals.add-dish-modal />
         
         <!-- Edit Dish Modal -->
-        <x-owner.edit-dish-modal />
+        <x-owner.modals.edit-dish-modal />
     </div>
 </x-owner.layout>

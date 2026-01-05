@@ -1,7 +1,4 @@
 <x-owner.layout>
-    <!-- Dashboard Custom Styles -->
-    <link rel="stylesheet" href="{{ asset('assets/css/entrance.css') }}">
-    
     <!-- Dashboard Scripts - Must load BEFORE Alpine.js -->
     <script src="{{ asset('assets/js/owner/dashboard.js') }}"></script>
 

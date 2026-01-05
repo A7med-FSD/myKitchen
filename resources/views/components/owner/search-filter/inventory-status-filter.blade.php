@@ -1,4 +1,4 @@
-<div class="flex gap-2 overflow-x-auto pb-2 entrance-animation">
+<div class="flex gap-2 overflow-x-auto pb-2 entrance-animation flex-wrap">
     <template x-for="status in ['All', 'In Stock', 'Low Stock', 'Out of Stock']" :key="status">
         <button @click="statusFilter = status"
                 :class="statusFilter === status ? 'bg-yellow-400 text-gray-900 shadow-md' : 'bg-white text-gray-600 hover:bg-gray-50'"

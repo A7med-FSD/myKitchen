@@ -1,7 +1,4 @@
 <x-owner.layout>
-    <!-- Menu Page Styles -->
-    <link rel="stylesheet" href="{{ asset('assets/css/entrance.css') }}">
-    
     <!-- Alpine.js Component -->
     <script src="{{ asset('assets/js/owner/menu.js') }}"></script>
 

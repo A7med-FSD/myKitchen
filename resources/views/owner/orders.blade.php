@@ -1,5 +1,4 @@
 <x-owner.layout>
-    <link rel="stylesheet" href="{{ asset('assets/css/entrance.css') }}">
 
     <div class="space-y-6" x-data="ordersHandler()">
 

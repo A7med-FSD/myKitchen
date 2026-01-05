@@ -9,7 +9,9 @@
             </div>
 
             {{-- Search Bar --}}
+        @isset($searchplacehold)
             <x-owner.search :searchplacehold="$searchplacehold" :filter="$filter" />
+        @endisset
 
 
             {{-- Quick Stats --}}

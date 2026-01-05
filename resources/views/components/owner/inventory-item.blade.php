@@ -80,7 +80,7 @@
     <!-- Stock Quantity -->
     <td class="px-6 py-4 text-center">
         <div class="text-2xl font-bold text-gray-900">
-            <span x-text="item.quantity"></span>
+            <span x-text="parseFloat(Number(item.quantity).toFixed(2))"></span>
         </div>
         <div class="text-xs text-gray-500" x-text="item.unit"></div>
     </td>

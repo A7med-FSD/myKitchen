@@ -200,12 +200,13 @@
                     Low Stock Alert Threshold
                 </label>
                 <input type="number" 
-                       id="lowStockThreshold" 
-                       x-model="newItem.lowStockThreshold" 
-                       placeholder="10"
-                       min="0"
-                       step="1"
-                       class="w-full px-4 py-2 rounded-xl border border-gray-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none transition-all placeholder:text-gray-300">
+                        id="lowStockThreshold" 
+                        x-model="newItem.lowStockThreshold" 
+                        placeholder="10"
+                        min="0"
+                        max="1000"
+                        step="1"
+                        class="w-full px-4 py-2 rounded-xl border border-gray-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none transition-all placeholder:text-gray-300">
                 <p class="text-xs text-gray-400 mt-1">You'll be alerted when stock falls to or below this amount</p>
             </div>
         </div>

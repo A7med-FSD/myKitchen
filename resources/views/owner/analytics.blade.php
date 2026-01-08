@@ -16,35 +16,9 @@
             {{-- <x-slot:searchplacehold></x-slot:searchplacehold>
             <x-slot:filter></x-slot:filter> --}}
             
-            <!-- Quick Stats + Date Range Selector -->
-            <div class="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
-                <!-- Date Range Selector -->
-                <div x-data="{ showDateRanges: false }" class="relative">
-                    <button @click="showDateRanges = !showDateRanges" 
-                            @click.away="showDateRanges = false"
-                            class="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-gray-200 hover:border-yellow-400 transition-colors cursor-pointer font-semibold text-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4 text-gray-400">
-                            <path fill-rule="evenodd" d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z" clip-rule="evenodd" />
-                        </svg>
-                        <span x-text="dateRange"></span>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4 text-gray-400 transition-transform" :class="showDateRanges ? 'rotate-180' : ''">
-                            <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                    
-                    <!-- Dropdown -->
-                    <div x-show="showDateRanges"
-                         x-transition
-                         class="absolute top-full left-0 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 z-50 min-w-[160px]">
-                        <template x-for="range in dateRanges" :key="range">
-                            <button @click="changeDateRange(range); showDateRanges = false"
-                                    class="w-full px-4 py-2 text-left text-sm hover:bg-yellow-50 transition-colors cursor-pointer"
-                                    :class="dateRange === range ? 'bg-yellow-50 text-yellow-700 font-bold' : 'text-gray-700'">
-                                <span x-text="range"></span>
-                            </button>
-                        </template>
-                    </div>
-                </div>
+
+            
+            <div class="flex flex-col gap-4">
                 
                 <!-- Quick Stats -->
                 <div class="flex flex-wrap gap-3">
@@ -63,7 +37,8 @@
                 </div>
             </div>
         </x-owner.heading>
-
+        <!-- Date Range Filter -->
+        <x-owner.search-filter.analytics-date-filter />
         <div class="grid grid-cols-12 gap-6">
             <!-- Orders by Status (Donut Chart) -->
             <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 entrance-animation
@@ -367,96 +342,128 @@
                 </div>
             </div>
             
-            <!-- Customer Stats -->
-            <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 entrance-animation
-            col-span-12 md:col-span-6 xl:col-span-4">
-                <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5 text-gray-400">
-                        <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM1.49 15.326a.78.78 0 0 1-.358-.442 3 3 0 0 1 4.308-3.516 6.484 6.484 0 0 0-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 0 1-2.07-.655ZM16.44 15.98a4.97 4.97 0 0 0 2.07-.654.78.78 0 0 0 .357-.442 3 3 0 0 0-4.308-3.517 6.484 6.484 0 0 1 1.907 3.96 2.32 2.32 0 0 1-.026.654ZM18 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5.304 16.19a.844.844 0 0 1-.277-.71 5 5 0 0 1 9.947 0 .843.843 0 0 1-.277.71A6.975 6.975 0 0 1 10 18a6.974 6.974 0 0 1-4.696-1.81Z" />
-                    </svg>
-                    Customers
-                </h3>
-                <div class="text-3xl font-bold text-gray-900 mb-2" x-text="customers.total"></div>
-                <div class="text-sm text-gray-500 mb-4">
-                    <span class="text-green-600 font-semibold" x-text="customers.new"></span> new this period
-                </div>
-                <div class="pt-4 border-t border-gray-100">
-                    <div class="flex items-center justify-between text-sm">
-                        <span class="text-gray-500">Returning Rate</span>
-                        <span class="font-bold text-green-600" x-text="customers.returningRate + '%'"></span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Average Rating -->
-            <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 entrance-animation
-            col-span-12 md:col-span-6 xl:col-span-3 max-h-76">
-                <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5 text-gray-400">
-                        <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z" clip-rule="evenodd" />
-                    </svg>
-                    Average Rating
-                </h3>
-                <div class="text-3xl font-bold text-gray-900 mb-2" x-text="customers.avgRating.toFixed(1)"></div>
-                <div class="flex text-yellow-400 gap-0.5 mb-4">
-                    <template x-for="i in 5" :key="i">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5"
-                             :class="i <= Math.round(customers.avgRating) ? 'text-yellow-400' : 'text-gray-200'">
+            <div class="col-span-12 xl:col-span-4 grid grid-cols-2 gap-4">
+                <!-- Average Rating -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 entrance-animation
+                col-span-1 xl:col-span-2 max-h-76">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5 text-gray-400">
                             <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z" clip-rule="evenodd" />
                         </svg>
-                    </template>
+                        Average Rating
+                    </h3>
+                    <div class="text-3xl font-bold text-gray-900 mb-2" x-text="customers.avgRating.toFixed(1)"></div>
+                    <div class="flex text-yellow-400 gap-0.5 mb-4">
+                        <template x-for="i in 5" :key="i">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5"
+                                 :class="i <= Math.round(customers.avgRating) ? 'text-yellow-400' : 'text-gray-200'">
+                                <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z" clip-rule="evenodd" />
+                            </svg>
+                        </template>
+                    </div>
+                    <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
+                        <div class="bg-gradient-to-r from-yellow-400 to-yellow-600 h-full rounded-full transition-all duration-500"
+                             :style="`width: ${(customers.avgRating / 5) * 100}%`"></div>
+                    </div>
                 </div>
-                <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
-                    <div class="bg-gradient-to-r from-yellow-400 to-yellow-600 h-full rounded-full transition-all duration-500"
-                         :style="`width: ${(customers.avgRating / 5) * 100}%`"></div>
+
+                <!-- Customer Stats -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 entrance-animation
+                col-span-1 xl:col-span-2">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5 text-gray-400">
+                            <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM1.49 15.326a.78.78 0 0 1-.358-.442 3 3 0 0 1 4.308-3.516 6.484 6.484 0 0 0-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 0 1-2.07-.655ZM16.44 15.98a4.97 4.97 0 0 0 2.07-.654.78.78 0 0 0 .357-.442 3 3 0 0 0-4.308-3.517 6.484 6.484 0 0 1 1.907 3.96 2.32 2.32 0 0 1-.026.654ZM18 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5.304 16.19a.844.844 0 0 1-.277-.71 5 5 0 0 1 9.947 0 .843.843 0 0 1-.277.71A6.975 6.975 0 0 1 10 18a6.974 6.974 0 0 1-4.696-1.81Z" />
+                        </svg>
+                        Customers
+                    </h3>
+                    <div class="text-3xl font-bold text-gray-900 mb-2" x-text="customers.total"></div>
+                    <div class="text-sm text-gray-500 mb-4">
+                        <span class="text-green-600 font-semibold" x-text="customers.new"></span> new this period
+                    </div>
+                    <div class="pt-4 border-t border-gray-100">
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-500">Returning Rate</span>
+                            <span class="font-bold text-green-600" x-text="customers.returningRate + '%'"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- Performance Heatmap -->
             <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 entrance-animation
-            col-span-12 xl:col-span-9">
+            col-span-12">
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5 text-gray-400">
                             <path fill-rule="evenodd" d="M4.25 2A2.25 2.25 0 0 0 2 4.25v11.5A2.25 2.25 0 0 0 4.25 18h11.5A2.25 2.25 0 0 0 18 15.75V4.25A2.25 2.25 0 0 0 15.75 2H4.25ZM15 7.5h-4.75V3h4.75A1.25 1.25 0 0 0 15 4.25V7.5Zm-6.25-4.5v4.5H3.5V4.25A1.25 1.25 0 0 1 4.75 3h4ZM3.5 9h11v6.75c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25V9Z" clip-rule="evenodd" />
                         </svg>
-                        Weekly Performance Heatmap
+                        Performance Heatmap
                     </h2>
-                    <span class="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-semibold rounded-full">Current Week Only</span>
+                    <div class="flex items-center gap-3">
+                        <!-- Pagination Controls (only for Month mode) -->
+                        <div x-show="maxHeatmapPages > 1" class="flex items-center gap-2">
+                            <button @click="prevHeatmapPage()" 
+                                    :disabled="!canPagePrev()"
+                                    :class="canPagePrev() ? 'text-gray-700 hover:bg-gray-100 cursor-pointer' : 'text-gray-300 cursor-not-allowed'"
+                                    class="p-1.5 rounded-lg transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                    <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                            <span class="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-semibold rounded-full" x-text="heatmapPageInfo"></span>
+                            <button @click="nextHeatmapPage()" 
+                                    :disabled="!canPageNext()"
+                                    :class="canPageNext() ? 'text-gray-700 hover:bg-gray-100 cursor-pointer' : 'text-gray-300 cursor-not-allowed'"
+                                    class="p-1.5 rounded-lg transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                    <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+                        
+                    </div>
                 </div>
-                <p class="text-sm text-gray-500 mb-6">Order volume by day and hour</p>
+                <p class="text-sm text-gray-500 mb-6">
+                    <span x-show="dateRange === 'Week'">Order volume by day and hour</span>
+                    <span x-show="dateRange === 'Month'">Order volume by week and day</span>
+                    <span x-show="dateRange === 'Year'">Order volume by week across months</span>
+                </p>
                 
                 <!-- Heatmap Grid -->
                 <div class="overflow-x-auto px-4 py-10">
                     <div class="inline-flex flex-col gap-1 min-w-0">
-                        <!-- Hour Labels -->
+                        <!-- Column Labels (Hours/Days/Months) -->
                         <div class="flex items-center gap-3 mb-2">
-                            <span class="w-8"></span> <!-- Spacer for day labels -->
+                            <span class="w-16"></span> <!-- Spacer for row labels -->
                             <div class="flex gap-1">
-                                <template x-for="i in 24" :key="i">
-                                    <div class="w-8 text-center text-[10px] text-gray-400 font-medium" x-text="(i-1).toString().padStart(2, '0')"></div>
+                                <template x-for="(label, index) in heatmapLabels.columns" :key="index">
+                                    <div class="text-center text-[10px] text-gray-400 font-medium"
+                                         :class="dateRange === 'Week' ? 'w-8' : (dateRange === 'Month' ? 'w-12' : 'w-16')"
+                                         x-text="label"></div>
                                 </template>
                             </div>
                         </div>
 
-                        <template x-for="(dayData, dayIndex) in heatmap" :key="dayIndex">
+                        <!-- Heatmap Rows -->
+                        <template x-for="(rowData, rowIndex) in heatmap" :key="rowIndex">
                             <div class="flex items-center gap-3">
-                                <span class="w-8 text-xs font-bold text-gray-400" x-text="['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][dayIndex]"></span>
+                                <span class="w-16 text-xs font-bold text-gray-400 text-right" x-text="heatmapLabels.rows[rowIndex]"></span>
                                 <div class="flex gap-1">
-                                    <template x-for="(intensity, hourIndex) in dayData" :key="hourIndex">
+                                    <template x-for="(intensity, colIndex) in rowData" :key="colIndex">
                                         <div class="group relative">
-                                            <div class="w-8 h-8 rounded transition-all duration-200 hover:scale-110 hover:shadow-md cursor-pointer"
-                                                 :class="getHeatmapColor(intensity)"></div>
-                                    <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
-                                        <span x-text="['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][dayIndex]"></span> 
-                                        <span x-text="hourIndex + ':00'"></span> - 
-                                        <span x-text="intensity"></span> orders
-                                    </div>
+                                            <div class="rounded transition-all duration-200 hover:scale-110 hover:shadow-md cursor-pointer"
+                                                 :class="[getHeatmapColor(intensity), dateRange === 'Week' ? 'w-8 h-8' : (dateRange === 'Month' ? 'w-12 h-12' : 'w-16 h-10')]"></div>
+                                            <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
+                                                <span x-text="heatmapLabels.rows[rowIndex]"></span>
+                                                <span x-text="' - ' + heatmapLabels.columns[colIndex]"></span>:
+                                                <span x-text="intensity"></span> orders
+                                            </div>
+                                        </div>
+                                    </template>
                                 </div>
-                            </template>
-                        </div>
-                    </template>
+                            </div>
+                        </template>
+                    </div>
                 </div>
-            </div>
             
             <div class="flex items-center gap-4 mt-6 text-xs text-gray-500">
                 <span>Low Activity</span>

@@ -162,23 +162,140 @@ function analyticsHandler() {
             ]
         },
         
-        // Heatmap Data (7 days × 24 hours) - Always shows current week
-        heatmap: [
-            // Monday
-            [0,0,0,0,0,0,0,1,2,3,4,5,8,7,6,5,4,6,9,10,8,5,2,1],
-            // Tuesday
-            [0,0,0,0,0,0,0,1,3,4,5,6,9,8,7,6,5,7,10,9,7,4,2,1],
-            // Wednesday
-            [0,0,0,0,0,0,0,2,3,4,5,6,8,7,6,5,4,6,8,9,7,5,2,1],
-            // Thursday
-            [0,0,0,0,0,0,0,1,2,4,5,7,9,8,7,6,5,7,10,10,8,6,3,1],
-            // Friday
-            [0,0,0,0,0,0,0,2,4,5,6,8,10,9,8,7,6,8,10,10,9,7,4,2],
-            // Saturday
-            [0,0,0,0,0,0,0,3,5,6,7,9,10,10,9,8,7,9,10,10,9,6,3,1],
-            // Sunday
-            [0,0,0,0,0,0,0,2,3,5,6,7,9,8,7,6,5,7,9,8,7,5,2,1]
+        // Heatmap Pagination
+        heatmapPage: 0,
+        heatmapThresholds: { low: 2, medium: 4, high: 6, peak: 8 }, // Default thresholds
+        
+        // Heatmap Data for Week Mode (7 days × 24 hours) - Array of weeks
+        heatmapWeekData: [
+            // Current Week (Week 12)
+            [
+                // Monday
+                [0,0,0,0,0,0,0,1,2,3,4,5,8,7,6,5,4,6,9,10,8,5,2,1],
+                // Tuesday
+                [0,0,0,0,0,0,0,1,3,4,5,6,9,8,7,6,5,7,10,9,7,4,2,1],
+                // Wednesday
+                [0,0,0,0,0,0,0,2,3,4,5,6,8,7,6,5,4,6,8,9,7,5,2,1],
+                // Thursday
+                [0,0,0,0,0,0,0,1,2,4,5,7,9,8,7,6,5,7,10,10,8,6,3,1],
+                // Friday
+                [0,0,0,0,0,0,0,2,4,5,6,8,10,9,8,7,6,8,10,10,9,7,4,2],
+                // Saturday
+                [0,0,0,0,0,0,0,3,5,6,7,9,10,10,9,8,7,9,10,10,9,6,3,1],
+                // Sunday
+                [0,0,0,0,0,0,0,2,3,5,6,7,9,8,7,6,5,7,9,8,7,5,2,1]
+            ],
+            // Last Week (Week 11) - Slightly lower values
+            [
+                [0,0,0,0,0,0,0,1,1,2,3,4,7,6,5,4,3,5,8,9,7,4,1,1],
+                [0,0,0,0,0,0,0,1,2,3,4,5,8,7,6,5,4,6,9,8,6,3,1,1],
+                [0,0,0,0,0,0,0,1,2,3,4,5,7,6,5,4,3,5,7,8,6,4,1,1],
+                [0,0,0,0,0,0,0,0,1,3,4,6,8,7,6,5,4,6,9,9,7,5,2,1],
+                [0,0,0,0,0,0,0,1,3,4,5,7,9,8,7,6,5,7,9,9,8,6,3,1],
+                [0,0,0,0,0,0,0,2,4,5,6,8,9,9,8,7,6,8,9,9,8,5,2,1],
+                [0,0,0,0,0,0,0,1,2,4,5,6,8,7,6,5,4,6,8,7,6,4,1,1]
+            ]
         ],
+        
+        // Heatmap Data for Month Mode (4 weeks × 7 days)
+        // Each entry represents total orders for a specific day of each week
+        heatmapMonthData: [
+            // Month 1 (Weeks 9-12)
+            [
+                [25, 28, 26, 30, 35, 38, 20], // Week 1
+                [26, 29, 27, 31, 36, 40, 21], // Week 2
+                [27, 30, 28, 32, 37, 42, 22], // Week 3
+                [28, 31, 29, 33, 38, 45, 19]  // Week 4 (current)
+            ],
+            // Month 2 (Weeks 5-8)
+            [
+                [22, 25, 24, 28, 32, 35, 18],
+                [23, 26, 25, 29, 33, 36, 19],
+                [24, 27, 26, 30, 34, 38, 20],
+                [25, 28, 27, 31, 35, 40, 21]
+            ],
+            // Month 3 (Weeks 1-4)
+            [
+                [20, 23, 22, 26, 30, 32, 16],
+                [21, 24, 23, 27, 31, 33, 17],
+                [22, 25, 24, 28, 32, 35, 18],
+                [23, 26, 25, 29, 33, 36, 19]
+            ]
+        ],
+        
+        // Heatmap Data for Year Mode (4 weeks × 12 months)
+        // Each entry represents total orders for each week across months
+        heatmapYearData: [
+            // Current Year (2025)
+            [
+                [180, 195, 210, 220, 225, 230, 235, 240, 245, 250, 248, 255], // Week 1 of each month
+                [185, 200, 215, 225, 230, 235, 240, 245, 248, 252, 250, 260], // Week 2
+                [190, 205, 218, 228, 232, 238, 242, 248, 250, 255, 252, 265], // Week 3
+                [188, 202, 220, 230, 235, 240, 245, 250, 252, 258, 255, 270]  // Week 4
+            ],
+             // Last Year (2024) - Lower volume
+             [
+                [150, 160, 170, 180, 190, 200, 210, 220, 215, 225, 230, 235],
+                [155, 165, 175, 185, 195, 205, 215, 225, 220, 230, 235, 240],
+                [160, 170, 180, 190, 200, 210, 220, 230, 225, 235, 240, 245],
+                [165, 175, 185, 195, 205, 215, 225, 235, 230, 240, 245, 250]
+            ]
+        ],
+        
+        // Computed: Get heatmap labels based on current mode
+        get heatmapLabels() {
+            if (this.dateRange === 'Week') {
+                return {
+                    rows: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    columns: Array.from({length: 24}, (_, i) => i.toString().padStart(2, '0')),
+                    columnCount: 24
+                };
+            } else if (this.dateRange === 'Month') {
+                return {
+                    rows: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                    columns: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    columnCount: 7
+                };
+            } else { // Year
+                return {
+                    rows: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                    columns: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    columnCount: 12
+                };
+            }
+        },
+        
+        // Computed: Get current heatmap data
+        get heatmap() {
+            if (this.dateRange === 'Week') {
+                return this.heatmapWeekData[this.heatmapPage] || this.heatmapWeekData[0];
+            } else if (this.dateRange === 'Month') {
+                return this.heatmapMonthData[this.heatmapPage] || this.heatmapMonthData[0];
+            } else { // Year
+                return this.heatmapYearData[this.heatmapPage] || this.heatmapYearData[0];
+            }
+        },
+        
+        // Computed: Max pages for current mode
+        get maxHeatmapPages() {
+            if (this.dateRange === 'Week') return this.heatmapWeekData.length;
+            if (this.dateRange === 'Month') return this.heatmapMonthData.length;
+            return this.heatmapYearData.length; // Year
+        },
+        
+        // Computed: Heatmap page info
+        get heatmapPageInfo() {
+            if (this.dateRange === 'Week') {
+                const weekNames = ['Current Week', 'Last Week', '2 Weeks Ago'];
+                return weekNames[this.heatmapPage] || `Week -${this.heatmapPage}`;
+            } else if (this.dateRange === 'Month') {
+                const monthNames = ['Latest Month', '2 Months Ago', '3 Months Ago'];
+                return monthNames[this.heatmapPage] || `Month ${this.heatmapPage + 1}`;
+            } else {
+                const yearNames = ['2025', '2024', '2023'];
+                return yearNames[this.heatmapPage] || `Year -${this.heatmapPage}`;
+            }
+        },
         
         
         // Computed Properties - Dynamic based on dateRange
@@ -474,13 +591,37 @@ function analyticsHandler() {
             return colors[status] || 'bg-gray-100 text-gray-700';
         },
         
+        // Dynamic heatmap color based on current max value
         getHeatmapColor(intensity) {
             if (intensity === 0) return 'bg-gray-50';
-            if (intensity <= 2) return 'bg-green-100';
-            if (intensity <= 4) return 'bg-green-200';
-            if (intensity <= 6) return 'bg-yellow-200';
-            if (intensity <= 8) return 'bg-orange-300';
+            const t = this.heatmapThresholds;
+            if (intensity <= t.low) return 'bg-green-100';
+            if (intensity <= t.medium) return 'bg-green-200';
+            if (intensity <= t.high) return 'bg-yellow-200';
+            if (intensity <= t.peak) return 'bg-orange-300';
             return 'bg-red-400';
+        },
+        
+        updateHeatmapScale() {
+            // Find max value in current heatmap data
+            let max = 0;
+            this.heatmap.forEach(row => {
+                row.forEach(val => {
+                    if (val > max) max = val;
+                });
+            });
+            
+            // If no data, set defaults
+            if (max === 0) max = 10;
+            
+            // Calculate thresholds relative to max (25%, 50%, 75%, >75%)
+            this.heatmapThresholds = {
+                low: Math.ceil(max * 0.25),
+                medium: Math.ceil(max * 0.50),
+                high: Math.ceil(max * 0.75),
+                peak: Math.ceil(max * 0.90)
+            };
+            console.log('Heatmap scale updated:', this.heatmapThresholds, 'Max:', max);
         },
         
         getBarHeight(value, max) {
@@ -494,12 +635,20 @@ function analyticsHandler() {
             setTimeout(() => {
                 this.showAnimations = true;
             }, 300);
+            this.updateHeatmapScale(); // Init scale
         },
 
         changeDateRange(range) {
+            if(this.dateRange === range) return;
             this.dateRange = range;
             // Reset animations
             this.showAnimations = false;
+            
+            // Reset heatmap pagination when changing date range
+            this.heatmapPage = 0;
+            
+            // Update scale for new data
+            this.updateHeatmapScale();
             
             // In a real implementation, this would fetch new data from the API
             // For now, we simulate a reload with animations
@@ -508,6 +657,29 @@ function analyticsHandler() {
             }, 300);
 
             console.log('Date range changed to:', range);
+        },
+        
+        // Heatmap Pagination Functions
+        nextHeatmapPage() {
+            if (this.heatmapPage < this.maxHeatmapPages - 1) {
+                this.heatmapPage++;
+                this.updateHeatmapScale(); // Update scale for new page
+            }
+        },
+        
+        prevHeatmapPage() {
+            if (this.heatmapPage > 0) {
+                this.heatmapPage--;
+                this.updateHeatmapScale(); // Update scale for new page
+            }
+        },
+        
+        canPageNext() {
+            return this.heatmapPage < this.maxHeatmapPages - 1;
+        },
+        
+        canPagePrev() {
+            return this.heatmapPage > 0;
         }
     })
 }

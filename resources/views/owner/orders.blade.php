@@ -27,12 +27,12 @@
         </x-owner.heading>
 
         {{-- Status Filter Component --}}
-        <x-owner.search-filter.order-status-filter />
+        <x-owner.orders.order-status-filter />
 
         {{-- Orders Grid --}}
         <div class="grid grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-6" x-ref="ordersGrid">
             <template x-for="(order, index) in filteredOrders" :key="order.id">
-                <x-owner.order-card />
+                <x-owner.orders.order-card />
             </template>
         </div>
 
@@ -44,7 +44,7 @@
         </div>
 
         {{-- Order Detail Modal --}}
-        <x-owner.modals.view-order-modal/>
+        <x-owner.orders.view-order-modal/>
     </div>
 
     <script src="{{asset('assets/js/owner/orders.js')}}"></script>

@@ -38,7 +38,7 @@
             </div>
         </x-owner.heading>
         <!-- Date Range Filter -->
-        <x-owner.search-filter.analytics-date-filter />
+        <x-owner.analytics.analytics-date-filter />
         <div class="grid grid-cols-12 gap-6">
             <!-- Orders by Status (Donut Chart) -->
             <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 entrance-animation

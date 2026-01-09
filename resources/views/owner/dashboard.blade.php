@@ -4,41 +4,39 @@
 
     <div class="space-y-6" x-data="{ selectedDay: 'Mon' }">
         <!-- Header -->
-        <div class="flex flex-col md:flex-row md:items-center gap-14">
-            <!-- Header Greeting -->
-            <div class="flex items-center flex-wrap gap-4 animate-entrance-header">
-                <div class="relative">
-                    <div class="w-16 h-16 bg-yellow-400 rounded-2xl flex items-center justify-center transform -rotate-6 shadow-lg">
-                        <span class="text-3xl">👨‍🍳</span>
-                    </div>
-                    <div class="absolute -top-2 -right-2 w-4 h-4 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
+        <x-owner.heading>
+            <x-slot:title>
+                <div class="w-12 h-12 bg-yellow-400 rounded-xl flex items-center justify-center shadow-md -rotate-6 transform transition-transform hover:rotate-0">
+                    <span class="text-2xl">👨‍🍳</span>
                 </div>
-                <div>
-                    <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">
-                        Hello, Chef <span class="text-yellow-500 underline decoration-wavy decoration-2 underline-offset-4">Ahmed</span>
-                        <span class="inline-block animate-bounce origin-bottom-right">👋</span>
-                    </h1>
-                    <div class="flex items-center gap-2 mt-1 text-gray-500 font-medium whitespace-nowrap text-sm md:text-sm">
-                        You have
+                <span>Hello, Chef <span class="text-yellow-500 underline decoration-wavy decoration-2 underline-offset-4">Ahmed</span> <span class="inline-block animate-bounce origin-bottom-right">👋</span></span>
+            </x-slot:title>
+            <x-slot:subtitle>
+                You have
                         <span class="bg-white border border-yellow-200 hover:border-yellow-400 text-yellow-400 font-bold cursor-pointer hover:bg-yellow-400 hover:text-white transition-colors duration-200 text-xs px-2 py-0.5 rounded-full shadow-sm">8 new orders</span>
-                        waiting for you today!
-                    </div>
+                waiting for you today!
+            </x-slot:subtitle>
+
+            <!-- Quick Stats -->
+            <div class="flex gap-3">
+                <div class="bg-white px-4 py-3 rounded-2xl shadow-sm border border-gray-100/50">
+                    <div class="text-2xl font-bold text-green-600">8</div>
+                    <div class="text-xs text-gray-500 font-medium">New Orders</div>
+                </div>
+                <div class="bg-white px-4 py-3 rounded-2xl shadow-sm border border-gray-100/50">
+                    <div class="text-2xl font-bold text-green-600">+ 3</div>
+                    <div class="text-xs text-gray-500 font-medium">New Customers</div>
+                </div>
+                <div class="bg-white px-4 py-3 rounded-2xl shadow-sm border border-gray-100/50 hidden sm:block">
+                    <div class="text-2xl font-bold text-yellow-500">4.8</div>
+                    <div class="text-xs text-gray-500 font-medium">Rating</div>
                 </div>
             </div>
-            <div class="w-full max-w-2xl md:w-96 relative group grow animate-entrance-search">
-                <input type="text" placeholder="Search orders, menu, etc..." class="w-full bg-white border-none outline-none rounded-full py-3 px-5 pl-12 shadow-sm focus:ring-2 focus:ring-gray-200 transition-all duration-300">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="absolute left-4 top-3.5 text-gray-400 size-5 group-focus-within:text-gray-600 transition-colors">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" />
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="absolute right-4 top-3.5 text-gray-400 size-5 cursor-pointer hover:text-gray-600 transition-colors">
-                    <path d="M18.75 12.75h1.5a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM12 6a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 6ZM12 18a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 18ZM3.75 6.75h1.5a.75.75 0 1 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM5.25 18.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 0 1.5ZM3 12a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 3 12ZM9 3.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM12.75 12a2.25 2.25 0 1 1 4.5 0 2.25 2.25 0 0 1-4.5 0ZM9 15.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" />
-                </svg>
-            </div>
-        </div>
+        </x-owner.heading>
 
         <!-- Main Grid -->
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-            
+
             <!-- 1. Schedule Column (Column 1) - UPDATED -->
             <div class="md:col-span-5 lg:col-span-4 xl:col-span-3 bg-white rounded-3xl p-6 shadow-sm min-h-[600px] flex flex-col animate-entrance-col1" x-data="scheduleHandler()">
                 
@@ -216,8 +214,6 @@
                     </div>
                 </div>
             </div>
-
-
 
             <!-- 2. Center Column (Column 2) -->
             <div class="md:col-span-7 lg:col-span-5 xl:col-span-6 space-y-6 grid grid-cols-12 animate-entrance-col2">
@@ -436,7 +432,6 @@
             <div class="md:col-span-10 lg:col-span-3 flex flex-wrap gap-6 animate-entrance-col3 relative">
                 <div class="bg-white rounded-3xl p-5 grow shadow-sm" x-data="{ 
                     ...restockList(), 
-                    showModal: false,
                     newItem: { name: '', icon: '', q: '', tag: '' }
                 }">
                     <div class="flex justify-between items-center mb-6">
@@ -475,176 +470,7 @@
                             </div>
                         </template>
                     </div>
-
-                    <button @click="showModal = true" class="w-full mt-8 bg-violet-500 hover:bg-violet-600 cursor-pointer text-white font-bold py-3 rounded-2xl flex items-center justify-center gap-2 transition duration-300 transform hover:scale-105">
-                        Add New Item
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
-                            <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-
-                    <!-- Add Item Modal -->
-                    <div x-show="showModal" 
-                        x-transition:enter="transition ease-out duration-300"
-                        x-transition:enter-start="opacity-0"
-                        x-transition:enter-end="opacity-100"
-                        x-transition:leave="transition ease-in duration-200"
-                        x-transition:leave-start="opacity-100"
-                        x-transition:leave-end="opacity-0"
-                        class="absolute inset-0 z-50 flex items-center justify-center p-4 min-w-70"
-                        @click.self="showModal = false">
-                        
-                        <div x-show="showModal"
-                            x-transition:enter="transition ease-out duration-300"
-                            x-transition:enter-start="opacity-0 scale-90 -translate-y-4"
-                            x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-                            x-transition:leave="transition ease-in duration-200"
-                            x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-                            x-transition:leave-end="opacity-0 scale-90 -translate-y-4"
-                            class="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden" 
-                            @click.stop>
-                            
-                            <!-- Modal Header -->
-                            <div class="bg-gradient-to-r from-violet-500 to-purple-600 p-6 relative overflow-hidden">
-                                <div class="relative flex items-center justify-between">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
-                                                <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h3 class="text-xl font-bold text-white">Add New Item</h3>
-                                            <p class="text-violet-100 text-sm">Add to your restock list</p>
-                                        </div>
-                                    </div>
-                                    <button @click="showModal = false" class="text-white/80 hover:text-white hover:bg-white/20 rounded-full p-2 transition-colors">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
-                                            <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Modal Body -->
-                            <div class="p-6 space-y-4">
-                                <!-- Item Name -->
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-700 mb-2">Item Name</label>
-                                    <input type="text" 
-                                        x-model="newItem.name"
-                                        placeholder="e.g., Tomatoes"
-                                        class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-violet-500 focus:ring-0 transition-colors">
-                                </div>
-
-                                <!-- Icon Emoji -->
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-700 mb-2">Icon (Emoji)</label>
-                                    <input type="text" 
-                                        x-model="newItem.icon"
-                                        placeholder="🍅"
-                                        maxlength="2"
-                                        class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-violet-500 focus:ring-0 transition-colors text-2xl">
-                                </div>
-
-                                <!-- Quantity -->
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-700 mb-2">Quantity</label>
-                                    <input type="text" 
-                                        x-model="newItem.q"
-                                        placeholder="e.g., 5 kg"
-                                        class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-violet-500 focus:ring-0 transition-colors">
-                                </div>
-
-                                <!-- Tag (Optional) -->
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-700 mb-2">Tag (Optional)</label>
-                                    <input type="text" 
-                                        x-model="newItem.tag"
-                                        placeholder="e.g., Low"
-                                        class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-violet-500 focus:ring-0 transition-colors">
-                                </div>
-                            </div>
-
-                            <!-- Modal Footer -->
-                            <div class="p-6 bg-gray-50 flex gap-3">
-                                <button @click="showModal = false" 
-                                        class="flex-1 px-6 py-3 cursor-pointer bg-white border-2 border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-colors">
-                                    Cancel
-                                </button>
-                                <button @click="
-                                    if (newItem.name && newItem.icon && newItem.q) {
-                                        items.push({ 
-                                            name: newItem.name, 
-                                            icon: newItem.icon, 
-                                            q: newItem.q, 
-                                            tag: newItem.tag || null,
-                                            stock: false 
-                                        });
-                                        newItem = { name: '', icon: '', q: '', tag: '' };
-                                        showModal = false;
-                                    }
-                                " 
-                                        class="flex-1 px-6 py-3 cursor-pointer bg-gradient-to-r from-violet-500 to-purple-600 text-white font-bold rounded-xl hover:from-violet-600 hover:to-purple-700 transition-all transform hover:scale-105 shadow-lg">
-                                    Add Item
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-
-                
-                {{-- main dish design --}}
-                {{-- <div class="relative group cursor-pointer">
-                    <div class="bg-white rounded-[32px] p-4 shadow-lg overflow-hidden border border-gray-100 transition-transform hover:-translate-y-1">
-                        <div class="relative h-48 rounded-[24px] overflow-hidden mb-4">
-                            <img src="https://images.unsplash.com/photo-1555126634-323283e090fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Shrimp Stir-Fry" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute top-2 right-2 bg-white/80 backdrop-blur-sm px-2 py-1 rounded-full text-[10px] font-bold">🔥 Signature</div>
-                        </div>
-                        
-                        <h2 class="text-2xl font-black text-gray-900 leading-tight mb-2 font-serif group-hover:text-yellow-600 transition-colors">Shrimp Stir-Fry with Brown Rice</h2>
-                        <p class="text-xs text-gray-500 mb-4 leading-relaxed">A quick and healthy stir-fry with succulent shrimp, colorful vegetables, and a side of brown rice.</p>
-                        
-                        <div class="flex flex-wrap gap-2 text-[10px] font-bold text-gray-600 mb-6">
-                            <div class="bg-green-100 text-green-700 px-2 py-1 rounded">Main dish</div>
-                            <div class="bg-gray-100 px-2 py-1 rounded flex items-center gap-1">⚫ 350kcal</div>
-                            <div class="bg-gray-100 px-2 py-1 rounded flex items-center gap-1">🕒 45min</div>
-                        </div>
-
-                        <h3 class="font-bold text-gray-900 mb-4">Ingredients</h3>
-                        <div class="flex justify-between items-center text-center text-xs text-gray-500 mb-8">
-                            <div class="flex flex-col items-center gap-1">
-                                <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-xl">🍤</div>
-                                <span>60g</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-1">
-                                <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center text-xl">🍚</div>
-                                <span>100g</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-1">
-                                <div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-xl">🧅</div>
-                                <span>1/2</span>
-                            </div>
-                             <div class="flex flex-col items-center gap-1">
-                                <div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-xl">🥬</div>
-                                <span>20g</span>
-                            </div>
-                             <div class="flex flex-col items-center gap-1">
-                                <div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-xl">🧴</div>
-                                <span>10ml</span>
-                            </div>
-                        </div>
-
-                         <div class="flex items-center justify-between gap-4 text-xs font-bold text-gray-500 mb-6">
-                            <div class="flex items-center gap-1"><span class="text-orange-500">🔥</span> Medium</div>
-                            <div class="flex items-center gap-1">21.8K <span class="text-gray-300">👁</span> 156.1K</div>
-                         </div>
-
-                        <button class="w-full bg-white border border-gray-900 text-gray-900 font-bold py-3 rounded-full flex items-center justify-center gap-2 hover:bg-gray-900 hover:text-white transition-colors duration-300">
-                            Explore Recipe <span>↗</span>
-                        </button>
-                    </div>
-                </div> --}}
                 
                 <!-- Promo / Banner -> ADAPTED: Create Promotion -->
                 <div class="bg-gradient-to-r max-w-[250px] shrink from-violet-600 flex to-indigo-600 rounded-3xl p-6 text-white text-center relative overflow-hidden group hover:shadow-lg hover:shadow-indigo-200 transition-all duration-300">

@@ -34,7 +34,7 @@
         
         <!-- Priority Filter & Actions -->
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <x-owner.search-filter.notification-priority-filter />
+            <x-owner.notifications.notification-priority-filter />
             
             <!-- Mark All as Read Button -->
             <button x-show="unreadCount > 0"
@@ -50,7 +50,7 @@
         <!-- Notifications List -->
         <div class="space-y-4">
             <template x-for="notification in filteredNotifications" :key="notification.id">
-                <x-owner.notification-card />
+                <x-owner.notifications.notification-card />
             </template>
             
             <!-- Empty State -->

@@ -26,7 +26,7 @@
         </x-owner.heading>
 
         <!-- Status/Category Filters -->
-        <x-owner.search-filter.inventory-status-filter />
+        <x-owner.inventory.inventory-status-filter />
 
         <!-- Inventory Table -->
         <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100 entrance-animation" x-ref="inventoryTable">
@@ -59,7 +59,7 @@
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         <template x-for="(item, index) in filteredItems" :key="item.id">
-                            <x-owner.inventory-item />
+                            <x-owner.inventory.inventory-item />
                         </template>
                     </tbody>
                 </table>
@@ -93,10 +93,10 @@
         </button>
         
         <!-- Add Item Modal -->
-        <x-owner.modals.add-inventory-modal />
+        <x-owner.inventory.add-inventory-modal />
         
         <!-- Edit Item Modal -->
-        <x-owner.modals.edit-inventory-modal />
+        <x-owner.inventory.edit-inventory-modal />
     </div>
 
     <script src="{{ asset('assets/js/owner/inventory.js') }}"></script>

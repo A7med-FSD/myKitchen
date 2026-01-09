@@ -35,7 +35,7 @@
         <!-- Filters and Controls -->
         <div class="flex flex-wrap gap-4 items-center justify-between relative z-20">
             <!-- Customer Type Filters -->
-            <x-owner.search-filter.customer-filter />
+            <x-owner.customers.customer-filter />
 
             <!-- Sorting and Activity Controls -->
             <div class="flex gap-3 entrance-animation relative z-50">
@@ -154,7 +154,7 @@
                     </thead>
                     <tbody>
                         <template x-for="customer in sortedCustomers" :key="customer.id">
-                            <x-owner.customer-row />
+                            <x-owner.customers.customer />
                         </template>
 
                         <!-- Empty State -->
@@ -183,6 +183,6 @@
         </div>
 
         <!-- Customer Details Modal -->
-        <x-owner.modals.customer-details-modal />
+        <x-owner.customers.customer-details-modal />
     </div>
 </x-owner.layout>

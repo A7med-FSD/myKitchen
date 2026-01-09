@@ -17,6 +17,6 @@
     <button @click="setCustomerFilter('NEW')"
             class="px-4 py-2 rounded-full font-semibold text-sm transition-all cursor-pointer"
             :class="customerFilter === 'NEW' ? 'bg-yellow-500 text-white shadow-md' : 'bg-white text-gray-600 hover:bg-gray-50'">
-        NEW
+        New
     </button>
 </div>

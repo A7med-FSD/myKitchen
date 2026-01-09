@@ -82,7 +82,7 @@
 
     <!-- Action Button -->
     <td class="px-6 py-4 text-center">
-        <button class="px-4 py-1.5 bg-white border border-gray-200 text-gray-600 text-xs font-bold rounded-full hover:bg-yellow-50 hover:border-yellow-200 hover:text-yellow-700 transition-all shadow-sm" 
+        <button class="px-4 py-1.5 bg-white border cursor-pointer border-gray-200 text-gray-600 text-xs font-bold rounded-full hover:bg-yellow-50 hover:border-yellow-200 hover:text-yellow-700 transition-all shadow-sm" 
                 title="View Details"
                 @click="showCustomerDetails(customer)">
             Show

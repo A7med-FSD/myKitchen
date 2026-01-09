@@ -40,4 +40,10 @@ class OwnerController extends Controller
     {
         return view('owner.settings');
     }
+    
+    public function notifications()
+    {
+        return view('owner.notifications');
+    }
+    
 }

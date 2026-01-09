@@ -11,4 +11,5 @@ Route::controller(OwnerController::class)->group(function () {
     Route::get('/analytics', 'analytics')->name('owner.analytics');
     Route::get('/customers', 'customers')->name('owner.customers');
     Route::get('/settings', 'settings')->name('owner.settings');
+    Route::get('/notifications', 'notifications')->name('owner.notifications');
 });

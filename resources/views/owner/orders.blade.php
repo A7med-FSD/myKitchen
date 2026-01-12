@@ -15,13 +15,13 @@
             <x-slot:searchplacehold>Search orders, customers...</x-slot:searchplacehold>
             <x-slot:filter>filter in ['All', 'Order ID', 'Customer Name', 'Customer Number']</x-slot:filter>
             <div class="flex gap-3">
-                <div class="bg-white px-4 py-3 rounded-2xl shadow-sm">
-                    <div class="text-2xl font-bold text-gray-900" x-text="todayOrders"></div>
-                    <div class="text-xs text-gray-500">Today's Orders</div>
+                <div class="stat-card">
+                    <div class="stat-value text-gray-900" x-text="todayOrders"></div>
+                    <div class="stat-label">Today's Orders</div>
                 </div>
-                <div class="bg-white px-4 py-3 rounded-2xl shadow-sm">
-                    <div class="text-2xl font-bold text-green-600">$<span x-text="todayRevenue"></span></div>
-                    <div class="text-xs text-gray-500">Revenue</div>
+                <div class="stat-card">
+                    <div class="stat-value text-green-600">$<span x-text="todayRevenue"></span></div>
+                    <div class="stat-label">Revenue</div>
                 </div>
             </div>
         </x-owner.heading>

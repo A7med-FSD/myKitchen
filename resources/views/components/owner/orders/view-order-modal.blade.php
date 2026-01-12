@@ -5,7 +5,7 @@
             x-transition:leave="transition ease-in duration-200"
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0"
-            class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+            class="modal-backdrop"
             @click="closeOrderModal()"
             style="display: none;">
             
@@ -16,20 +16,20 @@
                 x-transition:leave="transition ease-in duration-200"
                 x-transition:leave-start="opacity-100 scale-100 translate-y-0"
                 x-transition:leave-end="opacity-0 scale-90 -translate-y-4"
-                class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+                class="modal-container max-w-2xl"
                 @click.stop>
                 
                 <template x-if="selectedOrder">
                     <div>
                         {{-- Modal Header --}}
-                        <div class="bg-gradient-to-r from-yellow-400 to-orange-400 p-6 relative overflow-hidden">
-                            <div class="relative flex items-center justify-between">
+                        <div class="modal-header">
+                            <div class="relative flex items-center justify-between w-full">
                                 <div>
-                                    <h3 class="text-2xl font-bold text-gray-900" x-text="'Order #' + selectedOrder.id"></h3>
-                                    <p class="text-gray-700 text-sm" x-text="selectedOrder.time"></p>
+                                    <h3 class="modal-header-title" x-text="'Order #' + selectedOrder.id"></h3>
+                                    <p class="modal-header-subtitle text-gray-700" x-text="selectedOrder.time"></p>
                                 </div>
-                                <button @click="closeOrderModal()" class="text-gray-700 cursor-pointer hover:text-gray-900 hover:bg-white/20 rounded-full p-2 transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                                <button @click="closeOrderModal()" class="modal-close static">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                                         <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clip-rule="evenodd" />
                                     </svg>
                                 </button>
@@ -37,7 +37,7 @@
                         </div>
 
                         {{-- Modal Body --}}
-                        <div class="p-6 space-y-6">
+                        <div class="modal-body-content space-y-6">
                             {{-- Status Badge --}}
                             <div class="flex justify-between items-center">
                                 <span class="text-gray-600 font-semibold">Status:</span>
@@ -92,7 +92,7 @@
                         </div>
 
                         {{-- Modal Footer --}}
-                        <div class="p-6 bg-gray-50 border-t border-gray-200">
+                        <div class="modal-footer">
                             <div class="flex gap-2" x-show="selectedOrder.status === 'Pending' || selectedOrder.status === 'In Progress'">
                                 <button x-show="selectedOrder.status === 'Pending'" 
                                         @click="acceptOrder(selectedOrder.id); closeOrderModal()"

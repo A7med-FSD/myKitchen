@@ -12,13 +12,13 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="fixed inset-0 transition-opacity bg-black/50" 
+         class="modal-backdrop" 
          
          @click="showCustomerModal = false; selectedCustomer = null">
     </div>
 
     <!-- Modal Panel -->
-    <div class="flex min-h-full items-center justify-center p-4">
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
         <div x-show="showCustomerModal"
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -26,23 +26,24 @@
              x-transition:leave="transition ease-in duration-200"
              x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
              x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-             class="relative transform overflow-hidden rounded-2xl bg-white shadow-xl transition-all w-full max-w-lg border border-gray-100">
+             class="modal-container pointer-events-auto"
+             style="max-height: 90vh;">
 
             <!-- Close Button -->
             <button @click="showCustomerModal = false; selectedCustomer = null" 
-                    class="absolute top-4 right-4 p-2 text-white/80 hover:text-white hover:bg-white/20 rounded-full transition-colors z-20">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    class="modal-close absolute top-4 right-4 text-white hover:text-white/80 hover:bg-white/20 z-20">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                 </svg>
             </button>
 
             <!-- Modal Content -->
             <template x-if="selectedCustomer">
-                <div class="flex flex-col">
+                <div class="flex flex-col h-full overflow-y-auto">
                     <!-- Header Section with Gradient -->
                     <div class="relative h-40 w-full shrink-0">
                          <!-- Background with Overflow Hidden (for blur effects) -->
-                        <div class="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500 overflow-hidden">
+                        <div class="absolute inset-0 bg-linear-to-r from-yellow-400 to-orange-500 overflow-hidden">
                             <!-- Decorative Circle -->
                             <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-white/10 blur-3xl"></div>
                             <div class="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 rounded-full bg-white/10 blur-3xl"></div>

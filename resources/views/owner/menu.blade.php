@@ -35,8 +35,7 @@
             
             <!-- Add Items Button (When search is empty and no items) -->
             <div x-show="searchQuery.trim() === '' && filteredDishes.length === 0" class="mb-4">
-                <button @click="openAddDishModal()" 
-                        class="inline-flex items-center gap-2 px-5 py-2.5 bg-yellow-400 text-gray-900 rounded-full font-semibold hover:bg-yellow-500 transition-all shadow-lg shadow-yellow-200 cursor-pointer">
+                <button @click="openAddDishModal()" class="btn-primary">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                         <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
                     </svg>
@@ -59,7 +58,7 @@
 
         <!-- Floating Add Dish Button -->
         <button @click="openAddDishModal()" 
-                class="fixed bottom-8 left-8 cursor-pointer bg-yellow-400 hover:bg-yellow-500 text-gray-900 p-4 rounded-full shadow-2xl hover:shadow-yellow-200 transition-all duration-300 hover:scale-110 z-40 group">
+                class="btn-primary fixed bottom-8 left-8 p-4 shadow-2xl hover:scale-110 z-40 group">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 group-hover:rotate-90 transition-transform duration-300">
                 <path fill-rule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clip-rule="evenodd" />
             </svg>

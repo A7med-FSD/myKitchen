@@ -19,17 +19,17 @@
 
             <!-- Quick Stats -->
             <div class="flex gap-3">
-                <div class="bg-white px-4 py-3 rounded-2xl shadow-sm border border-gray-100/50">
-                    <div class="text-2xl font-bold text-green-600">8</div>
-                    <div class="text-xs text-gray-500 font-medium">New Orders</div>
+                <div class="stat-card">
+                    <div class="stat-value text-green-600">8</div>
+                    <div class="stat-label">New Orders</div>
                 </div>
-                <div class="bg-white px-4 py-3 rounded-2xl shadow-sm border border-gray-100/50">
-                    <div class="text-2xl font-bold text-green-600">+ 3</div>
-                    <div class="text-xs text-gray-500 font-medium">New Customers</div>
+                <div class="stat-card">
+                    <div class="stat-value text-green-600">12</div>
+                    <div class="stat-label">Active Orders</div>
                 </div>
-                <div class="bg-white px-4 py-3 rounded-2xl shadow-sm border border-gray-100/50 hidden sm:block">
-                    <div class="text-2xl font-bold text-yellow-500">4.8</div>
-                    <div class="text-xs text-gray-500 font-medium">Rating</div>
+                <div class="stat-card hidden sm:block">
+                    <div class="stat-value text-yellow-500">4.8</div>
+                    <div class="stat-label">Rating</div>
                 </div>
             </div>
         </x-owner.heading>

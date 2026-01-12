@@ -46,4 +46,9 @@ class OwnerController extends Controller
         return view('owner.notifications');
     }
     
+    public function promotions()
+    {
+        return view('owner.promotions');
+    }
+    
 }

@@ -56,20 +56,20 @@
                     <!-- Dropdown Menu -->
                     <div x-show="showActivityMenu"
                         x-transition
-                        class="absolute top-full right-0 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 z-50 min-w-[160px]">
+                        class="dropdown-menu top-full right-0 mt-2 min-w-[160px]">
                         <button @click="setActivityFilter('All'); showActivityMenu = false"
-                                class="w-full px-4 py-2 text-left text-sm hover:bg-yellow-50 transition-colors"
-                                :class="activityFilter === 'All' ? 'bg-yellow-50 text-yellow-700 font-bold' : 'text-gray-700'">
+                                class="dropdown-item"
+                                :class="activityFilter === 'All' ? 'dropdown-item-active' : ''">
                             All
                         </button>
                         <button @click="setActivityFilter('Active'); showActivityMenu = false"
-                                class="w-full px-4 py-2 text-left text-sm hover:bg-yellow-50 transition-colors"
-                                :class="activityFilter === 'Active' ? 'bg-yellow-50 text-yellow-700 font-bold' : 'text-gray-700'">
+                                class="dropdown-item"
+                                :class="activityFilter === 'Active' ? 'dropdown-item-active' : ''">
                             Active
                         </button>
                         <button @click="setActivityFilter('Inactive'); showActivityMenu = false"
-                                class="w-full px-4 py-2 text-left text-sm hover:bg-yellow-50 transition-colors"
-                                :class="activityFilter === 'Inactive' ? 'bg-yellow-50 text-yellow-700 font-bold' : 'text-gray-700'">
+                                class="dropdown-item"
+                                :class="activityFilter === 'Inactive' ? 'dropdown-item-active' : ''">
                             Inactive
                         </button>
                     </div>
@@ -92,7 +92,7 @@
                     <!-- Dropdown Menu -->
                     <div x-show="showSortMenu"
                         x-transition
-                        class="absolute top-full right-0 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 z-50 min-w-[160px]">
+                        class="dropdown-menu top-full right-0 mt-2 min-w-[160px]">
                         <button @click="setSortField('name'); showSortMenu = false"
                                 class="w-full px-4 py-2 text-left text-sm hover:bg-yellow-50 transition-colors"
                                 :class="sortField === 'name' ? 'bg-yellow-50 text-yellow-700 font-bold' : 'text-gray-700'">

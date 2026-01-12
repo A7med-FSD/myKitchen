@@ -17,17 +17,17 @@
             
             <!-- Quick Stats -->
             <div class="flex flex-wrap gap-3">
-                <div class="bg-white px-4 py-3 rounded-2xl shadow-sm">
-                    <div class="text-2xl font-bold text-gray-900" x-text="unreadCount"></div>
-                    <div class="text-xs text-gray-500">Unread</div>
+                <div class="stat-card">
+                    <div class="stat-value text-gray-900" x-text="unreadCount"></div>
+                    <div class="stat-label">Unread</div>
                 </div>
-                <div class="bg-white px-4 py-3 rounded-2xl shadow-sm">
-                    <div class="text-2xl font-bold text-red-600" x-text="criticalCount"></div>
-                    <div class="text-xs text-gray-500">Critical</div>
+                <div class="stat-card">
+                    <div class="stat-value text-red-600" x-text="criticalCount"></div>
+                    <div class="stat-label">Critical</div>
                 </div>
-                <div class="bg-white px-4 py-3 rounded-2xl shadow-sm">
-                    <div class="text-2xl font-bold text-gray-900" x-text="notifications.length"></div>
-                    <div class="text-xs text-gray-500">Total</div>
+                <div class="stat-card">
+                    <div class="stat-value text-gray-900" x-text="notifications.length"></div>
+                    <div class="stat-label">Total</div>
                 </div>
             </div>
         </x-owner.heading>
@@ -39,7 +39,7 @@
             <!-- Mark All as Read Button -->
             <button x-show="unreadCount > 0"
                     @click="markAllAsRead()"
-                    class="px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-gray-900 rounded-full font-semibold text-sm transition-colors shadow-sm flex items-center gap-2 whitespace-nowrap">
+                    class="btn-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                     <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
                 </svg>

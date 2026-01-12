@@ -32,15 +32,15 @@
                         x-transition:leave="transition ease-in duration-150"
                         x-transition:leave-start="opacity-100 scale-100 translate-y-0"
                         x-transition:leave-end="opacity-0 scale-95 translate-y-2"
-                        class="absolute right-0 top-8 w-48 bg-white rounded-2xl overflow-hidden shadow-xl py-2 border z-50 border-gray-100 dark:border-gray-800"
+                        class="dropdown-menu right-0 top-8 w-48"
                         style="display: none;">
                         
-                        <div class="px-4 py-2 text-xs font-bold text-gray-400 uppercase tracking-wider">Search By</div>
+                        <div class="dropdown-header">Search By</div>
                         
                         <template x-for="{{$filter}}">
                             <button @click="searchFilter = filter; showFilter = false"
-                                    class="w-full text-left px-4 py-2.5 text-sm font-medium hover:bg-yellow-50 hover:text-yellow-700 transition-colors flex items-center justify-between"
-                                    :class="searchFilter === filter ? 'text-yellow-600 bg-yellow-50' : 'text-gray-600'">
+                                    class="dropdown-item"
+                                    :class="searchFilter === filter ? 'dropdown-item-active' : ''">
                                 <span x-text="filter"></span>
                                 <svg x-show="searchFilter === filter" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-yellow-500">
                                     <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />

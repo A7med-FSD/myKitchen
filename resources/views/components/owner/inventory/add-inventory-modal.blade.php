@@ -5,7 +5,7 @@
     x-transition:leave="transition ease-in duration-200"
     x-transition:leave-start="opacity-100"
     x-transition:leave-end="opacity-0"
-    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+    class="modal-backdrop"
     @click="closeAddItemModal()"
     style="display: none;">
     
@@ -16,23 +16,23 @@
         x-transition:leave="transition ease-in duration-200"
         x-transition:leave-start="opacity-100 scale-100 translate-y-0"
         x-transition:leave-end="opacity-0 scale-90 -translate-y-4"
-        class="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden flex flex-col max-h-[90vh]"
+        class="modal-container"
         @click.stop>
         
         {{-- Modal Header --}}
-        <div class="bg-linear-to-r from-yellow-400 to-orange-400 p-6 relative">
-            <h3 class="text-2xl font-bold text-gray-900">Add Inventory Item</h3>
-            <p class="text-gray-900/80 text-sm mt-1">Add a new item to your stock</p>
-            <button @click="closeAddItemModal()" class="absolute top-4 right-4 text-gray-900/60 hover:text-gray-900 hover:bg-white/20 rounded-full p-2 transition-colors cursor-pointer">
+        <div class="modal-header">
+            <h3 class="modal-header-title">Add Inventory Item</h3>
+            <p class="modal-header-subtitle">Add a new item to your stock</p>
+            <button @click="closeAddItemModal()" class="modal-close">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                     <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clip-rule="evenodd" />
                 </svg>
             </button>
         </div>
 
-        <div class="overflow-y-auto flex-1">
+        <div class="modal-body">
         {{-- Modal Body --}}
-        <div class="p-6 space-y-5">
+        <div class="modal-body-content">
             
             {{-- Item Name --}}
             <div>
@@ -213,15 +213,15 @@
         </div>
 
         {{-- Modal Footer --}}
-        <div class="p-6 bg-gray-50 border-t border-gray-200 flex gap-3">
+        <div class="modal-footer">
             <button @click="closeAddItemModal()" 
                     type="button"
-                    class="flex-1 px-4 py-2.5 rounded-full font-bold text-gray-500 hover:bg-gray-200 hover:text-gray-700 transition-colors cursor-pointer">
+                    class="modal-btn-cancel">
                 Cancel
             </button>
             <button @click="saveItem()" 
                     type="button"
-                    class="flex-1 px-4 py-2.5 rounded-full font-bold bg-yellow-400 text-gray-900 hover:bg-yellow-500 transition-colors shadow-lg shadow-yellow-200 cursor-pointer flex items-center justify-center gap-2">
+                    class="modal-btn-submit">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                     <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                 </svg>

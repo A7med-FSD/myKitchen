@@ -86,7 +86,7 @@
 
         <!-- Floating Add Item Button -->
         <button x-show="statusFilter === 'All'" @click="openAddItemModal()" 
-                class="fixed bottom-8 left-8 cursor-pointer bg-yellow-400 hover:bg-yellow-500 text-gray-900 p-4 rounded-full shadow-2xl hover:shadow-yellow-200 transition-all duration-300 hover:scale-110 z-40 group">
+                class="btn-primary fixed bottom-8 left-8 p-4 shadow-2xl hover:scale-110 z-40 group">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 group-hover:rotate-90 transition-transform duration-300">
                 <path fill-rule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clip-rule="evenodd" />
             </svg>

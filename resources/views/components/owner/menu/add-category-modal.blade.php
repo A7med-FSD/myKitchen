@@ -5,7 +5,7 @@
     x-transition:leave="transition ease-in duration-200"
     x-transition:leave-start="opacity-100"
     x-transition:leave-end="opacity-0"
-    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+    class="modal-backdrop"
     @click="closeAddCategoryModal()"
     style="display: none;">
     
@@ -16,21 +16,22 @@
         x-transition:leave="transition ease-in duration-200"
         x-transition:leave-start="opacity-100 scale-100 translate-y-0"
         x-transition:leave-end="opacity-0 scale-90 -translate-y-4"
-        class="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden flex flex-col max-h-[90vh]"
+        class="modal-container"
         @click.stop>
         
         {{-- Modal Header --}}
-        <div class="bg-linear-to-r from-yellow-400 to-orange-400 p-6 relative">
-            <h3 class="text-2xl font-bold text-gray-900">Add Category</h3>
-            <p class="text-gray-900/80 text-sm mt-1">Create a new section for your menu.</p>
-            <button @click="closeAddCategoryModal()" class="absolute top-4 right-4 text-gray-900/60 hover:text-gray-900 hover:bg-white/20 rounded-full p-2 transition-colors cursor-pointer">
+        <div class="modal-header">
+            <h3 class="modal-header-title">Add Category</h3>
+            <p class="modal-header-subtitle">Create a new section for your menu.</p>
+            <button @click="closeAddCategoryModal()" class="modal-close">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                     <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clip-rule="evenodd" />
                 </svg>
             </button>
         </div>
 
-        <div class="overflow-y-auto flex-1">
+        <div class="modal-body">
+        
         {{-- Warning Alert --}}
         <div class="mx-6 mt-4 p-3 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-3">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5 text-amber-600 shrink-0 mt-0.5">
@@ -43,7 +44,7 @@
         </div>
 
         {{-- Modal Body --}}
-        <div class="p-6 space-y-4">
+        <div class="modal-body-content">
             {{-- Category Name Input --}}
             <div>
                 <label for="categoryName" class="block text-sm font-medium text-gray-700 mb-1">
@@ -142,14 +143,14 @@
         </div>
 
         {{-- Modal Footer --}}
-        <div class="p-6 bg-gray-50 border-t border-gray-200 flex gap-3">
+        <div class="modal-footer">
             <button @click="closeAddCategoryModal()" 
-                    class="flex-1 px-4 py-2.5 rounded-full font-bold text-gray-500 hover:bg-gray-200 hover:text-gray-700 transition-colors cursor-pointer">
+                    class="modal-btn-cancel">
                 Cancel
             </button>
             <button @click="saveCategory()" 
                     :disabled="!newCategoryName"
-                    class="flex-1 px-4 py-2.5 rounded-full font-bold bg-yellow-400 text-gray-900 hover:bg-yellow-500 transition-colors shadow-lg shadow-yellow-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
+                    class="modal-btn-submit disabled:opacity-50 disabled:cursor-not-allowed">
                 Save Category
             </button>
         </div>

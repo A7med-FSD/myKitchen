@@ -71,7 +71,8 @@ document.addEventListener('alpine:init', () => {
             price: '',
             image: '',
             description: '',
-            category: ''
+            category: '',
+            prepTime: ''
         },
 
         // Edit Dish Modal State
@@ -260,11 +261,12 @@ document.addEventListener('alpine:init', () => {
 
             // Reset errors
             this.dishErrors = {
-                name: '',
-                price: '',
-                image: '',
-                description: '',
-                category: ''
+                name: "",
+                price: "",
+                image: "",
+                description: "",
+                category: "",
+                prepTime: ""
             };
 
             // Validate name
@@ -297,6 +299,11 @@ document.addEventListener('alpine:init', () => {
                 isValid = false;
             }
 
+            if (!this.newDish.prepTime) {
+                this.dishErrors.prepTime = "Please select a preparing time";
+                isValid = false;
+            }
+
             return isValid;
         },
 
@@ -305,11 +312,12 @@ document.addEventListener('alpine:init', () => {
 
             // Reset errors
             this.dishErrors = {
-                name: '',
-                price: '',
-                image: '',
-                description: '',
-                category: ''
+                name: "",
+                price: "",
+                image: "",
+                description: "",
+                category: "",
+                prepTime: ""
             };
 
             // Validate name
@@ -339,6 +347,11 @@ document.addEventListener('alpine:init', () => {
             // Validate category
             if (!this.editDish.category) {
                 this.dishErrors.category = 'Please select a category';
+                isValid = false;
+            }
+
+            if (!this.editDish.prepTime) {
+                this.dishErrors.prepTime = "Please select a preparing time";
                 isValid = false;
             }
 

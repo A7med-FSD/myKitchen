@@ -1,8 +1,9 @@
 {{-- Order Card Component --}}
 {{-- This component is used inside x-for loop, so 'order' and 'index' are available from Alpine.js scope --}}
 
-<div class="bg-white rounded-3xl p-6 shadow-sm hover:shadow-md transition-all duration-300 animate-entrance-card flex flex-col h-[420px]"
-     :class="'animate-delay-' + ((index % 6) * 100)">
+<div class="bg-white rounded-3xl p-6 shadow-sm hover:shadow-md transition-all duration-300 animate-entrance-card flex flex-col h-[420px] cursor-pointer border border-transparent hover:border-yellow-200"
+     :class="'animate-delay-' + ((index % 6) * 100)"
+     @click="openOrderModal(order)">
     
     {{-- Order Header --}}
     <div class="flex justify-between items-start mb-4">
@@ -31,24 +32,54 @@
         <div class="text-xs text-gray-400" x-text="order.type"></div>
     </div>
 
+
+    {{-- Delivery Address (if available) --}}
+    <template x-if="order.address">
+        <div class="mb-4 p-3 bg-gray-50 rounded-xl">
+            <div class="flex items-start gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-gray-400 mt-0.5 shrink-0">
+                    <path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 0 0 .281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 1 0 3 9c0 3.492 1.698 5.988 3.355 7.625a19.055 19.055 0 0 0 2.274 1.765 11.055 11.055 0 0 0 1.058.583c.013.006.026.01.038.016l.001.001ZM11.165 9.167a1.166 1.166 0 1 1-2.33 0 1.166 1.166 0 0 1 2.33 0Z" clip-rule="evenodd" />
+                </svg>
+                <p class="text-xs text-gray-600 overflow-hidden text-ellipsis leading-relaxed line-clamp-2 flex-1" x-text="order.address"></p>
+            </div>
+        </div>
+    </template>
+
+
     {{-- Items List - Scrollable with fixed height --}}
     <div class="flex-1 overflow-y-auto mb-4 space-y-2 noscroll">
         <template x-for="(item, itemIndex) in order.items" :key="itemIndex">
             <div class="flex justify-between text-sm" x-show="itemIndex < 3">
-                <span class="text-gray-700"><span class="font-semibold" x-text="item.qty"></span>x <span x-text="item.name"></span></span>
-                <span class="font-semibold text-gray-900">$<span x-text="item.price"></span></span>
+                <div class="flex items-center gap-2">
+                    <span class="text-gray-700">
+                        <span class="font-semibold" x-text="item.qty"></span>x 
+                        <span x-text="item.name"></span>
+                    </span>
+                    {{-- Discount Badge (Mini) --}}
+                    <template x-if="item.originalPrice && item.originalPrice > item.price">
+                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-orange-50 text-orange-600 border border-orange-100">
+                            Sale
+                        </span>
+                    </template>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    {{-- Original Price --}}
+                    <template x-if="item.originalPrice && item.originalPrice > item.price">
+                        <span class="text-xs text-gray-400 line-through decoration-orange-400 decoration-2" x-text="'$' + item.originalPrice"></span>
+                    </template>
+                    {{-- Current Price --}}
+                    <span class="font-semibold text-gray-900" :class="{'text-orange-600': item.originalPrice && item.originalPrice > item.price}">
+                        $<span x-text="item.price"></span>
+                    </span>
+                </div>
             </div>
         </template>
         
-        {{-- Show More Button --}}
-        <button x-show="order.items.length > 3" 
-                @click="openOrderModal(order)"
-                class="text-gray-800 hover:text-black cursor-pointer font-semibold text-sm flex items-center gap-1 transition-colors mt-2">
-            <span>Show More (</span><span x-text="order.items.length - 3"></span><span> more items)</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-            </svg>
-        </button>
+        {{-- More Items Indicator --}}
+        <div x-show="order.items.length > 3" class="text-xs text-gray-500 font-medium mt-2">
+            +<span x-text="order.items.length - 3"></span> more items
+        </div>
     </div>
 
     {{-- Total --}}
@@ -58,7 +89,7 @@
     </div>
 
     {{-- Action Buttons --}}
-    <div class="flex gap-2" x-show="order.status === 'Pending' || order.status === 'In Progress'">
+    <div class="flex gap-2" x-show="order.status === 'Pending' || order.status === 'In Progress'" @click.stop>
         <button x-show="order.status === 'Pending'" 
                 @click="acceptOrder(order.id)"
                 class="flex-1 cursor-pointer bg-green-500 hover:bg-green-600 text-white font-bold py-2.5 rounded-full transition-colors">

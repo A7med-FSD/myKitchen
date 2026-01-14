@@ -68,6 +68,44 @@
                                 </div>
                             </div>
 
+                            {{-- Address & Map Section --}}
+                            <div class="bg-yellow-50/50 rounded-xl p-4 border border-yellow-100">
+                               <div class="flex items-start justify-between">
+                                    <div>
+                                        <h4 class="text-sm font-bold text-gray-900 mb-1">Delivery Address</h4>
+                                        <p class="text-xs text-gray-600 leading-relaxed" x-text="selectedOrder.address || '123 Main St, Cairo, Egypt'"></p>
+                                    </div>
+                                    <button @click="showMap = !showMap" 
+                                            class="text-xs font-bold text-yellow-700 bg-yellow-100 hover:bg-yellow-200 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5">
+                                            <path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 0 0 .281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 1 0 3 9c0 3.492 1.698 5.988 3.355 7.625a19.055 19.055 0 0 0 2.274 1.765 11.055 11.055 0 0 0 1.058.583c.013.006.026.01.038.016l.001.001ZM11.165 9.167a1.166 1.166 0 1 1-2.33 0 1.166 1.166 0 0 1 2.33 0Z" clip-rule="evenodd" />
+                                        </svg>
+                                        <span x-text="showMap ? 'Hide Map' : 'View Map'"></span>
+                                    </button>
+                               </div>
+                               
+                               {{-- Map with Transition --}}
+                               <div x-show="showMap"
+                                    x-transition:enter="transition ease-out duration-300"
+                                    x-transition:enter-start="opacity-0 transform scale-95"
+                                    x-transition:enter-end="opacity-100 transform scale-100"
+                                    x-transition:leave="transition ease-in duration-200"
+                                    x-transition:leave-start="opacity-100 transform scale-100"
+                                    x-transition:leave-end="opacity-0 transform scale-95"
+                                    class="mt-4 rounded-lg overflow-hidden shadow-sm border border-yellow-200"
+                                    style="display: none;">
+                                    <iframe 
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3454.244363297376!2d31.0201463!3d30.0631885!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14585a21c2e74241%3A0x2bd03f74577f8051!2sSmart%20Village!5e0!3m2!1sen!2seg!4v1695555555555!5m2!1sen!2seg" 
+                                        width="100%" 
+                                        height="200" 
+                                        style="border:0;" 
+                                        allowfullscreen="" 
+                                        loading="lazy" 
+                                        referrerpolicy="no-referrer-when-downgrade">
+                                    </iframe>
+                               </div>
+                            </div>
+
                             {{-- All Items --}}
                             <div>
                                 <h4 class="font-bold text-gray-900 mb-3">Order Items</h4>
@@ -76,9 +114,43 @@
                                         <div class="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
                                             <div class="flex items-center gap-2">
                                                 <span class="w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center text-xs font-bold text-gray-900" x-text="item.qty"></span>
-                                                <span class="font-semibold text-gray-900" x-text="item.name"></span>
+                                                <div class="flex items-center gap-2">
+                                                    <span class="font-semibold text-gray-900" x-text="item.name"></span>
+                                                    {{-- Discount Badge (Click to Copy) --}}
+                                                    <template x-if="item.originalPrice && item.originalPrice > item.price">
+                                                        <span x-data="{ copied: false }" 
+                                                              class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-bold bg-orange-50 text-orange-600 border border-orange-100 cursor-pointer hover:bg-orange-100 transition-colors select-none group"
+                                                              @click.stop="
+                                                                  if(item.promoCode) {
+                                                                      navigator.clipboard.writeText(item.promoCode);
+                                                                      copied = true;
+                                                                      setTimeout(() => copied = false, 2000);
+                                                                  }
+                                                              "
+                                                              :title="item.promoCode ? 'Click to copy text: ' + item.promoCode : ''">
+                                                            <span x-text="copied ? 'Copied!' : 'Sale'"></span>
+                                                            <svg x-show="!copied && item.promoCode" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity">
+                                                                <path d="M7 3.5A1.5 1.5 0 0 1 8.5 2h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.12A1.5 1.5 0 0 1 17 6.622V12.5a1.5 1.5 0 0 1-1.5 1.5h-1v-3.379a3 3 0 0 0-.879-2.121L10.5 5.379A3 3 0 0 0 8.379 4.5H7v-1Z" />
+                                                                <path d="M4.5 6A1.5 1.5 0 0 0 3 7.5v9A1.5 1.5 0 0 0 4.5 18h7a1.5 1.5 0 0 0 1.5-1.5v-5.879a1.5 1.5 0 0 0-.44-1.06L9.44 6.439A1.5 1.5 0 0 0 8.379 6H4.5Z" />
+                                                            </svg>
+                                                            <svg x-show="copied" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5 text-orange-600">
+                                                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+                                                            </svg>
+                                                        </span>
+                                                    </template>
+                                                </div>
                                             </div>
-                                            <span class="font-bold text-gray-900">$<span x-text="item.price"></span></span>
+                                            
+                                            <div class="flex items-center gap-3">
+                                                {{-- Original Price --}}
+                                                <template x-if="item.originalPrice && item.originalPrice > item.price">
+                                                    <span class="text-sm text-gray-400 line-through decoration-orange-400 decoration-2" x-text="'$' + item.originalPrice"></span>
+                                                </template>
+                                                {{-- Current Price --}}
+                                                <span class="font-bold text-gray-900" :class="{'text-orange-600': item.originalPrice && item.originalPrice > item.price}">
+                                                    $<span x-text="item.price"></span>
+                                                </span>
+                                            </div>
                                         </div>
                                     </template>
                                 </div>
@@ -93,7 +165,7 @@
 
                         {{-- Modal Footer --}}
                         <div class="modal-footer">
-                            <div class="flex gap-2" x-show="selectedOrder.status === 'Pending' || selectedOrder.status === 'In Progress'">
+                            <div class="flex gap-2 w-full" x-show="selectedOrder.status === 'Pending' || selectedOrder.status === 'In Progress'">
                                 <button x-show="selectedOrder.status === 'Pending'" 
                                         @click="acceptOrder(selectedOrder.id); closeOrderModal()"
                                         class="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-2.5 rounded-full transition-colors">

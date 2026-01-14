@@ -492,9 +492,9 @@
                             <p class="text-indigo-100 text-xs mb-5 font-medium px-4 leading-relaxed">launch a special offer for this weekend to attract more customers.</p>
                         </div>
                         
-                        <button class="bg-white cursor-pointer text-indigo-600 px-6 py-2.5 rounded-full text-sm font-bold shadow-md hover:bg-indigo-50 hover:scale-105 transition-all duration-300 w-full flex items-center justify-center gap-2">
+                        <a href="{{route('owner.promotions')}}" class="bg-white cursor-pointer text-indigo-600 px-6 py-2.5 rounded-full text-sm font-bold shadow-md hover:bg-indigo-50 hover:scale-105 transition-all duration-300 w-full flex items-center justify-center gap-2">
                             <span>+</span> Create Promotion
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>

@@ -140,3 +140,17 @@
 .entrance-animation {
     animation: entrance-slide-up 0.5s ease-out forwards;
 }
+
+@keyframes fadeInUp_button {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.button-animation {
+    animation: fadeInUp_button .8s ease-in-out forwards;
+}

@@ -357,7 +357,7 @@
                 {{-- Image --}}
                 <div class="relative opacity-0" 
                      x-data="{ shown: false }" 
-                     x-intersect.threshold.50="shown = true"
+                     x-intersect.threshold.40="shown = true"
                      :class="shown ? 'animate-entrance-col1' : ''">
                     <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&h=600&fit=crop" 
                         alt="Chef in Kitchen" 
@@ -373,7 +373,7 @@
                 {{-- Content --}}
                 <div class="opacity-0" 
                      x-data="{ shown: false }" 
-                     x-intersect.threshold.50="shown = true"
+                     x-intersect.threshold.40="shown = true"
                      :class="shown ? 'animate-entrance-col3' : ''">
                     <div class="inline-block mb-4">
                         <span class="bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full text-sm font-bold">

@@ -71,15 +71,16 @@
         </div>
         
         {{-- Right Section: Profile --}}
-        <div class="hidden lg:flex items-center gap-3">
-          <img class="rounded-3xl h-11 w-11" 
-               src="{{Vite::asset('resources/images/00.jpg')}}" 
+        <button @click="$dispatch('open-profile-modal')" 
+                class="hidden lg:flex items-center gap-3 hover:bg-gray-50 rounded-2xl p-2 -m-2 transition-colors group cursor-pointer">
+          <img class="rounded-3xl h-11 w-11 group-hover:scale-105 transition-transform" 
+               src="{{Vite::asset('resources/images/3d-portrait-people.jpg')}}" 
                alt="User Profile">
           <div class="grid">
-            <p class="font-semibold">Ahmed</p>
+            <p class="font-semibold group-hover:text-yellow-600 transition-colors">Ahmed</p>
             <p class="text-gray-400 text-xs truncate w-28">ahmednsfdj@gmail.com</p>
           </div>
-        </div>
+        </button>
         
         {{-- Mobile Menu Button --}}
         <button @click="mobileMenuOpen = !mobileMenuOpen" 
@@ -116,15 +117,15 @@
       class="lg:hidden fixed top-0 right-0 w-80 h-full bg-white shadow-2xl z-50 overflow-y-auto"
       style="display: none;">
     
-    {{-- Mobile Header (Profile acts as Settings Link) --}}
+    {{-- Mobile Header (Profile Section) --}}
     <div class="flex items-center justify-between p-6 border-b border-gray-100">
-      <a href="/settings" class="flex items-center gap-3 group">
-        <img class="rounded-3xl h-11 w-11 shadow-sm group-hover:scale-105 transition-transform" src="{{Vite::asset('resources/images/00.jpg')}}" alt="">
+      <button @click="mobileMenuOpen = false; $dispatch('open-profile-modal')" class="flex items-center gap-3 group cursor-pointer">
+        <img class="rounded-3xl h-11 w-11 shadow-sm group-hover:scale-105 transition-transform" src="{{Vite::asset('resources/images/3d-portrait-people.jpg')}}" alt="">
         <div>
           <p class="font-bold text-gray-900 group-hover:text-yellow-600 transition-colors">Ahmed</p>
           <p class="text-xs text-gray-500 truncate w-32">ahmednsfdj@gmail.com</p>
         </div>
-      </a>
+      </button>
       <button @click="mobileMenuOpen = false" class="p-2 text-gray-400 hover:text-gray-900 transition-colors cursor-pointer">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -174,7 +175,11 @@
 
   {{-- Cart Modal --}}
   <x-user.cart-modal />
-<div class="h-[2000px]"></div>
+  
+  {{-- Profile Modal --}}
+  <x-user.profile-modal />
+
+<div class="h-500"></div>
   <!-- Floating Action Buttons -->
   <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-4">
     <div class="flex gap-3">

@@ -17,6 +17,7 @@ Route::controller(OwnerController::class)->prefix('/owner')->group(function () {
 });
 
 Route::controller(UserController::class)->group(function () {
+    Route::get('/menu' , 'menu')->name('user.menu');
 });
 
 Route::view('/' , 'landing_page');

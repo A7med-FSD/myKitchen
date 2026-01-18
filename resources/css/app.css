@@ -114,6 +114,7 @@
     box-shadow: var(--shadow-sm);
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: var(--spacing-sm);
     white-space: nowrap;
     border: none;

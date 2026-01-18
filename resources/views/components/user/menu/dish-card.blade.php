@@ -1,4 +1,8 @@
-<div class="bg-white rounded-4xl p-4 shadow-lg border border-gray-100 transition-all duration-300 group hover:-translate-y-2 hover:shadow-2xl hover:border-yellow-200 animate-entrance-card"
+<div x-data="{ touched: false }" 
+     @click="touched = !touched" 
+     @mouseleave="touched = false"
+     :class="touched ? 'hover-active' : ''"
+     class="bg-white rounded-4xl p-4 shadow-lg border border-gray-100 transition-all duration-300 group hover:-translate-y-2 hover:shadow-2xl hover:border-yellow-200 animate-entrance-card"
      :class="'animate-delay-' + ((index % 6) * 100)">
     
     {{-- Image Container --}}
@@ -83,7 +87,7 @@
         
         {{-- Quick Add Button (Shows on Hover) --}}
         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-            <button @click="$store.cart.add(dish)"
+            <button @click.stop="touched = true; $store.cart.add(dish)"
                     :class="$store.cart.has(dish.id) ? 'bg-green-500 text-white cursor-default' : 'bg-yellow-400 hover:bg-yellow-500 text-gray-900 cursor-pointer'"
                     class="font-bold px-6 py-3 rounded-full shadow-xl transform scale-90 group-hover:scale-100 transition-all duration-300 flex items-center gap-2"
                     :disabled="$store.cart.has(dish.id)">
@@ -109,11 +113,11 @@
         
         <div class="flex items-center justify-between mt-auto">
             {{-- Rating --}}
-           <div class="flex text-yellow-400 text-xs">
+            <div class="flex text-yellow-400 text-xs">
                 <template x-for="i in 5" :key="i">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" 
-                         class="size-4"
-                         :class="i <= (dish.rating || 0) ? 'text-yellow-400' : 'text-gray-200'">
+                            class="size-4"
+                            :class="i <= (dish.rating || 0) ? 'text-yellow-400' : 'text-gray-200'">
                         <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" />
                     </svg>
                 </template>

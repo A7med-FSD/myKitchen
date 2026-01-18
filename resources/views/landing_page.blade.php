@@ -19,6 +19,9 @@
 
     {{-- Custom Entrance CSS --}}
     <link rel="stylesheet" href="{{ asset('assets/css/entrance.css') }}">
+    
+    {{-- Touch Hover Effect CSS --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/touch-hover-effect.css') }}">
 
     {{-- Alpine Plugins --}}
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
@@ -28,8 +31,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 
-    {{-- Home Page Scripts --}}
+    {{-- Home Page Script --}}
     <script src="{{ asset('assets/js/landing.js') }}"></script>
+
+    {{-- Cart Script --}}
+    <script src="{{ asset('assets/js/cart.js') }}"></script>
 </head>
 <body class="bg-gray-50 font-family-inter">
 
@@ -61,7 +67,7 @@
             {{-- CTA Button (Desktop) --}}
             <div class="hidden md:block">
                 <a href="#menu" 
-                    class="btn-primary flex items-center gap-2">
+                    class="btn-primary gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                         <path d="M1 1.75A.75.75 0 0 1 1.75 1h1.628a1.75 1.75 0 0 1 1.734 1.51L5.18 3a65.25 65.25 0 0 1 13.36 1.412.75.75 0 0 1 .58.875 48.645 48.645 0 0 1-1.618 6.2.75.75 0 0 1-.712.513H6a2.503 2.503 0 0 0-2.292 1.5H17.25a.75.75 0 0 1 0 1.5H2.76a.75.75 0 0 1-.748-.807 4.002 4.002 0 0 1 2.716-3.486L3.626 2.716a.25.25 0 0 0-.248-.216H1.75A.75.75 0 0 1 1 1.75ZM6 17.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM15.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
                     </svg>
@@ -136,7 +142,7 @@
         {{-- Mobile CTA --}}
         <div class="p-6">
             <a href="#menu" @click="mobileMenuOpen = false"
-            class="btn-primary w-full justify-center">
+            class="btn-primary w-full">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                     <path d="M1 1.75A.75.75 0 0 1 1.75 1h1.628a1.75 1.75 0 0 1 1.734 1.51L5.18 3a65.25 65.25 0 0 1 13.36 1.412.75.75 0 0 1 .58.875 48.645 48.645 0 0 1-1.618 6.2.75.75 0 0 1-.712.513H6a2.503 2.503 0 0 0-2.292 1.5H17.25a.75.75 0 0 1 0 1.5H2.76a.75.75 0 0 1-.748-.807 4.002 4.002 0 0 1 2.716-3.486L3.626 2.716a.25.25 0 0 0-.248-.216H1.75A.75.75 0 0 1 1 1.75ZM6 17.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM15.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
                 </svg>
@@ -172,7 +178,7 @@
                 </p>
                 
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="#menu" class="btn-primary px-8 py-4 text-base shadow-xl hover:shadow-2xl justify-center">
+                    <a href="#menu" class="btn-primary px-8 py-4 text-base shadow-xl hover:shadow-2xl">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
                         <path d="M11.25 4.533A9.707 9.707 0 0 0 6 3a9.735 9.735 0 0 0-3.25.555.75.75 0 0 0-.5.707v14.25a.75.75 0 0 0 1 .707A8.237 8.237 0 0 1 6 18.75c1.995 0 3.823.707 5.25 1.886V4.533ZM12.75 20.636A8.214 8.214 0 0 1 18 18.75c.966 0 1.89.166 2.75.47a.75.75 0 0 0 1-.708V4.262a.75.75 0 0 0-.5-.707A9.735 9.735 0 0 0 18 3a9.707 9.707 0 0 0-5.25 1.533v16.103Z" />
                     </svg>
@@ -255,7 +261,7 @@
                     <div x-data="{ shown: false }" x-intersect.threshold.20="shown = true"
                         :class="shown ? 'animate-entrance-card' : 'opacity-0'" 
                         :style="'animation-delay: ' + ((index % 3) * 100) + 'ms'">
-                        <x-landing-dishes />
+                        <x-user.menu.dish-card />
                     </div>
                 </template>
             </div>
@@ -281,9 +287,12 @@
                 <p class="text-gray-600">Fresh meals delivered to your door in no time</p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12" x-data="{ shown: false }" x-intersect.threshold.20="shown = true">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
                 {{-- Step 1 --}}
-                <div class="text-center group opacity-0" :class="shown ? 'animate-entrance-col1' : ''">
+                <div class="text-center group opacity-0" 
+                     x-data="{ shown: false }" 
+                     x-intersect.threshold.50="shown = true"
+                     :class="shown ? 'animate-entrance-col1' : ''">
                     <div class="relative mb-6">
                         <div class="w-24 h-24 bg-yellow-100 rounded-full flex items-center justify-center mx-auto group-hover:bg-yellow-400 transition-colors duration-300 shadow-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-yellow-600 group-hover:text-gray-900 transition-colors">
@@ -299,7 +308,10 @@
                 </div>
                 
                 {{-- Step 2 --}}
-                <div class="text-center group opacity-0" :class="shown ? 'animate-entrance-col2' : ''">
+                <div class="text-center group opacity-0" 
+                     x-data="{ shown: false }" 
+                     x-intersect.threshold.50="shown = true"
+                     :class="shown ? 'animate-entrance-col2' : ''">
                     <div class="relative mb-6">
                         <div class="w-24 h-24 bg-orange-100 rounded-full flex items-center justify-center mx-auto group-hover:bg-orange-400 transition-colors duration-300 shadow-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-orange-600 group-hover:text-white transition-colors">
@@ -315,7 +327,10 @@
                 </div>
                 
                 {{-- Step 3 --}}
-                <div class="text-center group opacity-0" :class="shown ? 'animate-entrance-col3' : ''">
+                <div class="text-center group opacity-0" 
+                     x-data="{ shown: false }" 
+                     x-intersect.threshold.50="shown = true"
+                     :class="shown ? 'animate-entrance-col3' : ''">
                     <div class="relative mb-6">
                         <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto group-hover:bg-green-400 transition-colors duration-300 shadow-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-green-600 group-hover:text-white transition-colors">
@@ -338,9 +353,12 @@
     {{-- About Section --}}
     <section id="about" class="py-20 bg-yellow-50/30">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="grid md:grid-cols-2 gap-12 items-center" x-data="{ shown: false }" x-intersect.threshold.30="shown = true">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
                 {{-- Image --}}
-                <div class="relative opacity-0" :class="shown ? 'animate-entrance-col1' : ''">
+                <div class="relative opacity-0" 
+                     x-data="{ shown: false }" 
+                     x-intersect.threshold.50="shown = true"
+                     :class="shown ? 'animate-entrance-col1' : ''">
                     <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&h=600&fit=crop" 
                         alt="Chef in Kitchen" 
                         class="rounded-3xl shadow-2xl object-cover w-full h-[500px]">
@@ -353,7 +371,10 @@
                 </div>
                 
                 {{-- Content --}}
-                <div class="opacity-0" :class="shown ? 'animate-entrance-col3' : ''">
+                <div class="opacity-0" 
+                     x-data="{ shown: false }" 
+                     x-intersect.threshold.50="shown = true"
+                     :class="shown ? 'animate-entrance-col3' : ''">
                     <div class="inline-block mb-4">
                         <span class="bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full text-sm font-bold">
                             Our Story
@@ -398,6 +419,7 @@
             </div>
         </div>
     </section>
+
     
 </main>
 
@@ -523,7 +545,7 @@
 </div>
 
 {{-- Cart Modal --}}
-<x-cart-modal />
+<x-user.cart-modal />
 
 </body>
 </html>

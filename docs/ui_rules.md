@@ -139,3 +139,58 @@ All pages must reuse existing card patterns.
 ---
 
 **If a page visually looks different, it is wrong – even if it works.**
+
+
+# User Panel UI Rules – myKitchen
+
+## 1. Pages (Core)
+- **Menu** – Browse dishes, see offers, add to cart
+- **Checkout** – Confirm order, select address & payment
+- **Orders** – View current & past orders with status badges
+- **Profile** – User info, addresses, settings
+- **Offers** – Active promotions for the user
+- **Support** – Help center / contact
+
+> Notes: Order Status is merged into Orders page using badges: `In Progress`, `Delivered`, `Cancelled`.
+
+---
+
+## 2. Core Components
+### Dish Card (`landing-dishes.blade.php`)
+- Must be reused in Menu page
+- Shows: Image, Name, Description, Price, Offer, Status Badge
+- Hover: Lift + shadow + Add to Cart overlay
+- Always maintain consistent styling:
+  - Rounded corners: `rounded-3xl` or `rounded-4xl`
+  - Grid layout: `lg:grid-cols-3 gap-8`
+  - Heroicons for icons
+  - Yellow-400 for primary actions
+
+### Cart (Global State)
+- Managed via `Alpine.store('cart')`
+- Supports: add/remove items, quantity, discounts, total calculation
+- `Place Order` button enabled only when cart is not empty
+
+### Orders Page
+- Each order card has a **Status Badge**
+  - `In Progress` / `Delivered` / `Cancelled`
+- Simplifies user view: no backend internal states
+
+---
+
+## 3. Design Enforcement
+- **Always** use the same card shapes & hover effects
+- **Never** create new color schemes or card styles for User Panel
+- **Always** follow grid and spacing from Menu page
+- Test all interactions on **mobile and desktop**
+
+---
+
+## 4. Excluded Elements (Landing Only)
+- Hero Section
+- About / How it works
+- Footer
+- Marketing animations, pagination logic, "View More" buttons
+- Any decorative badges not related to order/cart logic
+
+> Rule of thumb: Anything that doesn't affect order, cart, or user info is **not part of User Panel**.

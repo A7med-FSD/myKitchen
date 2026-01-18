@@ -1,0 +1,48 @@
+
+/* Touch Device Hover Effects */
+/* Apply same styles as group-hover when hover-active class is present */
+.hover-active {
+    transform: translateY(-0.5rem);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border-color: rgb(254 240 138);
+}
+
+.hover-active img {
+    transform: scale(1.1);
+}
+
+.hover-active h3 {
+    color: rgb(202 138 4);
+}
+
+.hover-active .group-hover\:opacity-100 {
+    opacity: 1 !important;
+}
+
+.hover-active .group-hover\:scale-100 {
+    transform: scale(1) !important;
+}
+
+.hover-active .group-hover\:bg-purple-500 {
+    background-color: rgb(168 85 247) !important;
+    color: white !important;
+}
+
+.hover-active .group-hover\:bg-green-500 {
+    background-color: rgb(34 197 94) !important;
+    color: white !important;
+}
+
+.hover-active .group-hover\:bg-blue-500 {
+    background-color: rgb(59 130 246) !important;
+    color: white !important;
+}
+
+.hover-active .group-hover\:bg-yellow-500 {
+    background-color: rgb(234 179 8) !important;
+    color: white !important;
+}
+
+.hover-active .group-hover\:text-white {
+    color: white !important;
+}

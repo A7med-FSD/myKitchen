@@ -35,7 +35,7 @@
     <script src="{{ asset('assets/js/landing.js') }}"></script>
 
     {{-- Cart Script --}}
-    <script src="{{ asset('assets/js/cart.js') }}"></script>
+    <script src="{{ asset('assets/js/user/cart.js') }}"></script>
 </head>
 <body class="bg-gray-50 font-family-inter">
 

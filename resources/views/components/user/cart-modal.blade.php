@@ -1,26 +1,26 @@
 {{-- Cart Modal --}}
 <div x-data
-     x-init="$watch('$store.cart.isOpen', value => document.body.style.overflow = value ? 'hidden' : '')"
-     x-show="$store.cart.isOpen"
-     x-transition:enter="transition ease-out duration-300"
-     x-transition:enter-start="opacity-0"
-     x-transition:enter-end="opacity-100"
-     x-transition:leave="transition ease-in duration-200"
-     x-transition:leave-start="opacity-100"
-     x-transition:leave-end="opacity-0"
-     @click="$store.cart.toggleModal()"
-     class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-     style="display: none;">
+    x-init="$watch('$store.cart.isOpen', value => document.body.style.overflow = value ? 'hidden' : '')"
+    x-show="$store.cart.isOpen"
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    @click="$store.cart.toggleModal()"
+    class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+    style="display: none;">
     
     {{-- Modal Content --}}
     <div @click.stop
-         x-transition:enter="transition ease-out duration-300 transform"
-         x-transition:enter-start="opacity-0 scale-95"
-         x-transition:enter-end="opacity-100 scale-100"
-         x-transition:leave="transition ease-in duration-200 transform"
-         x-transition:leave-start="opacity-100 scale-100"
-         x-transition:leave-end="opacity-0 scale-95"
-         class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+        x-transition:enter="transition ease-out duration-300 transform"
+        x-transition:enter-start="opacity-0 scale-95"
+        x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-200 transform"
+        x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-95"
+        class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
         
         {{-- Header --}}
         <div class="flex items-center justify-between p-6 border-b border-gray-200 shrink-0">
@@ -67,7 +67,7 @@
                                 <div class="flex items-start justify-between gap-2">
                                     <h4 class="font-bold text-gray-900" x-text="item.name"></h4>
                                     <button @click="$store.cart.remove(item.id)"
-                                            class="p-1 hover:bg-red-100 rounded-full transition-colors shrink-0">
+                                            class="p-1 hover:bg-red-100 rounded-full transition-colors shrink-0 cursor-pointer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-red-500">
                                             <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
                                         </svg>

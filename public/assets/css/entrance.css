@@ -6,6 +6,10 @@
     scrollbar-width: none;
 }
 
+.header-animation {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
 /* Professional Entrance Animations */
 @keyframes fadeInUp {
     from {

@@ -20,16 +20,17 @@
   {{-- Entrance CSS --}}
   <link rel="stylesheet" href="{{ asset('assets/css/entrance.css') }}">
   
-  {{-- Alpine.js --}}
+  {{-- Alpine Plugins --}}
+  <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
   <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   
   {{-- Vite --}}
   @vite(['resources/css/app.css', 'resources/js/app.js'])
   
   {{-- Cart Script --}}
-  <script src="{{ asset('assets/js/cart.js') }}"></script>
+  <script src="{{ asset('assets/js/user/cart.js') }}"></script>
 </head>
-<body class="bg-gray-50 font-family-inter" x-data="{ mobileMenuOpen: false, scrolled: false }" 
+<body class="pb-20 bg-gray-100 font-family-inter" x-data="{ mobileMenuOpen: false, scrolled: false }" 
      @scroll.window="scrolled = window.scrollY > 20">
 
   {{-- Navbar --}}
@@ -169,7 +170,7 @@
   </div>
 
   {{-- Main Content (with padding for fixed navbar) --}}
-  <main class="pt-24 px-6 max-w-7xl mx-auto">
+  <main class="pt-24 px-5 sm:px-10">
     {{$slot}}
   </main>
 
@@ -179,7 +180,6 @@
   {{-- Profile Modal --}}
   <x-user.profile-modal />
 
-<div class="h-500"></div>
   <!-- Floating Action Buttons -->
   <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-4">
     <div class="flex gap-3">
@@ -208,23 +208,6 @@
         </span>
       </button>
 
-      <!-- Back to Top Button -->
-      <div x-data="{ showBackToTop: false }"
-        @scroll.window="showBackToTop = (window.pageYOffset > 300)"
-        <button x-show="showBackToTop"
-          @click="window.scrollTo({top: 0, behavior: 'smooth'})"
-          x-transition:enter="transition ease-out duration-300"
-          x-transition:enter-start="opacity-0 translate-y-4"
-          x-transition:enter-end="opacity-100 translate-y-0"
-          x-transition:leave="transition ease-in duration-200"
-          x-transition:leave-start="opacity-100 translate-y-0"
-          x-transition:leave-end="opacity-0 translate-y-4"
-          class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 rounded-full p-3 shadow-lg cursor-pointer transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-              <path fill-rule="evenodd" d="M11.47 2.47a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 1 1-1.06 1.06l-6.22-6.22V21a.75.75 0 0 1-1.5 0V4.81l-6.22 6.22a.75.75 0 1 1-1.06-1.06l7.5-7.5Z" clip-rule="evenodd" />
-          </svg>
-        </button>
-      </div>
     </div>
   </div>
 

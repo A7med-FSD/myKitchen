@@ -1,6 +1,6 @@
 @props(['searchplacehold', 'filter'])
 
-            <div class="w-full max-w-2xl md:w-96 relative group grow animate-entrance-search z-50">
+            <div class="w-full max-w-2xl md:w-96 relative group grow animate-entrance-search z-48">
                 <input type="text" 
                     x-model="searchQuery"
                     placeholder="{{$searchplacehold}}" 

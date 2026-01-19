@@ -9,4 +9,8 @@ class UserController extends Controller
     public function menu() {
         return view('user.menu');
     }
+
+    public function orders() {
+        return view('user.orders');
+    }
 }

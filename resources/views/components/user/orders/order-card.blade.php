@@ -1,7 +1,7 @@
-{{-- Order Card Component --}}
+{{-- User Order Card Component --}}
 {{-- This component is used inside x-for loop, so 'order' and 'index' are available from Alpine.js scope --}}
 
-<div class="bg-white rounded-3xl p-6 shadow-sm hover:shadow-md transition-all duration-300 animate-entrance-card flex flex-col h-105 cursor-pointer border border-transparent hover:border-yellow-200"
+<div class="bg-white rounded-3xl p-6 shadow-sm hover:shadow-md transition-all duration-300 animate-entrance-card flex flex-col min-h-105 cursor-pointer border border-transparent hover:border-yellow-200"
      :class="'animate-delay-' + ((index % 6) * 100)"
      @click="openOrderModal(order)">
     
@@ -22,16 +22,15 @@
             x-text="order.status"></span>
     </div>
 
-    {{-- Customer Info --}}
-    <div class="flex items-center gap-3 mb-4 p-3 bg-gray-50 rounded-2xl">
-        <div class="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center font-bold text-gray-900" x-text="order.customer.charAt(0)"></div>
-        <div class="flex-1">
-            <p class="font-semibold text-sm text-gray-900" x-text="order.customer"></p>
-            <p class="text-xs text-gray-500" x-text="order.phone"></p>
+    {{-- Order Type --}}
+    <div class="flex items-center gap-2 mb-3">
+        <div class="flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-gray-500">
+                <path d="M3 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM8.5 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM15.5 8.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" />
+            </svg>
+            <span class="text-xs font-medium text-gray-600" x-text="order.type"></span>
         </div>
-        <div class="text-xs text-gray-400" x-text="order.type"></div>
     </div>
-
 
     {{-- Delivery Address (if available) --}}
     <template x-if="order.address">
@@ -45,9 +44,8 @@
         </div>
     </template>
 
-
     {{-- Items List - Scrollable with fixed height --}}
-    <div class="flex-1 overflow-y-auto mb-4 space-y-2 noscroll">
+    <div class="flex-1 overflow-y-auto mb-4 space-y-2 noscroll max-h-40">
         <template x-for="(item, itemIndex) in order.items" :key="itemIndex">
             <div class="flex justify-between text-sm" x-show="itemIndex < 3">
                 <div class="flex items-center gap-2">
@@ -88,21 +86,12 @@
         <span class="text-xl font-black text-gray-900">$<span x-text="order.total"></span></span>
     </div>
 
-    {{-- Action Buttons --}}
-    <div class="flex gap-2" x-show="order.status === 'Pending' || order.status === 'In Progress'" @click.stop>
-        <button x-show="order.status === 'Pending'" 
-                @click="acceptOrder(order.id)"
-                class="flex-1 cursor-pointer bg-green-500 hover:bg-green-600 text-white font-bold py-2.5 rounded-full transition-colors">
-            Accept
-        </button>
-        <button x-show="order.status === 'In Progress'" 
-                @click="markReady(order.id)"
-                class="flex-1 cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-bold py-2.5 rounded-full transition-colors">
-            Mark Ready
-        </button>
-        <button @click="cancelOrder(order.id)"
-                class="px-4 cursor-pointer bg-red-100 hover:bg-red-200 text-red-600 font-bold py-2.5 rounded-full transition-colors">
-            Cancel
-        </button>
-    </div>
+    {{-- Reorder Button --}}
+    <button @click.stop="reorderItems(order)"
+            class="w-full cursor-pointer bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 rounded-full transition-colors flex items-center justify-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+            <path d="M1 1.75A.75.75 0 011.75 1h1.628a1.75 1.75 0 011.734 1.51L5.18 3a65.25 65.25 0 0113.36 1.412.75.75 0 01.58.875 48.645 48.645 0 01-1.618 6.2.75.75 0 01-.712.513H6a2.503 2.503 0 00-2.292 1.5H17.25a.75.75 0 010 1.5H2.76a.75.75 0 01-.748-.807 4.002 4.002 0 012.716-3.486L3.626 2.716a.25.25 0 00-.248-.216H1.75A.75.75 0 011 1.75zM6 17.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15.5 19a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+        </svg>
+        Reorder
+    </button>
 </div>

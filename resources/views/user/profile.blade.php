@@ -18,7 +18,7 @@
         </div>
 
         {{-- Profile Card --}}
-        <div class="max-w-3xl mx-auto px-6">
+        <div class="max-w-3xl mx-auto px-6 header-animation">
             <div class="bg-white rounded-4xl shadow-xl overflow-hidden">
                 
                 {{-- Header Section with Gradient --}}

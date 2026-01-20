@@ -23,7 +23,7 @@
                 <x-search :searchplacehold="'Search by order number...'" />
                 
                 {{-- Period Dropdown --}}
-                <div x-data="{ periodOpen: false }" class="relative animate-entrance-search">
+                <div x-data="{ periodOpen: false }" class="relative animate-entrance-search z-20">
                     <button @click="periodOpen = !periodOpen" 
                             type="button"
                             class="w-full md:w-auto px-6 py-3 rounded-full border border-gray-200 bg-white focus:ring-2 focus:ring-yellow-100 outline-none transition-all text-left flex items-center justify-between gap-3 cursor-pointer shadow-sm hover:border-yellow-300 min-w-[200px]"

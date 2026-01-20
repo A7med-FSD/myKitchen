@@ -13,4 +13,8 @@ class UserController extends Controller
     public function orders() {
         return view('user.orders');
     }
+
+    public function offers() {
+        return view('user.offers');
+    }
 }

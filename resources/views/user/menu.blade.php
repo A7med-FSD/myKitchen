@@ -201,7 +201,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <template x-for="(review, index) in reviews" :key="review.id">
                         <div x-data="{ shown: false }" 
-                             x-intersect.threshold.20="shown = true"
+                             x-intersect.threshold.10="shown = true"
                              :class="shown ? 'animate-entrance-card' : 'opacity-0'" 
                              :style="'animation-delay: ' + ((index % 3) * 100) + 'ms'">
                             <x-user.menu.review-card />

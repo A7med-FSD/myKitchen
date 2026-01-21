@@ -15,6 +15,7 @@ Route::controller(OwnerController::class)->prefix('/owner')->group(function () {
     Route::get('/settings', 'settings')->name('owner.settings');
     Route::get('/notifications', 'notifications')->name('owner.notifications');
     Route::get('/promotions', 'promotions')->name('owner.promotions');
+    
 });
 
 Route::controller(UserController::class)->group(function () {
@@ -22,6 +23,7 @@ Route::controller(UserController::class)->group(function () {
     Route::get('/orders' , 'orders')->name('user.orders');
     Route::get('/offers' , 'offers')->name('user.offers');
     Route::get('/profile' , 'profile')->name('user.profile');
+    Route::get('/checkout' , 'checkout')->name('user.checkout');
 });
 
 Route::controller(AuthController::class)->group(function () {
@@ -29,6 +31,7 @@ Route::controller(AuthController::class)->group(function () {
     // Route::post('/login' , 'login')->name('user.login');
     Route::get('/register' , 'showRegister')->name('user.register');
     // Route::post('/register' , 'register')->name('user.register');
+    
 });
 
 // Admin routes

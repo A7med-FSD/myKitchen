@@ -249,7 +249,9 @@
     {{-- Featured Menu Section --}}
     <section id="menu" class="py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-12">
+            <div class="text-center mb-12 opacity-0"
+                x-data="{ shown: false }" x-intersect.threshold.50="shown = true" 
+                :class="shown ? 'header-animation' : 'opacity-0'">
                 <h2 class="text-4xl font-black text-gray-900 mb-4">Our Most Popular Dishes</h2>
                 <p class="text-gray-600 max-w-2xl mx-auto">
                     Handpicked favorites loved by our customers. Fresh, delicious, and made with care.
@@ -282,7 +284,9 @@
     {{-- How It Works Section --}}
     <section id="how-it-works" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16 opacity-0"
+                x-data="{ shown: false }" x-intersect.threshold.50="shown = true" 
+                :class="shown ? 'header-animation' : 'opacity-0'">
                 <h2 class="text-4xl font-black text-gray-900 mb-4">Order in 3 Simple Steps</h2>
                 <p class="text-gray-600">Fresh meals delivered to your door in no time</p>
             </div>

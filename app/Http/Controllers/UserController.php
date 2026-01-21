@@ -21,4 +21,8 @@ class UserController extends Controller
     public function profile() {
         return view('user.profile');
     }
+
+    public function checkout() {
+        return view('user.checkout');
+    }
 }

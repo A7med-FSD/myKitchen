@@ -24,6 +24,7 @@ Route::controller(UserController::class)->group(function () {
     Route::get('/offers' , 'offers')->name('user.offers');
     Route::get('/profile' , 'profile')->name('user.profile');
     Route::get('/checkout' , 'checkout')->name('user.checkout');
+    Route::get('/support' , 'support')->name('user.support');
 });
 
 Route::controller(AuthController::class)->group(function () {

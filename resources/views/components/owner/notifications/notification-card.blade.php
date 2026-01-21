@@ -66,16 +66,35 @@
                 
                 <!-- Actions -->
                 <div class="flex items-center gap-3 mt-3">
+                    {{-- Publish Review Button (for reviews/thank_you only) --}}
+                    <button x-show="(notification.type === 'review' || notification.type === 'thank_you') && !notification.published" 
+                            @click.stop="publishReview(notification.id)"
+                            class="text-xs text-green-600 hover:text-green-700 hover:bg-green-50 px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1 transition-all cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5">
+                            <path d="M3.5 2.75a.75.75 0 00-1.5 0v14.5a.75.75 0 001.5 0v-4.392l1.657-.348a6.449 6.449 0 014.271.572 7.948 7.948 0 005.965.524l2.078-.64A.75.75 0 0018 12.25v-8.5a.75.75 0 00-.904-.734l-2.38.501a7.25 7.25 0 01-4.186-.363l-.502-.2a8.75 8.75 0 00-5.053-.439l-1.475.31V2.75z" />
+                        </svg>
+                        Publish to Menu
+                    </button>
+                    
+                    {{-- Published Badge --}}
+                    <span x-show="(notification.type === 'review' || notification.type === 'thank_you') && notification.published"
+                          class="text-xs text-green-600 bg-green-50 px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5">
+                            <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                        </svg>
+                        Published
+                    </span>
+                    
                     <button x-show="!notification.read" 
                             @click.stop="markAsRead(notification.id)"
-                            class="text-xs text-yellow-600 hover:text-yellow-700 font-semibold flex items-center gap-1 transition-colors">
+                            class="text-xs text-yellow-600 hover:text-yellow-700 font-semibold flex items-center gap-1 transition-colors cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3">
                             <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
                         </svg>
                         Mark as Read
                     </button>
                     <button @click.stop="deleteNotification(notification.id)"
-                            class="text-xs text-red-600 hover:text-red-700 font-semibold flex items-center gap-1 transition-colors">
+                            class="text-xs text-red-600 hover:text-red-700 font-semibold flex items-center gap-1 transition-colors cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3">
                             <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z" clip-rule="evenodd" />
                         </svg>

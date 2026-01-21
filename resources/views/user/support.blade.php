@@ -2,7 +2,7 @@
     <div class="max-w-4xl mx-auto mt-10" x-data="supportHandler()">
         
         {{-- Page Header --}}
-        <div class="text-center mb-8">
+        <div x-show="!submitted" x-transition class="text-center mb-8">
             <h1 class="text-3xl font-black text-gray-900 mb-2">
                 How can we help you?
             </h1>
@@ -12,7 +12,7 @@
         </div>
 
         {{-- Issue Type Selection --}}
-        <div class="mb-8">
+        <div x-show="!submitted" x-transition class="mb-8">
             <h2 class="text-lg font-bold text-gray-900 mb-4">Select Issue Type</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -90,7 +90,7 @@
         </div>
 
         {{-- Conditional Content --}}
-        <div x-show="selectedType" x-transition class="space-y-6">
+        <div x-show="selectedType && !submitted" x-transition class="space-y-6">
             
             {{-- Order Code Input (for non-general) --}}
             <div x-show="selectedType !== 'general'" x-transition>
@@ -304,6 +304,55 @@
                     </template>
                 </button>
             </div>
+        </div>
+
+        {{-- Success Message (shown after submission) --}}
+        <div x-show="submitted" 
+             x-transition.duration.500ms
+             class="text-center py-16">
+            
+            {{-- Success Icon --}}
+            <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-green-100 flex items-center justify-center animate-bounce">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-green-600">
+                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+                </svg>
+            </div>
+
+            {{-- Success Message --}}
+            <h2 class="text-3xl font-black text-gray-900 mb-3">
+                Request Submitted Successfully!
+            </h2>
+            <p class="text-gray-600 mb-2 max-w-md mx-auto">
+                Thank you for reaching out. Our support team has received your message and will get back to you shortly.
+            </p>
+            <p class="text-sm text-gray-500 mb-8">
+                📧 You'll receive a response within 24 hours
+            </p>
+
+            {{-- Action Buttons --}}
+            <div class="flex flex-col sm:flex-row gap-3 justify-center items-center">
+                <a href="/menu" 
+                   class="btn-primary px-6 py-3 inline-flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.273 1.765 11.842 11.842 0 00.976.544l.062.029.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clip-rule="evenodd" />
+                    </svg>
+                    Browse Menu
+                </a>
+                <a href="/orders" 
+                   class="px-6 py-3 border-2 border-gray-900 text-gray-900 rounded-xl font-bold hover:bg-gray-900 hover:text-white transition-all inline-flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path d="M1 1.75A.75.75 0 011.75 1h1.628a1.75 1.75 0 011.734 1.51L5.18 3a65.25 65.25 0 0113.36 1.412.75.75 0 01.58.875 48.645 48.645 0 01-1.618 6.2.75.75 0 01-.712.513H6a2.503 2.503 0 00-2.292 1.5H17.25a.75.75 0 010 1.5H2.76a.75.75 0 01-.748-.807 4.002 4.002 0 012.716-3.486L3.626 2.716a.25.25 0 00-.248-.216H1.75A.75.75 0 011 1.75zM6 17.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15.5 19a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+                    </svg>
+                    My Orders
+                </a>
+            </div>
+
+            {{-- Submit Another Request --}}
+            <button type="button"
+                    @click="submitted = false; selectedType = ''; orderCode = ''; message = ''; showContactForm = false; openFaq = null"
+                    class="mt-6 text-yellow-600 hover:text-yellow-700 font-bold text-sm transition-colors">
+                ← Submit another request
+            </button>
         </div>
 
     </div>

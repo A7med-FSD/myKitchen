@@ -211,5 +211,22 @@
     </div>
   </div>
 
+  {{-- Rating Modal --}}
+  <x-user.rating-modal />
+
+  {{-- Test Button for Rating Modal --}}
+  <button @click="$store.ratingModal.open({
+      orderId: 'ORD-TEST-123',
+      items: [
+          {id: 1, name: 'Pizza Margherita', image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400'},
+          {id: 2, name: 'Chicken Burger', image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400'},
+          {id: 3, name: 'Caesar Salad', image: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400'}
+      ]
+  })"
+  class="fixed bottom-24 right-6 bg-purple-500 hover:bg-purple-600 text-white px-4 py-3 rounded-full font-bold shadow-lg transition-all z-40 flex items-center gap-2">
+      <span class="text-xl">🎯</span>
+      <span class="hidden sm:inline">Test Rating</span>
+  </button>
+
 </body>
 </html>

@@ -6,6 +6,7 @@ document.addEventListener("alpine:init", () => {
         message: '',
         openFaq: null,     // Track which FAQ is open (1-6)
         showContactForm: false,  // Show message form in General
+        submitted: false,  // Track if form was submitted successfully
         loading: false,
         errors: {},
 
@@ -84,19 +85,12 @@ document.addEventListener("alpine:init", () => {
                     message: this.message
                 });
 
-                // Show success message (replace with actual toast/modal)
-                alert('Your support request has been submitted! We\'ll get back to you soon.');
-
-                // Reset form
-                this.selectedType = '';
-                this.orderCode = '';
-                this.message = '';
-                this.showContactForm = false;
-                this.openFaq = null;
+                // Show success screen
+                this.submitted = true;
                 this.loading = false;
 
-                // Redirect to home or orders
-                // window.location.href = "/";
+                // Scroll to top to see success message
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }, 1500);
         },
     }));

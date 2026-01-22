@@ -2,7 +2,9 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('menuHandler', () => ({
         searchQuery: '',
         searchFilter: 'All', 
-        searchFilters: ['All', 'Name', 'Description', 'Badge'], // Replaced Category with Badge
+        searchFilters: ['All', 'Name', 'Description'], // Removed Badge
+        selectedBadge: null, // For badge dropdown
+        badgeOpen: false, // To toggle badge dropdown
         selectedCategory: 'All',
         categories: [
             { name: 'All', icon: '🍽️', count: 18 },
@@ -136,6 +138,11 @@ document.addEventListener('alpine:init', () => {
                 items = items.filter(dish => dish.category === this.selectedCategory);
             }
             
+            // Filter by badge (Badge dropdown)
+            if (this.selectedBadge) {
+                items = items.filter(dish => dish.badge === this.selectedBadge);
+            }
+            
             // Filter by search query with specific fields
             if (this.searchQuery.trim() !== '') {
                 const query = this.searchQuery.toLowerCase();
@@ -143,16 +150,13 @@ document.addEventListener('alpine:init', () => {
                 items = items.filter(dish => {
                     const nameMatch = dish.name.toLowerCase().includes(query);
                     const descMatch = dish.description.toLowerCase().includes(query);
-                    const badgeMatch = dish.badge ? dish.badge.toLowerCase().includes(query) : false;
 
                     if (this.searchFilter === 'Name') {
                         return nameMatch;
                     } else if (this.searchFilter === 'Description') {
                         return descMatch;
-                    } else if (this.searchFilter === 'Badge') {
-                        return badgeMatch;
                     } else {
-                        return nameMatch || descMatch || badgeMatch;
+                        return nameMatch || descMatch;
                     }
                 });
             }

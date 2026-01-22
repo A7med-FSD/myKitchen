@@ -10,13 +10,69 @@
                     <path d="M11.25 4.53286C9.73455 3.56279 7.93246 3 6 3C4.86178 3 3.76756 3.19535 2.75007 3.55499C2.45037 3.66091 2.25 3.94425 2.25 4.26212V18.5121C2.25 18.7556 2.36818 18.9839 2.56696 19.1245C2.76574 19.265 3.02039 19.3004 3.24993 19.2192C4.10911 18.9156 5.03441 18.75 6 18.75C7.99502 18.75 9.82325 19.4573 11.25 20.6357V4.53286Z" />
                     <path d="M12.75 20.6357C14.1768 19.4573 16.005 18.75 18 18.75C18.9656 18.75 19.8909 18.9156 20.7501 19.2192C20.9796 19.3004 21.2343 19.265 21.433 19.1245C21.6318 18.9839 21.75 18.7556 21.75 18.5121V4.26212C21.75 3.94425 21.5496 3.66091 21.2499 3.55499C20.2324 3.19535 19.1382 3 18 3C16.0675 3 14.2655 3.56279 12.75 4.53286V20.6357Z" />
                 </svg>
-                Orders Management
+                Menu Management
             </x-slot:title>
             <x-slot:subtitle>Manage your restaurant menu items</x-slot:subtitle>
             
-            <x-slot:searchplacehold>Search dishes....</x-slot:searchplacehold>
+            <x-slot:searchplacehold>Search menu....</x-slot:searchplacehold>
             <x-slot:filter>filter in searchFilters</x-slot:filter>
-            <div class="hidden xl:block xl:w-100 "></div>
+            
+            {{-- Badge Filter Dropdown --}}
+            <div class="relative w-full md:w-52" x-data="{ badgeOpen: false }">
+                <button @click="badgeOpen = !badgeOpen" 
+                        type="button"
+                        class="w-full md:w-auto px-6 py-3 rounded-full border border-gray-200 bg-white focus:ring-2 focus:ring-yellow-100 outline-none transition-all text-left flex items-center justify-between gap-3 cursor-pointer shadow-sm hover:border-yellow-300"
+                        :class="selectedBadge ? 'border-yellow-400' : 'border-gray-200'">
+                    <span class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5 text-gray-400">
+                            <path fill-rule="evenodd" d="M10 2c-1.716 0-3.408.106-5.07.31C3.806 2.45 3 3.414 3 4.517V17.25a.75.75 0 0 0 1.075.676L10 15.082l5.925 2.844A.75.75 0 0 0 17 17.25V4.517c0-1.103-.806-2.068-1.93-2.207A41.403 41.403 0 0 0 10 2Z" clip-rule="evenodd" />
+                        </svg>
+                        <span :class="selectedBadge ? 'text-gray-900 font-semibold' : 'text-gray-500'" x-text="selectedBadge ? selectedBadge.charAt(0).toUpperCase() + selectedBadge.slice(1) : 'Badge Filter'"></span>
+                    </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5 text-gray-400 transition-transform" :class="badgeOpen ? 'rotate-180' : ''">
+                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+                
+                <div x-show="badgeOpen" 
+                    @click.away="badgeOpen = false"
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 -translate-y-2"
+                    x-transition:enter-end="opacity-100 translate-y-0"
+                    class="absolute z-10 w-full md:w-56 mt-2 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden"
+                    style="display: none;">
+                    <button @click="selectedBadge = null; badgeOpen = false"
+                            type="button"
+                            class="w-full px-4 py-2 text-left hover:bg-gray-50 transition-colors cursor-pointer"
+                            :class="!selectedBadge ? 'bg-gray-50 text-gray-700 font-semibold' : 'text-gray-600'">
+                        All
+                    </button>
+                    <button @click="selectedBadge = 'new'; badgeOpen = false"
+                            type="button"
+                            class="w-full px-4 py-2 text-left hover:bg-green-50 transition-colors cursor-pointer"
+                            :class="selectedBadge === 'new' ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-700'">
+                        🆕 New
+                    </button>
+                    <button @click="selectedBadge = 'featured'; badgeOpen = false"
+                            type="button"
+                            class="w-full px-4 py-2 text-left hover:bg-purple-50 transition-colors cursor-pointer"
+                            :class="selectedBadge === 'featured' ? 'bg-purple-50 text-purple-700 font-semibold' : 'text-gray-700'">
+                        ⭐ Featured
+                    </button>
+                    <button @click="selectedBadge = 'recommended'; badgeOpen = false"
+                            type="button"
+                            class="w-full px-4 py-2 text-left hover:bg-blue-50 transition-colors cursor-pointer"
+                            :class="selectedBadge === 'recommended' ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700'">
+                        👍 Recommended
+                    </button>
+                    <button @click="selectedBadge = 'special'; badgeOpen = false"
+                            type="button"
+                            class="w-full px-4 py-2 text-left hover:bg-yellow-50 transition-colors cursor-pointer"
+                            :class="selectedBadge === 'special' ? 'bg-yellow-50 text-yellow-700 font-semibold' : 'text-gray-700'">
+                        ✨ Special
+                    </button>
+                </div>
+            </div>
         </x-owner.heading>
         <!-- Category Filters -->
         <x-owner.menu.filter-category />

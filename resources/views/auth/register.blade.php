@@ -66,32 +66,19 @@
                             </div>
                         </div>
 
-                        {{-- Email Field --}}
+                        {{-- Phone Field --}}
                         <div class="mb-4">
-                            <label class="block text-sm font-bold text-gray-700 mb-2">
-                                Email Address <span class="text-red-500">*</span>
-                            </label>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Phone Number</label>
                             <div class="relative">
                                 <div class="absolute left-4 top-1/2 -translate-y-1/2">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-gray-400">
-                                        <path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z" />
-                                        <path d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z" />
+                                        <path fill-rule="evenodd" d="M2 3.5A1.5 1.5 0 013.5 2h1.148a1.5 1.5 0 011.465 1.175l.716 3.223a1.5 1.5 0 01-1.052 1.767l-.933.267c-.41.117-.643.555-.48.95a11.542 11.542 0 006.254 6.254c.395.163.833-.07.95-.48l.267-.933a1.5 1.5 0 011.767-1.052l3.223.716A1.5 1.5 0 0118 15.352V16.5a1.5 1.5 0 01-1.5 1.5H15c-1.149 0-2.263-.15-3.326-.43A13.022 13.022 0 012.43 8.326 13.019 13.019 0 012 5V3.5Z" clip-rule="evenodd" />
                                     </svg>
                                 </div>
-                                <input type="email" 
-                                       x-model="userData.email"
-                                       @input="errors.email = ''"
+                                <input type="tel" 
+                                       x-model="userData.phone"
                                        class="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-yellow-400 focus:ring-4 focus:ring-yellow-100 transition-all outline-none font-medium"
-                                       :class="errors.email ? 'border-red-400' : ''"
-                                       placeholder="your@email.com">
-                            </div>
-                            <div x-show="errors.email" 
-                                 x-transition
-                                 class="form-error">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4 shrink-0">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
-                                </svg>
-                                <span x-text="errors.email"></span>
+                                       placeholder="01234567890">
                             </div>
                         </div>
 
@@ -204,21 +191,35 @@
                     {{-- Optional Fields --}}
                     <div class="space-y-4">
                         
-                        {{-- Phone Field --}}
-                        <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-2">Phone Number</label>
+                        {{-- Email Field --}}
+                        <div class="mb-4">
+                            <label class="block text-sm font-bold text-gray-700 mb-2">
+                                Email Address <span class="text-red-500">*</span>
+                            </label>
                             <div class="relative">
                                 <div class="absolute left-4 top-1/2 -translate-y-1/2">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-gray-400">
-                                        <path fill-rule="evenodd" d="M2 3.5A1.5 1.5 0 013.5 2h1.148a1.5 1.5 0 011.465 1.175l.716 3.223a1.5 1.5 0 01-1.052 1.767l-.933.267c-.41.117-.643.555-.48.95a11.542 11.542 0 006.254 6.254c.395.163.833-.07.95-.48l.267-.933a1.5 1.5 0 011.767-1.052l3.223.716A1.5 1.5 0 0118 15.352V16.5a1.5 1.5 0 01-1.5 1.5H15c-1.149 0-2.263-.15-3.326-.43A13.022 13.022 0 012.43 8.326 13.019 13.019 0 012 5V3.5Z" clip-rule="evenodd" />
+                                        <path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z" />
+                                        <path d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z" />
                                     </svg>
                                 </div>
-                                <input type="tel" 
-                                       x-model="userData.phone"
+                                <input type="email" 
+                                       x-model="userData.email"
+                                       @input="errors.email = ''"
                                        class="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-yellow-400 focus:ring-4 focus:ring-yellow-100 transition-all outline-none font-medium"
-                                       placeholder="01234567890">
+                                       :class="errors.email ? 'border-red-400' : ''"
+                                       placeholder="your@email.com">
+                            </div>
+                            <div x-show="errors.email" 
+                                 x-transition
+                                 class="form-error">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4 shrink-0">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
+                                </svg>
+                                <span x-text="errors.email"></span>
                             </div>
                         </div>
+
 
                         {{-- Address Field --}}
                         <div>

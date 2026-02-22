@@ -92,6 +92,13 @@ document.addEventListener('alpine:init', () => {
             rating: 0
         },
 
+        // Delete Confirmation Modal State
+        showDeleteConfirmModal: false,
+        dishToDelete: null,
+
+        // Update Confirmation Modal State
+        showUpdateConfirmModal: false,
+
         init() {
             this.$watch('searchQuery', () => this.triggerAnimation());
             this.$watch('searchFilter', () => this.triggerAnimation());
@@ -675,6 +682,116 @@ document.addEventListener('alpine:init', () => {
                 // Switch to 'All' category after deletion
                 this.selectedCategory = 'All';
             }
+        },
+
+        // Delete Confirmation Modal Methods
+        openDeleteConfirmModal(dish) {
+            this.dishToDelete = dish;
+            this.showDeleteConfirmModal = true;
+            document.body.style.overflow = 'hidden';
+        },
+
+        closeDeleteConfirmModal() {
+            this.showDeleteConfirmModal = false;
+            this.dishToDelete = null;
+            document.body.style.overflow = '';
+        },
+
+        confirmDeleteDish() {
+            if (!this.dishToDelete) {
+                this.closeDeleteConfirmModal();
+                return;
+            }
+
+            // Find dish index
+            const index = this.dishes.findIndex(d => 
+                d.name === this.dishToDelete.name && 
+                d.category === this.dishToDelete.category && 
+                d.price === this.dishToDelete.price
+            );
+
+            if (index === -1) {
+                this.closeDeleteConfirmModal();
+                return;
+            }
+
+            const dish = this.dishes[index];
+
+            // Remove dish
+            this.dishes.splice(index, 1);
+
+            // Update category count
+            const categoryIndex = this.categories.findIndex(c => c.name === dish.category);
+            if (categoryIndex !== -1 && this.categories[categoryIndex].count > 0) {
+                this.categories[categoryIndex].count--;
+            }
+
+            // Update "All" count
+            const allCategoryIndex = this.categories.findIndex(c => c.name === 'All');
+            if (allCategoryIndex !== -1) {
+                this.categories[allCategoryIndex].count = this.dishes.length;
+            }
+
+            // Close both modals
+            this.closeDeleteConfirmModal();
+            this.closeEditDishModal();
+        },
+
+        // Update Confirmation Modal Methods
+        openUpdateConfirmModal() {
+            // Validate form first
+            if (!this.validateEditDishForm()) {
+                return;
+            }
+
+            this.showUpdateConfirmModal = true;
+            document.body.style.overflow = 'hidden';
+        },
+
+        closeUpdateConfirmModal() {
+            this.showUpdateConfirmModal = false;
+            document.body.style.overflow = '';
+        },
+
+        confirmUpdateDish() {
+            if (this.editDish.index === null || this.editDish.index < 0) {
+                this.closeUpdateConfirmModal();
+                return;
+            }
+
+            const oldCategory = this.dishes[this.editDish.index].category;
+            const newCategory = this.editDish.category;
+
+            // Update dish
+            this.dishes[this.editDish.index] = {
+                name: this.editDish.name.trim(),
+                description: this.editDish.description.trim(),
+                category: newCategory,
+                price: parseFloat(this.editDish.price),
+                prepTime: parseInt(this.editDish.prepTime),
+                image: this.editDish.imagePreview,
+                rating: this.editDish.rating,
+                badge: this.editDish.badge
+            };
+
+            // Update category counts if category changed
+            if (oldCategory !== newCategory) {
+                // Decrease old category count
+                const oldCatIndex = this.categories.findIndex(c => c.name === oldCategory);
+                if (oldCatIndex !== -1 && this.categories[oldCatIndex].count > 0) {
+                    this.categories[oldCatIndex].count--;
+                }
+
+                // Increase new category count
+                const newCatIndex = this.categories.findIndex(c => c.name === newCategory);
+                if (newCatIndex !== -1) {
+                    this.categories[newCatIndex].count++;
+                }
+            }
+
+            // Close both modals
+            this.closeUpdateConfirmModal();
+            this.closeEditDishModal();
         }
     }))
 });

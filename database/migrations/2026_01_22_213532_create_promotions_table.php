@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('promotions', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('promo_code')->nullable();
             $table->enum('apply_to', ['all_menu', 'categories', 'dishes'])->default('all_menu');
             $table->integer('value');
             $table->date('start_date');

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('total_price');
             $table->text('delivery_notes')->nullable();
             $table->string('address_link')->nullable(); // google map 
+            $table->string('payment_method'); 
             $table->text('address_text')->nullable();
             $table->integer('promotion_value')->nullable();
             $table->foreignId('promotion_id')->nullable();

@@ -331,7 +331,7 @@
                     class="modal-btn-cancel">
                 Cancel
             </button>
-            <button @click="updateDish()" 
+            <button @click="openUpdateConfirmModal()" 
                     type="button"
                     class="modal-btn-submit">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">

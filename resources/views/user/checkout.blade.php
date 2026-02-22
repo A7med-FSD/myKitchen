@@ -18,6 +18,7 @@
     {{-- Alpine.js --}}
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
 </head>
 <body class="bg-gray-50 min-h-screen">
     
@@ -247,7 +248,7 @@
                              @click="userData.paymentMethod = 'visa'; errors.payment = ''">
                             <div class="flex items-center gap-4">
                                 <div class="w-14 h-10  flex items-center justify-center">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d6/Visa_2021.svg" class="h-full w-auto object-contain" alt="Visa">
+                                    <img src="https://static.vecteezy.com/system/resources/previews/020/335/998/non_2x/visa-logo-visa-icon-free-free-vector.jpg" class="h-full w-auto object-contain" alt="Visa">
                                 </div>
                                 <div class="w-14 h-10  flex items-center justify-center -ml-2">
                                     <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" class="h-full w-auto object-contain" alt="Mastercard">
@@ -486,5 +487,6 @@
 
     {{-- Include checkout.js --}}
     <script src="{{ asset('assets/js/user/checkout.js') }}"></script>
+
 </body>
 </html>

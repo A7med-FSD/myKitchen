@@ -20,6 +20,7 @@
   
   {{-- vite --}}
   @vite(['resources/css/app.css', 'resources/js/app.js'])
+
 </head>
 <body class="pb-20 bg-gray-100 font-family-inter" x-data="{ mobileMenuOpen: false }">
   <div class="px-5 sm:px-10">
@@ -273,5 +274,6 @@
         </button>
     </div>
   </div>
+
 </body>
 </html>

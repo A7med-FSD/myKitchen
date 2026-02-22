@@ -128,5 +128,11 @@
         
         <!-- Edit Dish Modal -->
         <x-owner.menu.edit-dish-modal />
+        
+        <!-- Delete Confirmation Modal -->
+        <x-owner.menu.delete-confirmation-modal />
+        
+        <!-- Update Confirmation Modal -->
+        <x-owner.menu.update-confirmation-modal />
     </div>
 </x-owner.layout>

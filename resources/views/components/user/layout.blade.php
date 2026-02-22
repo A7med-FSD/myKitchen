@@ -29,6 +29,7 @@
   
   {{-- Cart Script --}}
   <script src="{{ asset('assets/js/user/cart.js') }}"></script>
+
 </head>
 <body class="pb-20 bg-gray-100 font-family-inter" x-data="{ mobileMenuOpen: false, scrolled: false }" 
      @scroll.window="scrolled = window.scrollY > 20">

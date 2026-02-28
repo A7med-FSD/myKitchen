@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('address_text')->nullable();
             $table->string('address_link')->nullable(); // google map 
             $table->timestamp('email_verified_at')->nullable();
+            $table->enum('role', ['user', 'owner'])->default('user');
             $table->rememberToken();
             $table->timestamps();
         });

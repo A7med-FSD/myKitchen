@@ -16,13 +16,15 @@ class Dish extends Model
         'time_preparing',
         'price',
         'badge',
+        'is_available',
         'category_id',
     ];
 
     protected $casts = [
         'price' => 'integer',
         'time_preparing' => 'integer',
-        'rating' => 'decimal:1',
+        'rate' => 'decimal:1',
+        'is_available' => 'boolean',
     ];
 
     /**
@@ -48,5 +50,13 @@ class Dish extends Model
     public function promotions(): BelongsToMany
     {
         return $this->belongsToMany(Promotion::class);
+    }
+
+    public function activePromotion()
+    {
+        return $this->belongsToMany(Promotion::class)
+            ->where('is_active', true)
+            ->latest('created_at')
+            ->limit(1);
     }
 }

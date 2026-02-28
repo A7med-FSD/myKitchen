@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Test;
 
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class UserController extends \App\Http\Controllers\Controller
 {
     public function menu() {
         return view('user.menu');

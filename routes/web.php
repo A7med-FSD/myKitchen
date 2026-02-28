@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\OwnerController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Test\OwnerController;
+use App\Http\Controllers\Test\UserController;
+use App\Http\Controllers\Test\AuthController;
 
 Route::controller(OwnerController::class)->prefix('/owner')->group(function () {
     Route::get('/', 'dashboard')->name('owner.dashboard');

@@ -19,8 +19,9 @@ return new class extends Migration
             $table->integer('time_preparing');
             $table->integer('price');
             $table->enum('badge', ['special', 'featured', 'new', 'recommended'])->nullable();
-            $table->decimal('rating', 2, 1)->nullable()->default(null);
+            $table->decimal('rate', 2, 1)->nullable()->default(null);
             $table->foreignId('category_id')->constrained();
+            $table->boolean('is_available')->default(true);
             $table->timestamps();
         });
     }

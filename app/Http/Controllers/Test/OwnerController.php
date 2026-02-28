@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Test;
 
 use Illuminate\Http\Request;
 
-class OwnerController extends Controller
+class OwnerController extends \App\Http\Controllers\Controller
 {
     public function dashboard()
     {

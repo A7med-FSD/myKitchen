@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Test;
 
 use Illuminate\Http\Request;
 
-class AuthController extends Controller
+class AuthController extends \App\Http\Controllers\Controller
 {
     /**
      * Show the login form

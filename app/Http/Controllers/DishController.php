@@ -8,6 +8,7 @@ use App\Http\Resources\DishResource;
 use App\Models\Dish;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class DishController extends Controller
 {
@@ -93,8 +94,11 @@ class DishController extends Controller
         $dish->update($data);
         return $this->successResponse(new DishResource($dish), 200);
         }
+        catch(ModelNotFoundException $e) {
+            return $this->errorResponse($e->getMessage(), 404);
+        }
         catch (\Exception $e) {
-            return $this->errorResponse($e->getMessage(), 500);
+            return $this->errorResponse($e->getMessage(), 404);
         }
     } 
 
@@ -112,6 +116,9 @@ class DishController extends Controller
 
             $dish->delete();
             return $this->successResponse(null, 204);
+        }
+        catch(ModelNotFoundException $e) {
+            return $this->errorResponse($e->getMessage(), 404);
         }
         catch (\Exception $e) {
             return $this->errorResponse($e->getMessage(), 500);

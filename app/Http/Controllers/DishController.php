@@ -50,7 +50,7 @@ class DishController extends Controller
         return $this->successResponse(DishResource::collection($dishes), 200, $dishes);
     }
 
-    //owner apis
+    // owner apis
     public function store(DishRequest $request) {
         try {
             $data = $request->validated();

@@ -19,8 +19,7 @@ class Order extends Model
     ];
 
     protected $casts = [
-        'order_code' => 'integer',
-        'total_price' => 'integer',
+        'total_price' => 'decimal:2',
         'promotion_value' => 'integer',
     ];
 
@@ -42,10 +41,11 @@ class Order extends Model
     }
 
     /**
-     * The users associated with this order.
+     * The user who placed this order.
      */
-    public function users(): BelongsToMany
+    public function user(): BelongsTo
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsTo(User::class);
     }
+
 }

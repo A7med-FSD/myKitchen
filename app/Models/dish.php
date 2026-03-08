@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Carbon\Carbon;
 
 class Dish extends Model
 {
@@ -56,6 +57,8 @@ class Dish extends Model
     {
         return $this->belongsToMany(Promotion::class)
             ->where('is_active', true)
+            ->where('start_date', '<=', Carbon::now())
+            ->where('end_date', '>=', Carbon::now())
             ->latest('created_at')
             ->limit(1);
     }

@@ -16,14 +16,15 @@ return new class extends Migration
             $table->string('customer_phone');
             $table->string('customer_name');
             $table->enum('status', ['pending', 'in_progress', 'ready', 'delivered', 'cancelled'])->default('pending');
-            $table->integer('order_code');
-            $table->integer('total_price');
+            $table->string('order_code');
+            $table->decimal('total_price', 10, 2);
             $table->text('delivery_notes')->nullable();
             $table->string('address_link')->nullable(); 
             $table->string('payment_method'); 
             $table->text('address_text')->nullable();
             $table->integer('promotion_value')->nullable();
             $table->foreignId('promotion_id')->nullable();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps(); 
         });
     }

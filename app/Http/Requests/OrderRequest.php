@@ -11,7 +11,7 @@ class OrderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,18 @@ class OrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'customer_name' => 'required|min:3|max:255',
+            'customer_phone' => 'required|regex:/^(010|011|012|015)[0-9]{8}$/',
+            'address_text' => 'required|min:10|max:255',
+            'delivery_notes' => 'nullable|max:1000',
+            'address_link' => 'nullable|url',
+            'payment_method' => 'required|in:visa,vodafone,instaPay,fawry',
+            'promo_code' => 'nullable|exists:promotions,promo_code',
+            'dishes' => 'required|min:1',
+            'dishes.*.id' => 'required|exists:dishes,id',
+            'dishes.*.name' => 'required',
+            'dishes.*.quantity' => 'required|min:1',
+            
         ];
     }
 }

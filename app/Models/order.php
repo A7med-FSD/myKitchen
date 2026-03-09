@@ -14,7 +14,6 @@ class Order extends Model
         'delivery_notes',
         'address_link',
         'address_text',
-        'promo_code',
         'payment_method',
     ];
 

@@ -18,6 +18,7 @@ class OrderResource extends JsonResource
             'id' => $this->id,
             'order_code' => $this->order_code,
             'status' => $this->status,
+            'total_price_before_promotion' => $this->total_price_before_promotion,
             'total_price' => $this->total_price,
             'created_at' => $this->created_at,
             'address' => $this->address_text,
@@ -25,11 +26,11 @@ class OrderResource extends JsonResource
             'dishes' => $this->whenLoaded('dishes', function () {
                 return $this->dishes->map(function ($dish) {
                     return [
-                        'id' => $dish->id,
                         'name' => $dish->pivot->dish_name_at_order,
                         'price' => $dish->pivot->dish_price_at_order,
+                        'total_price_before_promotion' => $dish->pivot->dish_price_at_order * $dish->pivot->quantity,
                         'quantity' => $dish->pivot->quantity,
-                        'total_price' => $dish->total_price,
+                        'total_price_after_promotion' => $dish->total_price,
                         'promotion' => $dish->pivot->promotion_value
                     ];
                 });

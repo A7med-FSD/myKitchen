@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\ApiResponse;
 use App\Http\Resources\OrderResource;
+use App\Http\Requests\OrderRequest;
 use App\Models\Order;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -44,9 +45,27 @@ class OrderController extends Controller
                     }
                     $order->total_price += $dish->total_price;
                 }
+                if($order->promotion_value !== null) {
+                    $order->total_price_before_promotion = round($order->total_price, 2);
+                    $order->total_price = ((100 - $order->promotion_value) / 100) * $order->total_price;
+                }
             }
+
             //end calculate Total Price
             return $this->successResponse(OrderResource::collection($orders), 200);
+        }
+        catch (ModelNotFoundException $e) {
+            return $this->errorResponse($e->getMessage(), 404);
+        }
+        catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), 500);
+        }
+    }
+
+
+    public function placeOrder(OrderRequest $request) {
+        try {
+            
         }
         catch (ModelNotFoundException $e) {
             return $this->errorResponse($e->getMessage(), 404);

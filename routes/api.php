@@ -17,6 +17,10 @@ Route::prefix('orders')->controller(OrderController::class)->group(function () {
     Route::get('/{userId}', 'orders');
 });
 
+// post orders apis for all users 
+Route::prefix('orders')->controller(OrderController::class)->group(function () {
+    Route::post('/', 'placeOrder');
+});
 // end home apis
 
 // post dishes apis for owner

@@ -23,17 +23,14 @@ class OrderRequest extends FormRequest
     {
         return [
             'customer_name' => 'required|min:3|max:255',
-            'customer_phone' => 'required|regex:/^(010|011|012|015)[0-9]{8}$/',
-            'address_text' => 'required|min:10|max:255',
-            'delivery_notes' => 'nullable|max:1000',
+            'customer_phone' => ['required', 'regex:/^(010|011|012|015)[0-9]{8}$/'],
+            'address_text' => 'required|min:3|max:255',
             'address_link' => 'nullable|url',
+            'delivery_notes' => 'nullable|max:1000',
             'payment_method' => 'required|in:visa,vodafone,instaPay,fawry',
-            'promo_code' => 'nullable|exists:promotions,promo_code',
             'dishes' => 'required|min:1',
             'dishes.*.id' => 'required|exists:dishes,id',
-            'dishes.*.name' => 'required',
-            'dishes.*.quantity' => 'required|min:1',
-            
+            'dishes.*.quantity' => 'required|integer|min:1',
         ];
     }
 }

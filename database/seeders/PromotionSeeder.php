@@ -73,5 +73,16 @@ class PromotionSeeder extends Seeder
         $promo4->dishes()->attach(
             Dish::where('name', 'Mango Smoothie')->first()?->id
         );
+
+        Promotion::create([
+            'title'       => 'All Menu Deal',
+            'promo_code'  => 'MENU15',
+            'apply_to'    => 'all_menu',
+            'value'       => 15,
+            'start_date'  => now()->subDay(),
+            'end_date'    => now()->addDays(7),
+            'is_active'   => true,
+            'count_usage' => 0,
+        ]);
     }
 }

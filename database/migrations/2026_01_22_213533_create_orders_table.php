@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('customer_phone');
             $table->string('customer_name');
             $table->enum('status', ['pending', 'in_progress', 'ready', 'delivered', 'cancelled'])->default('pending');
-            $table->string('order_code');
+            $table->string('order_code')->unique();
             $table->text('address_text');
             $table->string('address_link')->nullable(); 
             $table->text('delivery_notes')->nullable();

@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 class OrderController extends Controller
 {
     use ApiResponse;
-    // home apis
+    // start home apis
 
     public function orders(Request $request , $userId) {
         try {
@@ -106,11 +106,42 @@ class OrderController extends Controller
         }
     }
 
-    protected function generateOrderCode(): string
-    {
+    protected function generateOrderCode(): string {
         do {
             $code = now()->format('Ymd') . '-' . rand(1000, 9999);
         } while (Order::where('order_code', $code)->exists());
         return $code;
+    }
+
+    // end home apis 
+
+    // start owner apis 
+    public function updateStatus(Request $request,$orderId) {
+        $order = Order::find($orderId);
+
+        if($request->status === 'cancelled' && $order->status !== 'delivered') {
+            $order->status = 'cancelled';
+            $order->save();
+            return $this->successResponse(null, 200);
+        }
+        
+        if($request->status === 'in_progress' && $order->status === 'pending') {
+            $order->status = 'in_progress';
+            $order->save();
+            return $this->successResponse(null, 200);
+        }
+        
+        if($request->status === 'ready' && $order->status === 'in_progress') {
+            $order->status = 'ready';
+            $order->save();
+            return $this->successResponse(null, 200);
+        }
+
+        if($request->status === 'delivered' && $order->status === 'ready') {
+            $order->status = 'delivered';
+            $order->save();
+            return $this->successResponse(null, 200);
+        }
+        return $this->errorResponse('This order cannot be updated', 400);
     }
 }

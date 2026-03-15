@@ -75,6 +75,7 @@ class OrderController extends Controller
             $order = Order::make($validation);
             if($request->promo_code) {
                 $promo = Promotion::where('apply_to' , 'all_menu')
+                ->orWhere('apply_to', 'special')
                 ->where('promo_code', $request->promo_code)->first();
                 if($promo) {
                     $order->promotion_value = $promo->value;

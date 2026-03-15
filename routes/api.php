@@ -3,6 +3,7 @@
 use App\Http\Controllers\DishController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PromotionController;
 use Illuminate\Support\Facades\Route;
 
 // Start dishes apis 
@@ -52,3 +53,19 @@ Route::prefix('categories')->controller(CategoryController::class)->group(functi
     Route::delete('/{category_id}', 'delete');
 });
 // End category apis
+
+
+// Start promotion apis
+
+// all users
+Route::prefix('promotions')->controller(PromotionController::class)->group(function () {
+    Route::get('/{apply_to}', 'activePromotions');
+});
+
+// owner
+Route::prefix('owner/promotions')->controller(PromotionController::class)->group(function () {
+    Route::post('/', 'store');
+    Route::patch('/{promotion_id}', 'update');
+    Route::delete('/{promotion_id}', 'delete');
+});
+// End promotion apis

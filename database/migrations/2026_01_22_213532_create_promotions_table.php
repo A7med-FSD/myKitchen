@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('promo_code')->nullable();
-            $table->enum('apply_to', ['all_menu', 'categories', 'dishes'])->default('all_menu');
+            $table->enum('apply_to', ['all_menu', 'categories', 'dishes', 'special'])->default('all_menu');
             $table->integer('value');
             $table->date('start_date');
             $table->date('end_date');

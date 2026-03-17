@@ -31,4 +31,12 @@ class PromotionController extends Controller
         return $this->successResponse(PromotionResource::collection($promotions), 200);
     }
     // End home apis
+
+    // Start owner apis
+    
+    public function index() {
+        
+    }
+
+    // End owner apis
 }

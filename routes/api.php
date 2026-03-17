@@ -17,6 +17,7 @@ Route::prefix('dishes')->controller(DishController::class)->group(function () {
 
 // owner
 Route::prefix('owner/dishes')->controller(DishController::class)->group(function () {
+    Route::get('/', 'index');
     Route::post('/', 'store');
     Route::patch('/{id}', 'update');
     Route::delete('/{id}', 'delete');
@@ -35,7 +36,7 @@ Route::prefix('orders')->controller(OrderController::class)->group(function () {
 
 // owner
 Route::prefix('orders')->controller(OrderController::class)->group(function () {
-    Route::patch('/{orderId}' , 'updateStatus');
+    Route::patch('/{orderId}', 'updateStatus');
 });
 
 // End orders apis 
@@ -44,12 +45,12 @@ Route::prefix('orders')->controller(OrderController::class)->group(function () {
 
 // all users
 Route::prefix('categories')->controller(CategoryController::class)->group(function () {
-    Route::get('/' , 'index');
+    Route::get('/', 'index');
 });
 
 // owner
 Route::prefix('categories')->controller(CategoryController::class)->group(function () {
-    Route::post('/' , 'store');
+    Route::post('/', 'store');
     Route::delete('/{category_id}', 'delete');
 });
 // End category apis

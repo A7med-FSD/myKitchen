@@ -14,7 +14,7 @@ class DishController extends Controller
 {
     use ApiResponse;
 
-    // home apis 
+    // Start home apis 
     public function mostOrderdDishes() {
         $dishes = Dish::query()
         ->with('activePromotion')
@@ -28,8 +28,21 @@ class DishController extends Controller
 
     public function dishes(Request $request) {
         $dishes = Dish::query()
+            ->where('is_available', true)
             ->when($request->category_id, fn($q, $id) => $q->where('category_id', $id))
             ->when($request->badge !== null && $request->badge !== 'all', fn($q) => $q->where('badge', $request->badge))
+            ->when($request->searchBody && $request->searchBody !== '', function ($q) use ($request) {
+                if (!$request->searchBy  || $request->searchBy === '' || $request->searchBy === 'all') {
+                    return $q->where('name', 'LIKE', "%$request->searchBody%")
+                        ->orWhere('description', 'LIKE', "%$request->searchBody%");
+                } elseif ($request->searchBy === 'name') {
+                    return $q->where('name', 'LIKE', "%$request->searchBody%");
+                } elseif ($request->searchBy === 'description') {
+                    return $q->where('description', 'LIKE', "%$request->searchBody%");
+                } else {
+                    return $q;
+                }
+            })
             ->with(['category', 'activePromotion'])
             ->withCount('orders')
             ->orderBy('name')
@@ -50,7 +63,34 @@ class DishController extends Controller
         return $this->successResponse(DishResource::collection($dishes), 200, $dishes);
     }
 
+    // End home apis 
+
     // owner apis
+    public function index(Request $request) {
+        $dishes = Dish::query()
+            ->when($request->category_id, fn($q, $id) => $q->where('category_id', $id))
+            ->when($request->badge !== null && $request->badge !== 'all', fn($q) => $q->where('badge', $request->badge))
+            ->when($request->searchBody && $request->searchBody !== '' , function($q) use($request) {
+                if(!$request->searchBy  || $request->searchBy === '' || $request->searchBy === 'all') {
+                    return $q->where('name', 'LIKE', "%$request->searchBody%")
+                    ->orWhere('description', 'LIKE', "%$request->searchBody%");
+                }elseif($request->searchBy === 'name') {
+                    return $q->where('name', 'LIKE', "%$request->searchBody%");
+                }elseif($request->searchBy === 'description') {
+                    return $q->where('description', 'LIKE', "%$request->searchBody%");
+                } else {
+                    return $q;
+                }
+            })
+            ->with(['category', 'activePromotion'])
+            ->withCount('orders')
+            ->orderBy('name')
+            ->orderBy('id')
+            ->cursorPaginate(4);
+
+        return $this->successResponse(DishResource::collection($dishes), 200, $dishes);
+    }
+
     public function store(DishRequest $request) {
         try {
             $data = $request->validated();

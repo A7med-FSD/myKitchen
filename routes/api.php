@@ -35,7 +35,8 @@ Route::prefix('orders')->controller(OrderController::class)->group(function () {
 });
 
 // owner
-Route::prefix('orders')->controller(OrderController::class)->group(function () {
+Route::prefix('owner/orders')->controller(OrderController::class)->group(function () {
+    Route::get('/', 'index');
     Route::patch('/{orderId}', 'updateStatus');
 });
 

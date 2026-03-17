@@ -34,7 +34,6 @@ trait ApiResponse
 
     protected function successRegister($data, $message = null, $code = 200,$token)
     {
-      
         return response()->json([
             'success' => true,
             'message' => $message,

@@ -34,8 +34,39 @@ class PromotionController extends Controller
 
     // Start owner apis
     
-    public function index() {
-        
+    public function index(Request $request) {
+        $request->validate([
+            'status' => 'nullable|in:all,active,expired,scheduled',
+            'searchBy' => 'nullable|in:all,title,promo_code'
+        ]);
+        $promotions = Promotion::query()
+        ->when($request->status && $request->status !== 'all' , function($q) use($request) {
+            if($request->status === 'active') {
+                return $q->where('is_active', true)
+                ->where('start_date', '<=', now())
+                ->where('end_date', '>=', now());
+            } elseif($request->status === 'expired') {
+                return $q->where('end_date', '<', now());
+            } else {
+                return $q->where('start_date', '>', now());
+            }
+        })
+        ->when($request->searchBody, function($q) use($request) {
+            if($request->searchBy === 'all') {
+                return $q->where('title', 'LIKE', "%{$request->searchBody}%")
+                ->orWhere('promo_code', 'LIKE', "%{$request->searchBody}%");
+            } elseif($request->searchBy === 'title') {
+                return $q->where('title', 'LIKE', "%{$request->searchBody}%");
+            } else {
+                return $q->where('promo_code', 'LIKE', "%{$request->searchBody}%");
+            }
+        })
+        ->with(['dishes', 'categories'])
+        ->orderBy('created_at')
+        ->orderBy('id')
+        ->cursorPaginate(6);
+
+        return $this->successResponse(PromotionResource::collection($promotions), 200, $promotions);
     }
 
     // End owner apis

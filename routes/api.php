@@ -66,6 +66,7 @@ Route::prefix('promotions')->controller(PromotionController::class)->group(funct
 
 // owner
 Route::prefix('owner/promotions')->controller(PromotionController::class)->group(function () {
+    Route::get('/', 'index');
     Route::post('/', 'store');
     Route::patch('/{promotion_id}', 'update');
     Route::delete('/{promotion_id}', 'delete');

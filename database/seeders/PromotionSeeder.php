@@ -107,7 +107,7 @@ class PromotionSeeder extends Seeder
             'promo_code'  => 'VIP30',            // ✅ special له promo_code
             'apply_to'    => 'special',
             'value'       => 30,
-            'start_date'  => now()->subDays(1),
+            'start_date'  => now()->addDays(2),
             'end_date'    => now()->addDays(14),
             'is_active'   => true,
             'count_usage' => 0,

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\PromotionRequest;
 use App\Http\Resources\PromotionResource;
 use App\Models\Promotion;
 use App\ApiResponse;
@@ -69,5 +70,30 @@ class PromotionController extends Controller
         return $this->successResponse(PromotionResource::collection($promotions), 200, $promotions);
     }
 
+    public function store(PromotionRequest $request) {
+
+        try {
+            $validation = $request->validated();
+    
+            $dishes = $validation['dishes'] ?? [];
+            $categories = $validation['categories'] ?? [];
+
+            unset($validation['dishes'], $validation['categories']);
+
+            $promotion = Promotion::create($validation);
+
+            if(!empty($dishes)) {
+                $promotion->dishes()->attach($dishes);
+            }
+
+            if (!empty($categories)) {
+                $promotion->categories()->attach($categories);
+            }
+            return $this->successResponse(null, 200);
+        }
+        catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), 500);
+        }
+    }
     // End owner apis
 }

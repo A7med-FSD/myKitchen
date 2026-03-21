@@ -80,7 +80,7 @@ class OrderController extends Controller
                     }
             $order->dishes()->attach($dishesData);
 
-            return $this->successResponse(null, 200);
+            return $this->successResponse(null, 201);
         }
         catch (ModelNotFoundException $e) {
             return $this->errorResponse($e->getMessage(), 404);

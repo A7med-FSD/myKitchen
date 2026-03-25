@@ -61,4 +61,8 @@ class Dish extends Model
             ->latest('created_at')
             ->limit(1);
     }
+
+    public function activeCategoryPromotion() {
+        
+    }
 }

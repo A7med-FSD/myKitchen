@@ -50,9 +50,8 @@ class OrderController extends Controller
     public function placeOrder(OrderRequest $request) {
         try {
             $validation = $request->validated();
-            $dishes = $validation['dishes'];
+            $dishesData = $validation['dishes'];
             unset($validation['dishes']);
-            $dishesData = [];
 
             
             $order = Order::make($validation);
@@ -67,18 +66,26 @@ class OrderController extends Controller
             $order->user_id = 1; // temporary user id ('ahmed')
             $order->order_code = $this->generateOrderCode();
             $order->save();
-            
+
+            $dishIds = collect($dishesData)->pluck('id');
+            $dishQuantities = collect($dishesData)->pluck('quantity', 'id'); 
+
+            $dishes = Dish::with(['activePromotion' => function ($q) {
+                return $q->select('promotions.value');
+            }])
+            ->whereIn('id', $dishIds)
+            ->get();
+
+            $dishesPivotData = [];
             foreach($dishes as $dish) {
-                $dishData = Dish::with('activePromotion')->find($dish['id']);
-                $promotion_value = $dishData->activePromotion->first()?->value;
-                $dishesData[$dish['id']] = [
-                    'quantity' => $dish['quantity'],
-                    'dish_price_at_order' => $dishData->price,
-                    'dish_name_at_order' => $dishData->name,
-                    'promotion_value' => $promotion_value
+                $dishesPivotData[$dish->id] = [
+                    'quantity' => $dishQuantities->get($dish->id),
+                    'dish_price_at_order' => $dish->price,
+                    'dish_name_at_order' => $dish->name,
+                    'promotion_value' => $dish->activePromotion->first()?->value
                     ];
-                    }
-            $order->dishes()->attach($dishesData);
+            }
+            $order->dishes()->attach($dishesPivotData);
 
             return $this->successResponse(null, 201);
         }

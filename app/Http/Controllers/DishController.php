@@ -82,6 +82,7 @@ class DishController extends Controller
                     return $q;
                 }
             })
+            ->when($request->is_available, fn($q) => $q->where('is_available', true))
             ->with(['category', 'activePromotion'])
             ->withCount('orders')
             ->orderBy('name')

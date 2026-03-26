@@ -55,14 +55,10 @@ class Dish extends Model
     public function activePromotion()
     {
         return $this->belongsToMany(Promotion::class)
-            ->where('is_active', true)
-            ->where('start_date', '<=', Carbon::now())
-            ->where('end_date', '>=', Carbon::now())
-            ->latest('created_at')
+            ->where('promotions.is_active', true)
+            ->where('promotions.start_date', '<=', Carbon::now())
+            ->where('promotions.end_date', '>=', Carbon::now())
+            ->latest('promotions.created_at')
             ->limit(1);
-    }
-
-    public function activeCategoryPromotion() {
-        
     }
 }

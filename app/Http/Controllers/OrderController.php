@@ -9,6 +9,7 @@ use App\Models\Dish;
 use App\Models\Promotion;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 
 class OrderController extends Controller
@@ -70,19 +71,19 @@ class OrderController extends Controller
             $dishIds = collect($dishesData)->pluck('id');
             $dishQuantities = collect($dishesData)->pluck('quantity', 'id'); 
 
-            $dishes = Dish::with(['activePromotion' => function ($q) {
-                return $q->select('promotions.value');
-            }])
+            $dishes = Dish::with(['activePromotion' => function ($q) { return $q->select('promotions.value'); },
+                'category.activePromotion' => function ($q) { return $q->select('promotions.value'); }])
             ->whereIn('id', $dishIds)
             ->get();
 
             $dishesPivotData = [];
             foreach($dishes as $dish) {
+                $promotion_value = max($dish->activePromotion->first()?->value, $dish->category->activePromotion->first()?->value);
                 $dishesPivotData[$dish->id] = [
                     'quantity' => $dishQuantities->get($dish->id),
                     'dish_price_at_order' => $dish->price,
                     'dish_name_at_order' => $dish->name,
-                    'promotion_value' => $dish->activePromotion->first()?->value
+                    'promotion_value' => $promotion_value
                     ];
             }
             $order->dishes()->attach($dishesPivotData);

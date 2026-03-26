@@ -29,7 +29,7 @@ class PromotionSeeder extends Seeder
         $promo2 = Promotion::create([
             'title'       => 'Sweet Treats Offer',
             'apply_to'    => 'dishes',
-            'value'       => 15,
+            'value'       => 5,
             'start_date'  => now()->subDay(),
             'end_date'    => now()->addDays(10),
             'is_active'   => true,

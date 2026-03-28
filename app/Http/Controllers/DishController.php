@@ -58,7 +58,8 @@ class DishController extends Controller
         ->withCount('orders')
         ->orderBy('rate', 'desc')
         ->orderBy('id')
-        ->cursorPaginate(3);
+        ->limit(9)
+        ->get();
 
         return $this->successResponse(DishResource::collection($dishes), 200, $dishes);
     }

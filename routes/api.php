@@ -1,18 +1,31 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DishController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PromotionController;
 use Illuminate\Support\Facades\Route;
 
+// Start auth apis
+
+Route::prefix("auth/{type}")->whereIn('type', ['owner', 'user', ''])->controller(AuthController::class)->group(function () {
+    Route::post("login", "login");
+});
+
+// End auth apis 
+
+
 // Start dishes apis 
 
 // all users 
-Route::middleware('auth:customer')->prefix('dishes')->controller(DishController::class)->group(function () {
-    Route::get('/most-ordered', 'mostOrderdDishes');
-    Route::get('/', 'dishes');
-    Route::get('/most-popular', 'mostPopularDishes');
+Route::prefix('dishes')->controller(DishController::class)->group(function () {
+    Route::get('/most-popular', 'mostPopularDishes'); // for landing page
+
+    Route::middleware('auth:customer')->group(function () {
+        Route::get('/most-ordered', 'mostOrderdDishes'); 
+        Route::get('/', 'dishes');
+    });
 });
 
 // owner

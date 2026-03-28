@@ -3,16 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Owner extends Authenticatable
+class Admin extends Model
 {
-    protected $table = 'owner';
-
     protected $fillable = [
         'name',
         'email',
-        'phone',
+        'phone_numbers',
         'password',
         'image',
     ];
@@ -25,5 +22,6 @@ class Owner extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'phone_numbers' => 'array'
     ];
 }

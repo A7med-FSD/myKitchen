@@ -8,6 +8,7 @@ use App\Http\Resources\PromotionResource;
 use App\Models\Promotion;
 use App\ApiResponse;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PromotionController extends Controller
 {
@@ -116,6 +117,21 @@ class PromotionController extends Controller
             if (!empty($categories)) $promotion->categories()->sync($categories);
             return $this->successResponse(null, 200);
         } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), 500);
+        }
+    }
+
+    public function delete($promotionId) {
+        try {
+            $promotion = Promotion::find($promotionId);
+    
+            $promotion->delete();
+            return $this->successResponse(null, 204);
+        }
+        catch(ModelNotFoundException $e) {
+            return $this->errorResponse($e->getMessage(), 404);
+        }
+        catch (\Exception $e) {
             return $this->errorResponse($e->getMessage(), 500);
         }
     }

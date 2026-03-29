@@ -63,4 +63,14 @@ class AuthController extends Controller
             return $this->errorResponse($e->getMessage(), 500);
         }
     }
+
+    public function logout(Request $request) {
+        try {
+            $request->user()->currentAccessToken()->delete();
+
+            return $this->successResponse(null, 204, 'Logout successful');
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), 500);
+        }
+    }
 }

@@ -9,8 +9,9 @@ use Illuminate\Support\Facades\Route;
 
 // Start auth apis
 
-Route::prefix("auth/{type}")->whereIn('type', ['owner', 'user', ''])->controller(AuthController::class)->group(function () {
-    Route::post("login", "login");
+Route::prefix("auth")->controller(AuthController::class)->group(function () {
+    Route::post("{type}/login", "login")->whereIn('type', ['owner', 'user', '']);
+    Route::post("register", "register");
 });
 
 // End auth apis 

@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\ApiResponse;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Laravel\Sanctum\HasApiTokens;
+
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -39,5 +40,27 @@ class AuthController extends Controller
 
         return $this->successResponse($token, 200);
         
+    }
+
+    public function register(RegisterRequest $request) {
+        try {
+            $data = $request->validated();
+
+            if($request->hasFile('image')) {
+                $imgExt = $request->image->getClientOriginalExtension();
+                $imgName = time() . '.' . $imgExt;
+                $request->file('image')->storeAs('users', $imgName, 'public');
+                $data['image'] = $imgName;
+            }
+
+            $user = User::create($data);
+            $token = $user->createToken('web-token')->plainTextToken;
+            
+            unset($data['password_confirmation'], $data['password']);
+            return $this->successResponse(['data' => $user, 'token' => $token], 201);
+        }
+        catch (\Exception $e){
+            return $this->errorResponse($e->getMessage(), 500);
+        }
     }
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\DishController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 // Start auth apis
@@ -17,7 +18,6 @@ Route::prefix("auth")->controller(AuthController::class)->group(function () {
 });
 
 // End auth apis 
-
 
 // Start dishes apis 
 
@@ -40,7 +40,6 @@ Route::middleware('auth:owner')->prefix('owner/dishes')->controller(DishControll
 });
 
 // End dishes apis 
-
 
 // Start orders apis 
 
@@ -72,7 +71,6 @@ Route::middleware('auth:owner')->prefix('categories')->controller(CategoryContro
 });
 // End category apis
 
-
 // Start promotion apis
 
 // all users
@@ -87,4 +85,15 @@ Route::middleware('auth:owner')->prefix('owner/promotions')->controller(Promotio
     Route::patch('/{promotion}', 'update');
     Route::delete('/{promotion_id}', 'delete');
 });
+
 // End promotion apis
+
+// Start review apis
+
+// all user
+Route::post('review', [ReviewController::class, 'store'])->middleware('auth:customer');
+
+// owner
+Route::post('reviewUpdate/{reviewId}', [ReviewController::class, 'togglePublish'])->middleware('auth:owner');
+
+// End review apis

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Dish extends Model
 {
@@ -42,6 +43,10 @@ class Dish extends Model
     {
         return $this->belongsToMany(Order::class)
                     ->withPivot('quantity', 'dish_price_at_order', 'dish_name_at_order', 'promotion_value');
+    }
+
+    public function reviews() : HasMany {
+        return $this->hasMany(Review::class);
     }
 
     /**

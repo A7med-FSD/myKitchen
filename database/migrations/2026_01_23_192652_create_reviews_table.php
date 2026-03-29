@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->string('dish_name');
             $table->unsignedTinyInteger('rating');
             $table->string('content')->nullable();
             $table->foreignId('user_id');
+            $table->foreignId('dish_id');
+            $table->boolean('is_published')->default(false);
             $table->timestamps();
         });
     }

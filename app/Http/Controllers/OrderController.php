@@ -64,7 +64,7 @@ class OrderController extends Controller
                     $order->promotion_value = $promo->value;
                 }
             }
-            $order->user_id = 1; // temporary user id ('ahmed')
+            $order->user_id = $request->user()->id; 
             $order->order_code = $this->generateOrderCode();
             $order->save();
 

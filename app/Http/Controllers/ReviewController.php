@@ -17,7 +17,7 @@ class ReviewController extends Controller
 
         $review = Review::make($data);
         $review->dish_id = $data['dish_id'];
-        $review->user_id = $request->user()->id; // بيتتبعت فعلا 
+        $review->user_id = $request->user()->id; 
         $review->save();
 
         return $this->successResponse($review, 201);

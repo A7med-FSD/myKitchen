@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('category');
             $table->integer('quantity');
-            $table->enum('unit', ['kg', 'g', 'L', 'ml', 'pcs'])->default('kg');
+            $table->enum('unit', ['kg', 'g', 'l', 'ml', 'pcs'])->default('kg');
             $table->decimal('price_per_unit', 10, 2);
             $table->integer('low_stock_alert')->default(10);
             $table->timestamps();

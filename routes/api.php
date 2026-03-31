@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DishController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,7 @@ Route::prefix("auth")->controller(AuthController::class)->group(function () {
 
 // Start dishes apis 
 
-// all users 
+// customers 
 Route::prefix('dishes')->controller(DishController::class)->group(function () {
     Route::get('/most-popular', 'mostPopularDishes'); // for landing page
 
@@ -43,7 +44,7 @@ Route::middleware('auth:owner')->prefix('owner/dishes')->controller(DishControll
 
 // Start orders apis 
 
-// all users 
+// customers 
 Route::middleware('auth:customer')->prefix('orders')->controller(OrderController::class)->group(function () {
     Route::get('/{userId}', 'orders');
     Route::post('/', 'placeOrder');
@@ -60,7 +61,7 @@ Route::middleware('auth:owner')->prefix('owner/orders')->controller(OrderControl
 // Start category apis
 
 // all users
-Route::middleware('auth:customer')->prefix('categories')->controller(CategoryController::class)->group(function () {
+Route::middleware('auth:customer,owner')->prefix('categories')->controller(CategoryController::class)->group(function () {
     Route::get('/', 'index');
 });
 
@@ -73,7 +74,7 @@ Route::middleware('auth:owner')->prefix('categories')->controller(CategoryContro
 
 // Start promotion apis
 
-// all users
+// customers
 Route::middleware('auth:customer')->prefix('promotions')->controller(PromotionController::class)->group(function () {
     Route::get('/{apply_to}', 'activePromotions');
 });
@@ -97,3 +98,14 @@ Route::post('review', [ReviewController::class, 'store'])->middleware('auth:cust
 Route::post('reviewUpdate/{reviewId}', [ReviewController::class, 'togglePublish'])->middleware('auth:owner');
 
 // End review apis
+
+// Start ingredient apis
+
+Route::middleware('auth:owner')->prefix('ingredients')->controller(IngredientController::class)->group(function () {
+    Route::get('', 'index');
+    Route::post('', 'store');
+    Route::patch('/{ingredientId}', 'update');
+    Route::delete('/{ingredientId}', 'delete');
+});
+
+// End ingredient apis

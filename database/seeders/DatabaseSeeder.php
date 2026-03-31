@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             DishSeeder::class,
             OrderSeeder::class,
             PromotionSeeder::class,
-            OwnerSeeder::class
+            OwnerSeeder::class,
+            IngredientSeeder::class
         ]);
 
 

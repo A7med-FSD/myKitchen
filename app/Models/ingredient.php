@@ -17,4 +17,9 @@ class Ingredient extends Model
     ];
 
 
+    protected $cast = [
+        'price_per_unit' => 'decimal:2',
+        'quantity' => 'integer',
+        'low_stock_alert' => 'integer'
+    ];
 }

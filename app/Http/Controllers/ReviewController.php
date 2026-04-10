@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReviewRequest;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use App\Http\Resources\ReviewResource;
 use App\ApiResponse;
 
 class ReviewController extends Controller
@@ -21,6 +22,13 @@ class ReviewController extends Controller
         $review->save();
 
         return $this->successResponse($review, 201);
+    }
+
+    public function index() {
+        $Reviews = Review::where('is_published', true)
+        ->with(['user', 'dish'])->orderBy('created_at', 'DESC')->orderBy('id')->cursorPaginate(3);
+
+        return $this->successResponse(ReviewResource::collection($Reviews), 200, $Reviews);
     }
 
     // Owner Apis

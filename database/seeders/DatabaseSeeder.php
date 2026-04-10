@@ -24,7 +24,8 @@ class DatabaseSeeder extends Seeder
             OrderSeeder::class,
             PromotionSeeder::class,
             OwnerSeeder::class,
-            IngredientSeeder::class
+            IngredientSeeder::class,
+            ReviewSeeder::class
         ]);
 
 

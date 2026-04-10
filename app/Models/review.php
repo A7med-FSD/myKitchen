@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Review extends Model
 {
     protected $fillable = [
-        'dish_name',
+        'user_id',
+        'dish_id',
         'rating',
         'content',
+        'is_published',
     ];
 
     protected $casts = [

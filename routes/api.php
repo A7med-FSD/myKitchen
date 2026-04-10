@@ -93,6 +93,7 @@ Route::middleware('auth:owner')->prefix('owner/promotions')->controller(Promotio
 
 // all user
 Route::post('review', [ReviewController::class, 'store'])->middleware('auth:customer');
+Route::get('review', [ReviewController::class, 'index'])->middleware('auth:customer,owner');
 
 // owner
 Route::post('reviewUpdate/{reviewId}', [ReviewController::class, 'togglePublish'])->middleware('auth:owner');

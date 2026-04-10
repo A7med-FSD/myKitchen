@@ -143,14 +143,14 @@ class OrderSeeder extends Seeder
             ]);
             $order->dishes()->attach($chocolateCake->id, [
                 'quantity'            => 1,
-                'dish_price_at_order' => $chocolateCake->price,
-                'dish_name_at_order'  => $chocolateCake->name,
+                'dish_price_at_order' => $chocolateCake->price, 
+                'dish_name_at_order'  => $chocolateCake->name, // desserts
                 'promotion_value'     => null,
             ]);
             $order->dishes()->attach($mangoSmoothie->id, [
                 'quantity'            => 1,
-                'dish_price_at_order' => $mangoSmoothie->price,
-                'dish_name_at_order'  => $mangoSmoothie->name,
+                'dish_price_at_order' => $mangoSmoothie->price, 
+                'dish_name_at_order'  => $mangoSmoothie->name, // drinks
                 'promotion_value'     => null,
             ]);
         });
@@ -172,13 +172,13 @@ class OrderSeeder extends Seeder
             ]);
             $order->dishes()->attach($grilledChicken->id, [
                 'quantity'            => 1,
-                'dish_price_at_order' => $grilledChicken->price,
+                'dish_price_at_order' => $grilledChicken->price, // mainDishes
                 'dish_name_at_order'  => $grilledChicken->name,
                 'promotion_value'     => null,
             ]);
             $order->dishes()->attach($mixedGrill->id, [
                 'quantity'            => 1,
-                'dish_price_at_order' => $mixedGrill->price,
+                'dish_price_at_order' => $mixedGrill->price, // mainDishes
                 'dish_name_at_order'  => $mixedGrill->name,
                 'promotion_value'     => null,
             ]);
@@ -200,7 +200,7 @@ class OrderSeeder extends Seeder
             $order->dishes()->attach($chocolateCake->id, [
                 'quantity'            => 1,
                 'dish_price_at_order' => $chocolateCake->price,
-                'dish_name_at_order'  => $chocolateCake->name,
+                'dish_name_at_order'  => $chocolateCake->name, // desserts
                 'promotion_value'     => null,
             ]);
         });

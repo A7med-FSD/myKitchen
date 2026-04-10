@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Start auth apis
@@ -110,3 +111,11 @@ Route::middleware('auth:owner')->prefix('ingredients')->controller(IngredientCon
 });
 
 // End ingredient apis
+
+// Start user apis
+
+Route::middleware('auth:customer')->prefix('user')->controller(UserController::class)->group(function () {
+    Route::get('/profile', 'profile');
+});
+
+// End user apis

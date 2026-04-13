@@ -140,7 +140,7 @@ class DishController extends Controller
             return $this->errorResponse($e->getMessage(), 404);
         }
         catch (\Exception $e) {
-            return $this->errorResponse($e->getMessage(), 404);
+            return $this->errorResponse($e->getMessage(), 500);
         }
     } 
 

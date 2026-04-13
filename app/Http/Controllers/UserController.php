@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\ApiResponse;
+use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -35,5 +37,31 @@ class UserController extends Controller
         }
 
         return $this->successResponse(new UserResource($user), 200);
+    }
+
+    public function update(UserRequest $request) {
+        try {
+            $user = Auth::user();
+            $data = $request->validated();
+    
+            if($request->hasFile('image')) {
+                if($user->image) {
+                    $oldPath = 'users/' . $user->image;
+                    if(Storage::disk('public')->exists($oldPath)) {
+                        Storage::disk('public')->delete($oldPath);
+                    }
+                }
+    
+                $imgExt = $request->image->getClientOriginalExtension();
+                $imgName = Auth::id() . '_' . time() . '.' . $imgExt;
+                $request->file('image')->storeAs('users', $imgName, 'public');
+                $data['image'] = $imgName;
+            }
+    
+            $user->update($data);
+            return $this->successResponse(new UserResource($user), 200);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), 500);
+        }
     }
 }

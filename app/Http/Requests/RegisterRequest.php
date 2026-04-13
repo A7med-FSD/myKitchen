@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 
 use App\Rules\GoogleMapsLink;
+use App\Rules\PhoneRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
@@ -25,12 +26,12 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:3|max:255',
-            'phone' => ['required', 'regex:/^(\+20|0)1[0125]\d{8}$/', 'unique:users,phone'],
+            'phone' => ['required', new PhoneRule(), 'unique:users,phone'],
             'password' => 'required|min:6|max:20|confirmed', // input confirme filed must named "password_confirmation"
             'email' => 'nullable|email|unique:users,email',
             'address_link' => ['nullable', new GoogleMapsLink()],
             'address_text' => 'nullable|min:10|max:500',
-            'image' => 'nullable|image|mimes:png,jpg,jpeg,gif|max:2048'
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
         ];
     }
 }

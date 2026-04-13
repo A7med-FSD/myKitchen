@@ -116,6 +116,7 @@ Route::middleware('auth:owner')->prefix('ingredients')->controller(IngredientCon
 
 Route::middleware('auth:customer')->prefix('user')->controller(UserController::class)->group(function () {
     Route::get('/profile', 'profile');
+    Route::patch('/profile', 'update');
 });
 
 // End user apis

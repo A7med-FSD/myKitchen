@@ -8,6 +8,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Hash;
 
@@ -46,14 +47,16 @@ class AuthController extends Controller
         try {
             $data = $request->validated();
 
-            if($request->hasFile('image')) {
-                $imgExt = $request->image->getClientOriginalExtension();
-                $imgName = time() . '.' . $imgExt;
-                $request->file('image')->storeAs('users', $imgName, 'public');
-                $data['image'] = $imgName;
-            }
+            unset($data['image']);
 
             $user = User::create($data);
+            if($request->hasFile('image')) {
+                $imgExt = $request->image->getClientOriginalExtension();
+                $imgName = $user->id . '_' . time() . '.' . $imgExt;
+                $request->file('image')->storeAs('users', $imgName, 'public');
+                $user->update(['image' => $imgName]);
+            }
+
             $token = $user->createToken('web-token')->plainTextToken;
             
             unset($data['password_confirmation'], $data['password']);

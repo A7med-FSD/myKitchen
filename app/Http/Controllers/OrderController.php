@@ -10,16 +10,16 @@ use App\Models\Promotion;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
     use ApiResponse;
     // start home apis
 
-    public function orders(Request $request , $userId) {
+    public function orders(Request $request) {
         try {
-            $orders = Order::where('user_id', $userId)
+            $orders = Order::where('user_id', Auth::id())
             ->when($request->order_code, function ($query) use ($request) {
                 $query->where('order_code', 'like', '%' . $request->order_code . '%');
             })

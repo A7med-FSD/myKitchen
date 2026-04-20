@@ -18,7 +18,8 @@ return new class extends Migration
             $table->enum('status', ['pending', 'in_progress', 'ready', 'delivered', 'cancelled'])->default('pending');
             $table->string('order_code')->unique();
             $table->text('address_text');
-            $table->string('address_link')->nullable(); 
+            $table->decimal('latitude', 10, 8)->nullable();
+            $table->decimal('longitude', 11, 8)->nullable(); 
             $table->text('delivery_notes')->nullable();
             $table->enum('payment_method' , ['visa', 'vodafone', 'instaPay', 'fawry']); 
             $table->integer('promotion_value')->nullable();

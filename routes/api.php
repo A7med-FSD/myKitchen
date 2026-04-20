@@ -47,7 +47,7 @@ Route::middleware('auth:owner')->prefix('owner/dishes')->controller(DishControll
 
 // customers 
 Route::middleware('auth:customer')->prefix('orders')->controller(OrderController::class)->group(function () {
-    Route::get('/{userId}', 'orders');
+    Route::get('/', 'orders');
     Route::post('/', 'placeOrder');
 });
 

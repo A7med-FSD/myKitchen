@@ -19,7 +19,11 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'phone' => $this->phone,
-            'address' => $this->address,
+            'address_text' => $this->address_text,
+            'location' => [
+                'latitude' => $this->latitude,
+                'longitude' => $this->longitude,
+            ],
             'googleMap_link' => $this->address_link,
             'status' => $this->status,
             'orders_count' => $this->when(isset($this->orders_count), function () {

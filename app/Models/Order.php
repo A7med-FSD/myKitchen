@@ -12,7 +12,8 @@ class Order extends Model
         'customer_phone',
         'customer_name',
         'delivery_notes',
-        'address_link',
+        'latitude',
+        'longitude',
         'address_text',
         'payment_method',
     ];
@@ -20,6 +21,8 @@ class Order extends Model
     protected $casts = [
         'total_price' => 'decimal:2',
         'promotion_value' => 'integer',
+        'latitude' => 'decimal:8',
+        'longitude' => 'decimal:8'
     ];
 
     /**

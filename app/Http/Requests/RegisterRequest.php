@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 
-use App\Rules\GoogleMapsLink;
 use App\Rules\PhoneRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -30,7 +29,8 @@ class RegisterRequest extends FormRequest
             'password' => 'required|min:6|max:20|confirmed', // input confirme filed must named "password_confirmation"
             'email' => 'nullable|email|unique:users,email',
             'address_link' => ['nullable', new GoogleMapsLink()],
-            'address_text' => 'nullable|min:10|max:500',
+            'latitude'  => 'nullable|required_if:longitude,between:-99,99',
+            'longitude'  => 'nullable|required_if:latitude,between:-180,180',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
         ];
     }

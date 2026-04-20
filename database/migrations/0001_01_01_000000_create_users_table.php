@@ -20,7 +20,8 @@ return new class extends Migration
             $table->enum('status', ['vip', 'regular', 'new'])->default('new');
             $table->string('image')->nullable();
             $table->string('address_text')->nullable();
-            $table->string('address_link')->nullable(); 
+            $table->decimal('latitude', 10, 8)->nullable();
+            $table->decimal('longitude', 11, 8)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

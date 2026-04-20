@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\GoogleMapsLink;
 use App\Rules\PhoneRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +32,8 @@ class UserRequest extends FormRequest
             'email'        => ['sometimes', 'nullable', 'email', 'unique:users,email,' . $userId],
             'image'        => ['sometimes', 'nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'address_text' => ['sometimes', 'nullable', 'string', 'max:500'],
-            'address_link' => ['sometimes', 'nullable', 'string', new GoogleMapsLink()],
+            'latitude'  => ['sometimes', 'nullable', 'numeric', 'between:-90,90',   'required_with:longitude'],
+            'longitude' => ['sometimes', 'nullable', 'numeric', 'between:-180,180', 'required_with:latitude'],
         ];
     }
 }

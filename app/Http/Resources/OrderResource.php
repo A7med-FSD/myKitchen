@@ -23,8 +23,11 @@ class OrderResource extends JsonResource
             'total_price_before_promotion' => $this->total_price_before_promotion,
             'total_price' => $this->total_price,
             'created_at' => $this->created_at,
-            'address' => $this->address_text,
-            'googleMap_link' => $this->address_link,
+            'address_text' => $this->address_text,
+            'location' => [
+                'latitude' => $this->latitude,
+                'longitude' => $this->longitude,
+            ],
             'dishes' => $this->whenLoaded('dishes', function () {
                 return $this->dishes->map(function ($dish) {
                     return [

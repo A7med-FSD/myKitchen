@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -120,3 +121,9 @@ Route::middleware('auth:customer')->prefix('user')->controller(UserController::c
 });
 
 // End user apis
+
+// Start setting apis for Owner only 
+
+Route::middleware('auth:owner')->patch('owner/setting', [SettingController::class, 'update']);
+
+// End  etting apis

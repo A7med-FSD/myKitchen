@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -14,12 +15,13 @@ class OrderDelivered
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $userId;
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public function __construct($userId)
     {
-        //
+        $this->userId = $userId;  
     }
 
     /**
@@ -30,7 +32,7 @@ class OrderDelivered
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('channel-name'),
+            // new PrivateChannel('channel-name'),
         ];
     }
 }

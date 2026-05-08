@@ -23,7 +23,7 @@ class OrderService {
 
             if ($order->promotion_value !== null) {
                 $order->total_price_before_promotion = round($order->total_price, 2);
-                $order->total_price = ((100 - $order->promotion_value) / 100) * $order->total_price;
+                $order->total_price = round(((100 - $order->promotion_value) / 100) * $order->total_price, 2);
             }
         }
     }

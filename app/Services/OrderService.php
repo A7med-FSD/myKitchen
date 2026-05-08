@@ -59,29 +59,28 @@ class OrderService {
         $updated = false;
         if ($newStatus === 'cancelled' && $order->status !== 'delivered') {
             $order->status = 'cancelled';
-            $order->save();
             $updated = true;
         }
 
         elseif ($newStatus === 'in_progress' && $order->status === 'pending') {
             $order->status = 'in_progress';
-            $order->save();
             $updated = true;
         }
 
         elseif ($newStatus === 'ready' && $order->status === 'in_progress') {
             $order->status = 'ready';
-            $order->save();
             $updated = true;
         }
 
         elseif ($newStatus === 'delivered' && $order->status === 'ready') {
             $order->status = 'delivered';
-            $order->save();
             OrderDelivered::dispatch($order->user_id);
             $updated = true;
         }
 
+        if($updated) {
+            $order->save();
+        }
         return $updated;
     }
 }

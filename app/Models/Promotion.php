@@ -53,10 +53,10 @@ class Promotion extends Model
     /**
      * Check if promotion is currently active.
      */
-    public function isActive(): bool
-    {
-        return $this->is_active 
-            && $this->start_date <= now() 
-            && $this->end_date >= now();
+
+    public function scopeActive($query) {
+        return $query->where('is_active', true)
+                ->where('start_date', "<=" , now())
+                ->where('end_date', ">=", now());
     }
 }

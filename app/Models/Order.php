@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Events\OrderDelivered;
+use App\Exceptions\InvalidOrderStatusException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-
 class Order extends Model
 {
     protected $fillable = [
@@ -48,6 +49,31 @@ class Order extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+
+    // Domain functions
+
+    private function canUpdate($newStatus): bool {
+        return match ($newStatus) {
+            "cancelled" => $this->status !== "delivered",
+            "in_progress" => $this->status === "pending",
+            "ready" => $this->status === "in_progress",
+            "delivered" => $this->status === "ready"
+        };
+    }
+
+
+    public function evaluateStatus($newStatus): void {
+        if(!$this->canUpdate($newStatus)) {
+            throw new InvalidOrderStatusException($this->status, $newStatus);
+        }
+
+        $this->status = $newStatus;
+        $this->save();
+        if($newStatus === "delivered") {
+            OrderDelivered::dispatch($this->user_id);
+        }
     }
 
 }

@@ -35,6 +35,7 @@ class IndexTest extends TestCase
     // ─── Test 1: JSON structure + pagination keys ───────────────────────
     public function test_index_returns_correct_json_structure_with_pagination(): void
     {
+        // dd($this->owner); فعلا هو ال owner  
         $response = $this->actingAs($this->owner, 'owner')
             ->getJson('/api/owner/orders');
 
@@ -80,8 +81,8 @@ class IndexTest extends TestCase
     // ─── Test 3: Filter by status=delivered ──────────────────────────────
     public function test_filter_by_status_delivered(): void
     {
-        // Seeder: orders 1001,1002,1003,1007 (Ahmed) + 1004,1006 (Sara) = 6 delivered
-        // Order 1005 (Sara) = in_progress
+        // Seeder: orders 20260509-0001..0004 (Ahmed) + 20260509-0004..0006 (Sara) = 6 delivered
+        // Order 20260509-0005 (Sara) = in_progress
         $response = $this->actingAs($this->owner, 'owner')
             ->getJson('/api/owner/orders?status=delivered');
 
@@ -112,12 +113,12 @@ class IndexTest extends TestCase
     public function test_search_by_order_code(): void
     {
         $response = $this->actingAs($this->owner, 'owner')
-            ->getJson('/api/owner/orders?searchBody=1005&searchBy=order_code');
+            ->getJson('/api/owner/orders?searchBody=20260509-0005&searchBy=order_code');
 
         $response->assertStatus(200);
         $data = $response->json('data');
         $this->assertCount(1, $data);
-        $this->assertEquals('1005', $data[0]['order_code']);
+        $this->assertEquals('20260509-0005', $data[0]['order_code']);
     }
 
     // ─── Test 6: Search by customer_phone ────────────────────────────────

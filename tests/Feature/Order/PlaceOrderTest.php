@@ -35,15 +35,17 @@ class PlaceOrderTest extends TestCase
     {
         $chicken = Dish::where('name', 'Grilled Chicken with Rice')->first();
         $cake    = Dish::where('name', 'Chocolate Lava Cake')->first();
+        $pasta   = Dish::where('name', 'Pasta Bolognese')->first(); // no promotions 
 
         return array_merge([
             'customer_name'  => 'Ahmed Ali',
-            'customer_phone' => '01001234567',
+            'customer_phone' => '+201001234567',
             'address_text'   => '123 Nile St, Cairo',
             'payment_method' => 'visa',
             'dishes' => [
-                ['id' => $chicken->id, 'quantity' => 2],
                 ['id' => $cake->id,    'quantity' => 1],
+                ['id' => $chicken->id, 'quantity' => 2],
+                ['id' => $pasta->id ,  'quantity' => 2],
             ],
         ], $overrides);
     }
@@ -61,7 +63,7 @@ class PlaceOrderTest extends TestCase
         $this->assertDatabaseHas('orders', [
             'user_id'        => $this->ahmed->id,
             'customer_name'  => 'Ahmed Ali',
-            'customer_phone' => '01001234567',
+            'customer_phone' => '+201001234567',
             'address_text'   => '123 Nile St, Cairo',
             'payment_method' => 'visa',
             'status'         => 'pending',
@@ -80,7 +82,7 @@ class PlaceOrderTest extends TestCase
         $response->assertStatus(201);
 
         $this->assertDatabaseHas('orders', [
-            'user_id'         => $this->ahmed->id,
+            'user_id' => $this->ahmed->id,
             'promotion_value' => 15,
         ]);
     }
@@ -90,6 +92,7 @@ class PlaceOrderTest extends TestCase
     {
         $chicken = Dish::where('name', 'Grilled Chicken with Rice')->first();
         $cake    = Dish::where('name', 'Chocolate Lava Cake')->first();
+        $pasta   = Dish::where('name', 'Pasta Bolognese')->first();
 
         $payload = $this->validOrderPayload();
 
@@ -116,8 +119,16 @@ class PlaceOrderTest extends TestCase
 
         // Verify at least one dish has a promotion_value (not null)
         // Chicken has dish promo=20, Cake has category promo=10 (Desserts)
-        $this->assertDatabaseMissing('dish_order', [
+        $this->assertDatabaseHas('dish_order', [
             'dish_id'         => $chicken->id,
+            'promotion_value' => 20,
+        ]);
+        $this->assertDatabaseHas('dish_order', [
+            'dish_id'         => $cake->id,
+            'promotion_value' => 10,
+        ]);
+        $this->assertDatabaseHas('dish_order', [
+            'dish_id'         => $pasta->id,
             'promotion_value' => null,
         ]);
     }

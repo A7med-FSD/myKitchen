@@ -10,6 +10,7 @@ class PromotionSeeder extends Seeder
 {
     public function run(): void
     {
+        // ─── Promotions: apply_to: dishes ───
         // ─── Promotion 1: خصم 20% على الـ Grilled Chicken (نشط حالياً) ───
         $promo1 = Promotion::create([
             'title'       => 'Grilled Chicken Deal',
@@ -25,7 +26,7 @@ class PromotionSeeder extends Seeder
             Dish::where('name', 'Grilled Chicken with Rice')->first()?->id
         );
 
-        // ─── Promotion 2: خصم 15% على الـ Desserts dishes (نشط) ───
+        // ─── Promotion 2: خصم 5% على الـ Desserts dishes (نشط) ───
         $promo2 = Promotion::create([
             'title'       => 'Sweet Treats Offer',
             'apply_to'    => 'dishes',
@@ -70,7 +71,7 @@ class PromotionSeeder extends Seeder
             Dish::where('name', 'Mango Smoothie')->first()?->id
         );
 
-        // ─── Promotion 5: all_menu بـ promo_code (موجود من قبل) ───
+        // ─── Promotions: apply_to: all_menu ───
         // promo_code=MENU15 | value=15% | automatic=false ✅
         Promotion::create([
             'title'       => 'All Menu Deal',
@@ -83,7 +84,19 @@ class PromotionSeeder extends Seeder
             'count_usage' => 0,
         ]);
 
-        // ─── Promotion 6: categories — automatic (بدون promo_code) ───
+        // ─── Promotion : all_menu منتهية (للتست إن الـ expired مش بيتعرض) ───
+        Promotion::create([
+            'title'       => 'Old All Menu Offer',
+            'promo_code'  => 'OLD20',
+            'apply_to'    => 'all_menu',
+            'value'       => 20,
+            'start_date'  => now()->subDays(20),
+            'end_date'    => now()->subDays(1),  // انتهت امبارح
+            'is_active'   => false,
+            'count_usage' => 12,
+        ]);
+
+        // ─── Promotions: apply_to: categories ───
         // 📊 Expected: خصم 10% على كل الـ dishes في Desserts و Drinks تلقائياً
         $promo6 = Promotion::create([
             'title'       => 'Drinks & Desserts Weekend',
@@ -100,7 +113,7 @@ class PromotionSeeder extends Seeder
             \App\Models\Category::whereIn('name', ['Desserts', 'Drinks'])->pluck('id')
         );
 
-        // ─── Promotion 7: special بـ promo_code ───
+        // ─── Promotions: apply_to: special ───
         // 📊 Expected: خصم VIP 30% — يتبعت مع promo_code=VIP30
         Promotion::create([
             'title'       => 'VIP Special Offer',
@@ -111,18 +124,6 @@ class PromotionSeeder extends Seeder
             'end_date'    => now()->addDays(14),
             'is_active'   => true,
             'count_usage' => 0,
-        ]);
-
-        // ─── Promotion 8: all_menu منتهية (للتست إن الـ expired مش بيتعرض) ───
-        Promotion::create([
-            'title'       => 'Old All Menu Offer',
-            'promo_code'  => 'OLD20',
-            'apply_to'    => 'all_menu',
-            'value'       => 20,
-            'start_date'  => now()->subDays(20),
-            'end_date'    => now()->subDays(1),  // انتهت امبارح
-            'is_active'   => false,
-            'count_usage' => 12,
         ]);
     }
 }

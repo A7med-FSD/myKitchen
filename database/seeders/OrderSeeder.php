@@ -32,7 +32,7 @@ class OrderSeeder extends Seeder
                 'customer_name'   => 'Ahmed Ali',
                 'customer_phone'  => '01001234567',
                 'status'          => 'delivered',
-                'order_code'      => '1001',
+                'order_code'      => '20260509-0001',
                 'address_text'    => '123 Nile St, Cairo',
                 'payment_method'  => 'visa',
                 'promotion_value' => 10,
@@ -63,7 +63,7 @@ class OrderSeeder extends Seeder
                 'customer_name'  => 'Ahmed Ali',
                 'customer_phone' => '01001234567',
                 'status'         => 'delivered',
-                'order_code'     => '1002',
+                'order_code'     => '20260509-0002',
                 'address_text'   => '123 Nile St, Cairo',
                 'payment_method' => 'vodafone',
                 'created_at'     => now()->subDays(20), // ✅ هذا الشهر (last 30 days)
@@ -91,7 +91,7 @@ class OrderSeeder extends Seeder
                 'customer_name'  => 'Ahmed Ali',
                 'customer_phone' => '01001234567',
                 'status'         => 'delivered',
-                'order_code'     => '1003',
+                'order_code'     => '20260509-0003',
                 'address_text'   => '123 Nile St, Cairo',
                 'payment_method' => 'instaPay',
                 'created_at'     => now()->subMonths(6), // ✅ هذه السنة (last 365 days)
@@ -113,7 +113,7 @@ class OrderSeeder extends Seeder
                 'customer_name'  => 'Ahmed Ali',
                 'customer_phone' => '01001234567',
                 'status'         => 'delivered',
-                'order_code'     => '1007',
+                'order_code'     => '20260509-0007',
                 'address_text'   => '123 Nile St, Cairo',
                 'payment_method' => 'fawry',
                 'created_at'     => now()->subMonths(18), // ✅ أقدم من سنة
@@ -137,7 +137,7 @@ class OrderSeeder extends Seeder
                 'customer_name'  => 'Sara Mohamed',
                 'customer_phone' => '01009876543',
                 'status'         => 'delivered',
-                'order_code'     => '1004',
+                'order_code'     => '20260509-0004',
                 'address_text'   => '45 Pyramids Rd, Giza',
                 'payment_method' => 'visa',
             ]);
@@ -166,7 +166,7 @@ class OrderSeeder extends Seeder
                 'customer_name'  => 'Sara Mohamed',
                 'customer_phone' => '01009876543',
                 'status'         => 'in_progress',
-                'order_code'     => '1005',
+                'order_code'     => '20260509-0005',
                 'address_text'   => '45 Pyramids Rd, Giza',
                 'payment_method' => 'vodafone',
             ]);
@@ -193,7 +193,7 @@ class OrderSeeder extends Seeder
                 'customer_name'  => 'Sara Mohamed',
                 'customer_phone' => '01009876543',
                 'status'         => 'delivered',
-                'order_code'     => '1006',
+                'order_code'     => '20260509-0006',
                 'address_text'   => '45 Pyramids Rd, Giza',
                 'payment_method' => 'instaPay',
             ]);

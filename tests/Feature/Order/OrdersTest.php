@@ -68,7 +68,7 @@ class OrdersTest extends TestCase
     // ─── Test 2: User only sees their own orders ────────────────────────
     public function test_user_only_sees_own_orders(): void
     {
-        // Ahmed has 4 orders in the seeder (1001, 1002, 1003, 1007)
+        // Ahmed has 4 orders in the seeder (0001, 0002, 0003, 0007)
         $response = $this->actingAs($this->ahmed, 'customer')
             ->getJson('/api/orders');
 
@@ -85,33 +85,33 @@ class OrdersTest extends TestCase
     public function test_search_by_order_code_returns_matching_order(): void
     {
         $response = $this->actingAs($this->ahmed, 'customer')
-            ->getJson('/api/orders?order_code=1007');
+            ->getJson('/api/orders?order_code=20260509-0007');
 
         $response->assertStatus(200);
         $data = $response->json('data');
         $this->assertCount(1, $data);
-        $this->assertEquals('1007', $data[0]['order_code']);
+        $this->assertEquals('20260509-0007', $data[0]['order_code']);
     }
 
     // ─── Test 4: Filter by time=week ────────────────────────────────────
     public function test_filter_by_week_returns_only_recent_orders(): void
     {
-        // Ahmed: order 1001 (3 days ago) → should appear
-        // 1002 (20 days), 1003 (6 months), 1007 (18 months) → should NOT
+        // Ahmed: order 20260509-0001 (3 days ago) → should appear
+        // 20260509-0002 (20 days), 20260509-0003 (6 months), 20260509-0007 (18 months) → should NOT
         $response = $this->actingAs($this->ahmed, 'customer')
             ->getJson('/api/orders?time=week');
 
         $response->assertStatus(200);
         $data = $response->json('data');
         $this->assertCount(1, $data);
-        $this->assertEquals('1001', $data[0]['order_code']);
+        $this->assertEquals('20260509-0001', $data[0]['order_code']);
     }
 
     // ─── Test 5: Filter by time=month ───────────────────────────────────
     public function test_filter_by_month_returns_orders_within_last_month(): void
     {
-        // Ahmed: 1001 (3 days) + 1002 (20 days) → should appear
-        // 1003 (6 months), 1007 (18 months) → should NOT
+        // Ahmed: 20260509-0001 (3 days) + 20260509-0002 (20 days) → should appear
+        // 20260509-0003 (6 months), 20260509-0007 (18 months) → should NOT
         $response = $this->actingAs($this->ahmed, 'customer')
             ->getJson('/api/orders?time=month');
 
@@ -123,8 +123,8 @@ class OrdersTest extends TestCase
     // ─── Test 6: Filter by time=year ────────────────────────────────────
     public function test_filter_by_year_returns_orders_within_last_year(): void
     {
-        // Ahmed: 1001 (3 days) + 1002 (20 days) + 1003 (6 months) → should appear
-        // 1007 (18 months) → should NOT
+        // Ahmed: 20260509-0001 (3 days) + 20260509-0002 (20 days) + 20260509-0003 (6 months) → should appear
+        // 20260509-0007 (18 months) → should NOT
         $response = $this->actingAs($this->ahmed, 'customer')
             ->getJson('/api/orders?time=year');
 

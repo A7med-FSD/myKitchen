@@ -28,7 +28,7 @@ class RegisterRequest extends FormRequest
             'phone' => ['required', new PhoneRule(), 'unique:users,phone'],
             'password' => 'required|min:6|max:20|confirmed', // input confirme filed must named "password_confirmation"
             'email' => 'nullable|email|unique:users,email',
-            'address_link' => ['nullable', new GoogleMapsLink()],
+            'address_link' => ['nullable'],
             'latitude'  => 'nullable|required_if:longitude,between:-99,99',
             'longitude'  => 'nullable|required_if:latitude,between:-180,180',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'

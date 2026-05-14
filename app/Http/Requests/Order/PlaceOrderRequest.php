@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Order;
 
+use App\Rules\OrderCodeRule;
+use App\Rules\PhoneRule;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class OrderRequest extends FormRequest
+class PlaceOrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,17 +20,18 @@ class OrderRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
             'customer_name' => 'required|min:3|max:255',
-            'customer_phone' => ['required', 'regex:/^(010|011|012|015)[0-9]{8}$/'],
+            'customer_phone' => ['required', new PhoneRule()],
             'address_text' => 'required|min:3|max:255',
             'address_link' => 'nullable|url',
             'delivery_notes' => 'nullable|max:1000',
             'payment_method' => 'required|in:visa,vodafone,instaPay,fawry',
+            'promo_code' => ['sometimes', 'exists:promotions,promo_code'],
             'dishes' => 'required|min:1',
             'dishes.*.id' => 'required|exists:dishes,id',
             'dishes.*.quantity' => 'required|integer|min:1',

@@ -9,7 +9,6 @@ use App\Http\Resources\DishResource;
 use App\Models\Dish;
 use App\Repositories\DishRepository;
 use App\Traits\ManagesFiles;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -32,7 +31,7 @@ class DishController extends Controller
     public function mostPopularDishes() {
         $dishes = $this->repo->getMostPopularDishes();
 
-        return $this->successResponse(DishResource::collection($dishes), 200, $dishes);
+        return $this->successResponse(DishResource::collection($dishes), 200);
     }
 
     // End home apis 
@@ -50,9 +49,7 @@ class DishController extends Controller
         try {
             $data = $request->validated();
 
-            if ($request->hasFile('image')) {
-                $data['image'] = $this->uploadFile($request->file('image'));
-            }
+            $data['image'] = $this->uploadFile($request->file('image'), 'dishes');
 
             $dish = Dish::create($data);
             
@@ -63,28 +60,17 @@ class DishController extends Controller
         }
     }
 
-    public function update(DishRequest $request, $id) {
+    public function update(DishRequest $request, int $id) {
         try {
             $dish = Dish::findOrFail($id);
             $data = $request->validated();
 
             if($request->hasFile('image')) {
-                //delete old image
-                if($dish->image) {
-                    $oldPath = 'dishes/' . $dish->image;
-                    if(Storage::disk('public')->exists($oldPath)) {
-                        Storage::disk('public')->delete($oldPath);
-                    }
-                }
-
-                $imgExt = $request->image->getClientOriginalExtension();
-                $imgName = time() . '.' . $imgExt;
-                $request->file('image')->storeAs('dishes', $imgName, 'public');
-                $data['image'] = $imgName;
+                $data['image'] = $this->updateFile($request->file('image'), 'dishes', $dish->image);
             }
 
-        $dish->update($data);
-        return $this->successResponse(new DishResource($dish), 200);
+            $dish->update($data);
+            return $this->successResponse(new DishResource($dish), 200);
         }
         catch(ModelNotFoundException $e) {
             return $this->errorResponse($e->getMessage(), 404);
@@ -94,16 +80,13 @@ class DishController extends Controller
         }
     } 
 
-    public function delete($id) {
+    public function destroy(int $id) {
         try {
             $dish = Dish::findOrFail($id);
 
             //delete old image
             if($dish->image) {
-                $oldPath = 'dishes/' . $dish->image;
-                if(Storage::disk('public')->exists($oldPath)) {
-                    Storage::disk('public')->delete($oldPath);
-                }
+                $this->deleteFile($dish->image, 'dishes');
             }
 
             $dish->delete();

@@ -7,13 +7,14 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\Admin;
 use App\Models\User;
+use App\Traits\ManagesFiles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    use ApiResponse;
+    use ApiResponse, ManagesFiles;
     
     public function login(LoginRequest $request, $type) {
         $data = $request->validated();
@@ -50,9 +51,7 @@ class AuthController extends Controller
 
             $user = User::create($data);
             if($request->hasFile('image')) {
-                $imgExt = $request->image->getClientOriginalExtension();
-                $imgName = $user->id . '_' . time() . '.' . $imgExt;
-                $request->file('image')->storeAs('users', $imgName, 'public');
+                $imgName = $this->uploadFile($request->file('image'), 'users', $user->id);
                 $user->update(['image' => $imgName]);
             }
 

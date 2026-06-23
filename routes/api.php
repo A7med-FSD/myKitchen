@@ -39,7 +39,7 @@ Route::middleware('auth:owner')->prefix('owner/dishes')->controller(DishControll
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::patch('/{id}', 'update');
-    Route::delete('/{id}', 'delete');
+    Route::delete('/{id}', 'destroy');
 });
 
 // End dishes apis 

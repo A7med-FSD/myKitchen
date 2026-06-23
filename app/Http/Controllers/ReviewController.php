@@ -6,7 +6,7 @@ use App\Http\Requests\ReviewRequest;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use App\Http\Resources\ReviewResource;
-use App\ApiResponse;
+use App\Traits\ApiResponse;
 
 class ReviewController extends Controller
 {

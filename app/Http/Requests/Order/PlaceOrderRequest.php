@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Order;
 
+use App\Rules\DishRule;
 use App\Rules\OrderCodeRule;
 use App\Rules\PhoneRule;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -33,7 +34,7 @@ class PlaceOrderRequest extends FormRequest
             'payment_method' => 'required|in:visa,vodafone,instaPay,fawry',
             'promo_code' => ['sometimes', 'exists:promotions,promo_code'],
             'dishes' => 'required|min:1',
-            'dishes.*.id' => 'required|exists:dishes,id',
+            'dishes.*.id' => ['required', 'exists:dishes,id', new DishRule()],
             'dishes.*.quantity' => 'required|integer|min:1',
         ];
     }

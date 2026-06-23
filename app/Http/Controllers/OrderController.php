@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\ApiResponse;
+use App\Traits\ApiResponse;
 use App\Http\Requests\Order\GetOrderRequest;
 use App\Http\Requests\Order\IndexOrderRequest;
 use App\Http\Requests\Order\PlaceOrderRequest;

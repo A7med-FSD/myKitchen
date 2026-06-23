@@ -29,8 +29,8 @@ Route::prefix('dishes')->controller(DishController::class)->group(function () {
     Route::get('/most-popular', 'mostPopularDishes'); // for landing page
 
     Route::middleware('auth:customer')->group(function () {
-        Route::get('/most-ordered', 'mostOrderdDishes'); 
-        Route::get('/', 'dishes');
+        Route::get('/most-ordered', 'mostOrderedDishes'); 
+        Route::get('/', 'index');
     });
 });
 

@@ -64,7 +64,7 @@ class DishSeeder extends Seeder
                 'time_preparing' => 20,
                 'badge'          => null,
                 'rate'           => 4.6,
-                'is_available'   => true,
+                'is_available'   => false,
                 'category_id'    => $grills,
                 'image'          => "image test",
             ],

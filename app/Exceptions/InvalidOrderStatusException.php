@@ -36,6 +36,7 @@ class InvalidOrderStatusException extends Exception
     {
         return response()->json([
             'status' => 'error',
+            'code' => 'INVALID_CHANGE_ORDER_STATUS',
             'message' => $this->getMessage(),
             'detailed' => "Cannot change status from {$this->currentStatus} to {$this->newStatus}."
         ], 422);

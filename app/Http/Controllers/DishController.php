@@ -2,106 +2,56 @@
 
 namespace App\Http\Controllers;
 
-use App\ApiResponse;
+use App\Traits\ApiResponse;
+use App\Http\Requests\Dish\GetDishRequest;
 use App\Http\Requests\DishRequest;
 use App\Http\Resources\DishResource;
 use App\Models\Dish;
+use App\Repositories\DishRepository;
+use App\Traits\ManagesFiles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class DishController extends Controller
 {
-    use ApiResponse;
-
-    // Start home apis 
-    public function mostOrderdDishes() {
-        $dishes = Dish::query()
-        ->with('activePromotion')
-        ->withCount('orders')
-        ->orderBy('orders_count', 'desc')
-        ->orderBy('id')
-        ->cursorPaginate(3);
-
-        return $this->successResponse(DishResource::collection($dishes), 200, $dishes);
+    use ApiResponse, ManagesFiles;
+    
+    public function __construct(private DishRepository $repo)
+    {
+        
     }
 
-    public function dishes(Request $request) {
-        $dishes = Dish::query()
-            ->where('is_available', true)
-            ->when($request->category_id, fn($q, $id) => $q->where('category_id', $id))
-            ->when($request->badge !== null && $request->badge !== 'all', fn($q) => $q->where('badge', $request->badge))
-            ->when($request->searchBody && $request->searchBody !== '', function ($q) use ($request) {
-                if (!$request->searchBy  || $request->searchBy === '' || $request->searchBy === 'all') {
-                    return $q->where('name', 'LIKE', "%$request->searchBody%")
-                        ->orWhere('description', 'LIKE', "%$request->searchBody%");
-                } elseif ($request->searchBy === 'name') {
-                    return $q->where('name', 'LIKE', "%$request->searchBody%");
-                } elseif ($request->searchBy === 'description') {
-                    return $q->where('description', 'LIKE', "%$request->searchBody%");
-                } else {
-                    return $q;
-                }
-            })
-            ->with(['category', 'activePromotion'])
-            ->withCount('orders')
-            ->orderBy('name')
-            ->orderBy('id')
-            ->cursorPaginate(4);
+    // Start home apis 
+    public function mostOrderedDishes() {
+        $dishes = $this->repo->getMostOrderedDishes();
 
         return $this->successResponse(DishResource::collection($dishes), 200, $dishes);
     }
 
     public function mostPopularDishes() {
-        $dishes = Dish::query()
-        ->with('activePromotion')
-        ->withCount('orders')
-        ->orderBy('rate', 'desc')
-        ->orderBy('id')
-        ->limit(9)
-        ->get();
+        $dishes = $this->repo->getMostPopularDishes();
 
         return $this->successResponse(DishResource::collection($dishes), 200, $dishes);
     }
 
     // End home apis 
 
-    // owner apis
-    public function index(Request $request) {
-        $dishes = Dish::query()
-            ->when($request->category_id, fn($q, $id) => $q->where('category_id', $id))
-            ->when($request->badge !== null && $request->badge !== 'all', fn($q) => $q->where('badge', $request->badge))
-            ->when($request->searchBody && $request->searchBody !== '' , function($q) use($request) {
-                if(!$request->searchBy  || $request->searchBy === '' || $request->searchBy === 'all') {
-                    return $q->where('name', 'LIKE', "%$request->searchBody%")
-                    ->orWhere('description', 'LIKE', "%$request->searchBody%");
-                }elseif($request->searchBy === 'name') {
-                    return $q->where('name', 'LIKE', "%$request->searchBody%");
-                }elseif($request->searchBy === 'description') {
-                    return $q->where('description', 'LIKE', "%$request->searchBody%");
-                } else {
-                    return $q;
-                }
-            })
-            ->when($request->is_available, fn($q) => $q->where('is_available', true))
-            ->with(['category', 'activePromotion'])
-            ->withCount('orders')
-            ->orderBy('name')
-            ->orderBy('id')
-            ->cursorPaginate(4);
-
+    public function index(GetDishRequest $request) {
+        $data = $request->validated();
+        $dishes = $this->repo->getDishes($data);
+        
         return $this->successResponse(DishResource::collection($dishes), 200, $dishes);
     }
+    
+    // owner apis
 
     public function store(DishRequest $request) {
         try {
             $data = $request->validated();
 
             if ($request->hasFile('image')) {
-                $imgExt = $request->image->getClientOriginalExtension();
-                $imgName = time() . '.' . $imgExt;
-                $request->file('image')->storeAs('dishes', $imgName, 'public');
-                $data['image'] = $imgName;
+                $data['image'] = $this->uploadFile($request->file('image'));
             }
 
             $dish = Dish::create($data);

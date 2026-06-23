@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\ApiResponse;
+use App\Traits\ApiResponse;
 use App\Http\Requests\IngredientRequest;
 use App\Models\Ingredient;
 use App\Http\Resources\IngredientResource;

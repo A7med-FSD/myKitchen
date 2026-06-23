@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\PromotionRequest;
 use App\Http\Resources\PromotionResource;
 use App\Models\Promotion;
-use App\ApiResponse;
+use App\Traits\ApiResponse;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 

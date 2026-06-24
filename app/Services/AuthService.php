@@ -49,7 +49,7 @@ class AuthService {
 
         unset($data['password_confirmation'], $data['password']);
 
-        return ['data' => $user, 'token' => $token];
+        return ['user' => $user, 'token' => $token];
     }
 
     public function handleLogout($user): void {

@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Traits\ApiResponse;
-use App\Http\Requests\GetDishRequest;
-use App\Http\Requests\DishRequest;
+use App\Http\Requests\Dish\GetDishRequest;
+use App\Http\Requests\Dish\DishRequest;
+use App\Http\Requests\Dish\StoreDishRequest;
+use App\Http\Requests\Dish\UpdateDishRequest;
 use App\Http\Resources\DishResource;
 use App\Models\Dish;
 use App\Repositories\DishRepository;
 use App\Traits\ManagesFiles;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class DishController extends Controller
@@ -45,7 +46,7 @@ class DishController extends Controller
     
     // owner apis
 
-    public function store(DishRequest $request) {
+    public function store(StoreDishRequest $request) {
         try {
             $data = $request->validated();
 
@@ -60,7 +61,7 @@ class DishController extends Controller
         }
     }
 
-    public function update(DishRequest $request, int $id) {
+    public function update(UpdateDishRequest $request, int $id) {
         try {
             $dish = Dish::findOrFail($id);
             $data = $request->validated();

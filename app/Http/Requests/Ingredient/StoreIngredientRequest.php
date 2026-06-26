@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Ingredient;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class IngredientRequest extends FormRequest
+class StoreIngredientRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,21 +18,11 @@ class IngredientRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
-        if ($this->isMethod('patch')) {
-            return [
-                'name' => 'sometimes|min:3|max:100|unique:ingredients,name',
-                'category' => 'sometimes|min:3|max:100',
-                'unit' => 'sometimes|in:kg,g,ml,l,pcs',
-                'price_per_unit' => 'sometimes|min:1|max:100000',
-                'quantity' => 'sometimes|min:1|max:100000',
-                'low_stock_alert' => 'sometimes|min:1|max:100000'
-            ];
-        }
-            return [
+        return [
             'name' => 'required|min:3|max:100|unique:ingredients,name',
             'category' => 'required|min:3|max:100',
             'unit' => 'required|in:kg,g,ml,l,pcs',

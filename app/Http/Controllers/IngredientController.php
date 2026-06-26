@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Ingredient\StoreIngredientRequest;
+use App\Http\Requests\Ingredient\UpdateIngredientRequest;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponse;
 use App\Http\Requests\IngredientRequest;
@@ -18,7 +20,7 @@ class IngredientController extends Controller
         return $this->successResponse(IngredientResource::collection($ingredients), 200);
     }
 
-    public function store(IngredientRequest $request) {
+    public function store(StoreIngredientRequest $request) {
         $data = $request->validated();
         $ingredient = Ingredient::create($data);
 
@@ -26,7 +28,7 @@ class IngredientController extends Controller
 
     }
 
-    public function update(IngredientRequest $request, $ingredientId) {
+    public function update(UpdateIngredientRequest $request, $ingredientId) {
         $data = $request->validated();
         $ingredient = Ingredient::findOrFail($ingredientId);
 

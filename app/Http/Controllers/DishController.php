@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Traits\ApiResponse;
-use App\Http\Requests\Dish\GetDishRequest;
+use App\Http\Requests\GetDishRequest;
 use App\Http\Requests\DishRequest;
 use App\Http\Resources\DishResource;
 use App\Models\Dish;

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ReviewRequest;
 use App\Models\Review;
-use Illuminate\Http\Request;
 use App\Http\Resources\ReviewResource;
 use App\Traits\ApiResponse;
 
@@ -15,18 +14,15 @@ class ReviewController extends Controller
     // Home Apis
     public function store(ReviewRequest $request) {
         $data = $request->validated();
-
-        $review = Review::make($data);
-        $review->dish_id = $data['dish_id'];
-        $review->user_id = $request->user()->id; 
-        $review->save();
+        $data['user_id'] = $request->user()->id;
+        $review = Review::create($data);
 
         return $this->successResponse($review, 201);
     }
 
     public function index() {
         $Reviews = Review::where('is_published', true)
-        ->with(['user', 'dish'])->orderBy('created_at', 'DESC')->orderBy('id')->cursorPaginate(3);
+        ->with(['user', 'dish'])->orderBy('created_at', 'DESC')->orderBy('rating', 'DESC')->orderBy('id', 'DESC')->cursorPaginate(3);
 
         return $this->successResponse(ReviewResource::collection($Reviews), 200, $Reviews);
     }

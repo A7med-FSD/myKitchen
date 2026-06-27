@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Events\OrderDelivered;
 use App\Helpers\OrderCode;
 use App\Models\Order;
 use App\Repositories\OrderRepository;
@@ -16,7 +15,7 @@ class OrderService {
     }
 
     /**
-     * @return CursorPaginator<\App\Models\Order>
+     * @return CursorPaginator<Order>
      */
     public function processIndex(array $data): CursorPaginator {
         $orders = $this->repo->getAllOrders($data);

@@ -83,6 +83,15 @@ class DestroyPromotionTest extends TestCase
         $this->assertDatabaseMissing('promotions', ['id' => $promotion->id]);
     }
 
+    /** @test */
+    public function owner_cannot_delete_non_existent_promotion(): void 
+    {
+        $response = $this->actingAs($this->admin, 'owner')
+            ->deleteJson("/api/owner/promotions/9999");
+        
+        $response->assertStatus(404);
+    }
+
     // =========================================================================
     // 2) Pivot cleanup: dishes
     // =========================================================================

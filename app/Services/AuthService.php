@@ -13,8 +13,6 @@ class AuthService {
 
     public function handleLogin(array $data, $type): string {
 
-
-
         $model = match ($type) {
             'owner' => Admin::class,
             'user' => User::class,

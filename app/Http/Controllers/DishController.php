@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Traits\ApiResponse;
 use App\Http\Requests\Dish\GetDishRequest;
-use App\Http\Requests\Dish\DishRequest;
 use App\Http\Requests\Dish\StoreDishRequest;
 use App\Http\Requests\Dish\UpdateDishRequest;
 use App\Http\Resources\DishResource;

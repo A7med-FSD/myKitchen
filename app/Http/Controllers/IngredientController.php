@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Ingredient\StoreIngredientRequest;
 use App\Http\Requests\Ingredient\UpdateIngredientRequest;
-use Illuminate\Http\Request;
 use App\Traits\ApiResponse;
-use App\Http\Requests\IngredientRequest;
 use App\Models\Ingredient;
 use App\Http\Resources\IngredientResource;
 
@@ -37,7 +35,7 @@ class IngredientController extends Controller
         
     }
 
-    public function delete($ingredientId) {
+    public function destroy($ingredientId) {
         $ingredient = Ingredient::findOrFail($ingredientId);
         $ingredient->delete();
         return $this->successResponse(null, 204);

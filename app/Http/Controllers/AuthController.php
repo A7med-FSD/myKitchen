@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Traits\ApiResponse;
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
-use App\Models\User;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Services\AuthService;
-use App\Traits\ManagesFiles;
 use Illuminate\Http\Request;
 class AuthController extends Controller
 {

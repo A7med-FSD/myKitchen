@@ -45,7 +45,7 @@ class PromotionRequest extends FormRequest
                 if ($newIsSpecific) {
                     $rules[$newApplyTo] = 'required|array|min:1';
                     $rules[$newApplyTo . '.*']  = 'required|integer|exists:' . $newApplyTo . ',id';
-                } elseif ($oldIsSpecific && $newIsGeneral) {
+                } elseif (($oldIsSpecific && $newIsGeneral)) {
                     $rules['promo_code'] = 'required|min:3|max:255|string';
                 } elseif ($oldIsGeneral && $newIsGeneral) {
                     $rules['promo_code'] = 'sometimes|min:3|max:255|string';

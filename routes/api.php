@@ -86,7 +86,7 @@ Route::middleware('auth:owner')->prefix('owner/promotions')->controller(Promotio
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::patch('/{promotion}', 'update');
-    Route::delete('/{promotion_id}', 'delete');
+    Route::delete('/{promotion_id}', 'destroy');
 });
 
 // End promotion apis
@@ -108,7 +108,7 @@ Route::middleware('auth:owner')->prefix('ingredients')->controller(IngredientCon
     Route::get('', 'index');
     Route::post('', 'store');
     Route::patch('/{ingredientId}', 'update');
-    Route::delete('/{ingredientId}', 'delete');
+    Route::delete('/{ingredientId}', 'destroy');
 });
 
 // End ingredient apis

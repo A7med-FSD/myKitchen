@@ -24,9 +24,7 @@ class PromotionController extends Controller
 
         $promotions = Promotion::query()
             ->where('apply_to', $apply_to)
-            ->where('is_active', true)
-            ->where('start_date', '<=', Carbon::now())
-            ->where('end_date', '>=', Carbon::now())
+            ->active()
             ->with(['dishes', 'categories'])
             ->orderBy('created_at')
             ->get();
@@ -46,9 +44,7 @@ class PromotionController extends Controller
         $promotions = Promotion::query()
             ->when($request->status && $request->status !== 'all', function ($q) use ($request) {
                 if ($request->status === 'active') {
-                    return $q->where('is_active', true)
-                        ->where('start_date', '<=', now())
-                        ->where('end_date', '>=', now());
+                    return $q->active();
                 } elseif ($request->status === 'expired') {
                     return $q->where('end_date', '<', now());
                 } else {
@@ -66,7 +62,7 @@ class PromotionController extends Controller
                 }
             })
             ->with(['dishes', 'categories'])
-            ->orderBy('created_at')
+            ->orderBy('created_at', 'desc')
             ->orderBy('id')
             ->cursorPaginate(6);
 
@@ -86,11 +82,11 @@ class PromotionController extends Controller
 
             $promotion = Promotion::create($validation);
 
-            if (!empty($dishes)) {
+            if (!empty($dishes) && $promotion->apply_to === 'dishes') {
                 $promotion->dishes()->attach($dishes);
             }
 
-            if (!empty($categories)) {
+            if (!empty($categories) && $promotion->apply_to === 'categories') {
                 $promotion->categories()->attach($categories);
             }
             return $this->successResponse(null, 201);
@@ -121,10 +117,13 @@ class PromotionController extends Controller
         }
     }
 
-    public function delete($promotionId) {
+    public function destroy($promotionId) {
         try {
             $promotion = Promotion::find($promotionId);
-    
+
+            if ($promotion->apply_to === 'dishes') $promotion->dishes()->detach();
+            if ($promotion->apply_to === 'categories') $promotion->categories()->detach();
+            
             $promotion->delete();
             return $this->successResponse(null, 204);
         }

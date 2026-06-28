@@ -26,15 +26,20 @@ class UserRequest extends FormRequest
     {
         $userId = Auth::id();
 
-        return [
+        $rules = [
             'name'         => ['sometimes', 'string','min:3', 'max:255'],
             'phone'        => ['sometimes', 'string', new PhoneRule(), 'unique:users,phone,' . $userId],
             'email'        => ['sometimes', 'nullable', 'email', 'unique:users,email,' . $userId],
             'image'        => ['sometimes', 'nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'address_text' => ['sometimes', 'nullable', 'string', 'max:500'],
-            'latitude'  => ['sometimes', 'nullable', 'numeric', 'between:-90,90',   'required_with:longitude'],
-            'longitude' => ['sometimes', 'nullable', 'numeric', 'between:-180,180', 'required_with:latitude'],
         ];
+
+        if($this->has('latitude') || $this->has('longitude')) {
+            $rules['latitude']  = ['required', 'numeric', 'between:-90,90',   'required_with:longitude'];
+            $rules['longitude'] = ['required', 'numeric', 'between:-180,180', 'required_with:latitude'];
+        }
+
+        return $rules;
     }
 }
 

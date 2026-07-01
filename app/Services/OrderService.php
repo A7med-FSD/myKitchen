@@ -29,15 +29,15 @@ class OrderService {
     /**
     * @return Collection<int, Order>
     */
-    public function processOrders(array $data, $userId): Collection {
+    public function processOrders(array $data = [], int $userId): Collection {
         $orders = $this->repo->getOrders($data, $userId);
 
-        $this->calculateTotalPrice($orders);
+        $orders->total_spend = $this->calculateTotalPrice($orders);
 
         return $orders;
     }
 
-    public function handlePlaceOrder(array $validation, $userId): string {
+    public function handlePlaceOrder(array $validation, int $userId): string {
         $dishesData = $validation['dishes'];
         unset($validation['dishes']);
 
@@ -59,8 +59,8 @@ class OrderService {
         return $order->order_code;
     }
 
-    private function calculateTotalPrice(iterable $orders): void {
-
+    private function calculateTotalPrice(iterable $orders): float {
+        $total_spend = 0;
         foreach ($orders as $order) {
             $order->total_price = 0; 
 
@@ -78,7 +78,9 @@ class OrderService {
                 $order->total_price_before_promotion = round($order->total_price, 2);
                 $order->total_price = round(((100 - $order->promotion_value) / 100) * $order->total_price, 2);
             }
+            $total_spend += $order->total_price;
         }
+        return $total_spend;
     }
 
     private function attachDishes($order, $dishes, $dishQuantities) {

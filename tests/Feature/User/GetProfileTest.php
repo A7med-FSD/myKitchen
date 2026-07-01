@@ -243,22 +243,6 @@ class GetProfileTest extends TestCase
     }
 
     /** @test */
-    public function favorite_category_count_reflects_number_of_orders_in_that_category(): void
-    {
-        $grills    = $this->createCategory('Grills');
-        $grillDish = $this->createDish($grills->id, 'Grilled Chicken');
-
-        $this->createOrderWithDishes($this->customer, [$grillDish]);
-        $this->createOrderWithDishes($this->customer, [$grillDish]);
-        $this->createOrderWithDishes($this->customer, [$grillDish]);
-
-        $response = $this->actingAs($this->customer, 'customer')
-            ->getJson('/api/user/profile');
-
-        $this->assertEquals(3, $response->json('data.favorite_category.order_count'));
-    }
-
-    /** @test */
     public function favorite_category_ignores_orders_from_other_users(): void
     {
         $otherUser = User::factory()->create();

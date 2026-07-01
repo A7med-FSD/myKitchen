@@ -43,19 +43,18 @@ class OrderRepository {
 	/**
 	 * @return Collection<int, Order> 
 	 */
-	public function getOrders(array $data, $userId): Collection {
-		$data = (object) $data;
+	public function getOrders(array $data, int $userId): Collection {
 
 		$orders = Order::where('user_id', $userId)
-		->when(isset($data->order_code), function ($query) use ($data) {
-			$query->where('order_code', 'like', '%' . $data->order_code . '%');
+		->when(isset($data['order_code']), function ($query) use ($data) {
+			$query->where('order_code', 'like', '%' . $data['order_code'] . '%');
 		})
-		->when(isset($data->time) && $data->time !== "all", function ($query) use ($data) {
-			if ($data->time === "week") {
+		->when(isset($data['time']) && $data['time'] !== "all", function ($query) use ($data) {
+			if ($data['time'] === "week") {
 			$query->where('created_at', '>=', now()->subWeek());
-			} elseif ($data->time === "month") {
+			} elseif ($data['time'] === "month") {
 			$query->where('created_at', '>=', now()->subMonth());
-			} elseif ($data->time === "year") {
+			} elseif ($data['time'] === "year") {
 			$query->where('created_at', '>=', now()->subYear());
 			}
 		})

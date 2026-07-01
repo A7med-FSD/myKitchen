@@ -115,10 +115,14 @@ Route::middleware('auth:owner')->prefix('ingredients')->controller(IngredientCon
 
 // Start user apis
 
+// all user
 Route::middleware('auth:customer')->prefix('user')->controller(UserController::class)->group(function () {
     Route::get('/profile', 'profile');
     Route::patch('/profile', 'update');
 });
+
+// owner 
+Route::middleware('auth:owner')->get('owner/users', [UserController::class, 'index']);
 
 // End user apis
 

@@ -9,8 +9,6 @@ use App\Http\Resources\PromotionResource;
 use App\Models\Promotion;
 use App\Services\PromotionService;
 use App\Traits\ApiResponse;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use InvalidArgumentException;
 
 class PromotionController extends Controller
 {

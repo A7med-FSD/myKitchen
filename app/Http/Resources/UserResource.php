@@ -24,17 +24,12 @@ class UserResource extends JsonResource
                 'latitude' => $this->latitude,
                 'longitude' => $this->longitude,
             ],
-            'googleMap_link' => $this->address_link,
             'status' => $this->status,
-            'orders_count' => $this->when(isset($this->orders_count), function () {
-                return $this->orders_count;
-            }),
-            'favorite_category' => $this->when(isset($this->favorite_category), function () {
-                return $this->favorite_category;
-            }),
-            'last_order' => $this->when(isset($this->last_order), function () {
-                return $this->last_order;
-            })
+            'joined_date' => $this->created_at->format('Y-m-d'),
+            'total_spend' => $this->when(isset($this->total_spend), $this->total_spend),
+            'orders_count' => $this->when(isset($this->orders_count), $this->orders_count),
+            'favorite_category' => $this->when(isset($this->favorite_category_name), $this->favorite_category_name),
+            'last_order' => $this->when(isset($this->last_order_time), $this->last_order_time)
         ];
     }
 }
